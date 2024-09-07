@@ -43,7 +43,7 @@ nav {
 }
 
 .form-login {
-    background-color: rgba(3, 15, 241, 0.664); /* Fundo branco com transparência */
+    background-color: rgb(0, 13, 255); /* Fundo branco com transparência */
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil ao redor do formulário */
