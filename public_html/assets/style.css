@@ -1,0 +1,98 @@
+/* Configurações gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body, html {
+    height: 100%;
+}
+
+/* Imagem de fundo ocupando toda a tela */
+.img-fundo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* object-fit: cover; Faz a imagem cobrir todo o fundo */
+    z-index: -1; /* Mantém a imagem atrás dos outros elementos */
+}
+
+/* Estilo da logo no menu */
+nav {
+    background-color: rgba(0, 0, 0, 0.6); /* Fundo translúcido no menu */
+    padding: 10px 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.logo {
+    color: white;
+    font-size: 24px;
+}
+
+/* Estilo do formulário */
+.pai-form-login {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-login {
+    background-color: rgba(3, 15, 241, 0.664); /* Fundo branco com transparência */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil ao redor do formulário */
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.titulo-login{
+    margin-bottom: 30px;
+    color: white;
+}
+
+.text-login {
+    /* margin-bottom: 20px; */
+    font-size: 18px;
+    color: white;
+}
+
+.design-input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.design-input[type="text"], 
+.design-input[type="password"] {
+    font-size: 16px;
+}
+
+button.design-input {
+    background-color: orangered;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button.design-input:hover {
+    background-color: rgb(179, 48, 0);
+}
+
+/* Link de cadastro */
+.link-cadastro {
+    color: orangered;
+    text-decoration: none;
+}
+
+.link-cadastro:hover {
+    text-decoration: underline;
+}
