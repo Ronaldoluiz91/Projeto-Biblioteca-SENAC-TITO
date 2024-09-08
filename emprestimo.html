@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Itinerante - SENAC TITO</title>
+
+    <!-- Conexão com CSS externo -->
+    <link rel="stylesheet" href="public_html/assets/style.css">
+</head>
+
+<body>
+    <img class="img-fundo" src="public_html/midias/midia-senac.jpeg">
+    <nav>
+        <h2 class="logo">LOGO</h2>
+    </nav>
+
+
+    <main>
+        <div class="pai-form-login">
+            <div class="form-login">
+                <div class="titulo-register">Preencha os campos abaixo para o empréstimo</div>
+                <form>
+                    <p class="text-register">Nome do livro</p>
+                    <select type="text" name="livro" id="livro">
+                        <option value="">-</option>
+                        <option value="O Pequeno Principe">O pequeno Principe</option>
+                    </select>
+                    <br>
+                    <p class="text-register">Quantos livros deseja alugar</p>
+                    <select type="number" name="quantidade" id="quantidade">
+                        <option value="">-</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <br>
+                    <p class="text-register">Selecione o andar que esta o livro</p>
+                    <select type="text" name="andar" id="andar">
+                        <option value="">-</option>
+                        <option value="1 andar">1 andar</option>
+                        <option value="2 andar">2 andar</option>
+                        <option value="3 andar">3 andar</option>
+                        <option value="4 andar">4 andar</option>
+                    </select>
+                    <br>
+                    <button class="design-input">Alugar</button>
+                    
+                </form>
+            </div>
+        </div>
+    </main>
+
+</body>
