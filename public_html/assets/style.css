@@ -111,3 +111,43 @@ button.design-input:hover {
     color: white;
     margin-bottom: 30px;
 }
+
+
+/* Estilo do modal */
+.modal {
+    display: none; /* Oculto por padrão */
+    position: fixed; /* Fixo na tela */
+    z-index: 1000; /* Acima de outros elementos */
+    left: 0;
+    top: 0;
+    width: 100%; /* O modal cobre a tela inteira */
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo escurecido */
+}
+
+.modal-content {
+    background-color: #fff; /* Fundo branco da janela modal */
+    margin: 15% auto; /* Centraliza o modal vertical e horizontalmente */
+    padding: 20px; /* Espaçamento interno */
+    border: 1px solid #888; /* Borda discreta */
+    width: 80%; /* Largura da janela modal */
+    max-width: 400px; /* Tamanho máximo */
+    text-align: center; /* Centraliza o texto dentro da janela */
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
+}
+
+.close-btn {
+    color: #aaa; /* Cor do botão de fechar (X) */
+    float: right; /* Posiciona o botão à direita */
+    font-size: 28px; /* Tamanho da fonte do botão de fechar */
+    font-weight: bold; /* Negrito */
+    cursor: pointer; /* Cursor de ponteiro para indicar que é clicável */
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black; /* Cor preta quando o mouse passa por cima */
+    text-decoration: none; /* Remove sublinhado */
+    cursor: pointer;
+}
