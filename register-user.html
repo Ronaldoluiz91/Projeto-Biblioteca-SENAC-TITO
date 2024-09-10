@@ -17,27 +17,27 @@
     <main>
         <div class="pai-form-login">
             <div class="form-login">
-                <div class="titulo-register">Cadastre-se e acesse a Biblioteca Itinerante SENAC-TITO</div>
+                <h3 class="titulo-register">Cadastre-se e acesse a Biblioteca Itinerante SENAC-TITO</h3>
                 <form>
-                    <p class="text-register">Nome</p>
+                    <label for="name" class="text-login">Nome</label>
                     <input class="design-input" type="text" name="name" id="name"
                         placeholder="Digite seu nome completo">
                     <br>
-                    <p class="text-register">E-mail</p>
-                    <input class="design-input" type="email" name="login-user" id="login-user"
+                    <label for="email" class="text-login">E-mail</label>
+                    <input class="design-input" type="email" name="email" id="email"
                         placeholder="Digite seu email">
                     <br>
-                    <p class="text-register">CPF</p>
+                    <label for="cpf" class="text-login">E-mail</label>
                     <input class="design-input" type="text" name="cpf" id="cpf" placeholder="Digite seu CPF">
                     <br>
-                    <p class="text-register">Senha</p>
+                    <label for="password" class="text-login">E-mail</label>
                     <input class="design-input" type="password" name="password" id="password"
                         placeholder="Digite sua senha">
                     <br>
-                    <p class="text-register">Confirmação de Senha</p>
+                    <label for="confirm-password" class="text-login">E-mail</label>
                     <input class="design-input" type="password" name="confirm-passwordr" id="confirm-password"
                         placeholder="Confirme sua senha">
-                    <button class="design-input">Cadastrar-se</button>
+                    <button class="design-input" onclick="cadastrar()">Cadastrar-se</button>
 
                     <div class="text-register">Ja possui uma conta ?</div>
                     <a class="link-cadastro" href="index.html">Faça seu Login aqui</a>
@@ -45,6 +45,8 @@
             </div>
         </div>
     </main>
+
+    <script src="js.acoes.js"></script>
 </body>
 
 </html>

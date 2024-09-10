@@ -114,7 +114,7 @@ button.design-input:hover {
 
 
 /* Estilo do modal */
-.modal {
+.modal-login {
     display: none; /* Oculto por padrão */
     position: fixed; /* Fixo na tela */
     z-index: 1000; /* Acima de outros elementos */
@@ -125,7 +125,7 @@ button.design-input:hover {
     background-color: rgba(0, 0, 0, 0.5); /* Fundo escurecido */
 }
 
-.modal-content {
+.modal-content-login {
     background-color: #fff; /* Fundo branco da janela modal */
     margin: 15% auto; /* Centraliza o modal vertical e horizontalmente */
     padding: 20px; /* Espaçamento interno */
@@ -137,7 +137,7 @@ button.design-input:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
 }
 
-.close-btn {
+.close-btn-login {
     color: #aaa; /* Cor do botão de fechar (X) */
     float: right; /* Posiciona o botão à direita */
     font-size: 28px; /* Tamanho da fonte do botão de fechar */
@@ -145,9 +145,18 @@ button.design-input:hover {
     cursor: pointer; /* Cursor de ponteiro para indicar que é clicável */
 }
 
-.close-btn:hover,
-.close-btn:focus {
+.close-btn-login:hover,
+.close-btn-login:focus {
     color: black; /* Cor preta quando o mouse passa por cima */
     text-decoration: none; /* Remove sublinhado */
     cursor: pointer;
 }
+
+
+/* modal da pagina cadastro */
+
+
+
+
+
+
