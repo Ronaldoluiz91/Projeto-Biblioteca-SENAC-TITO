@@ -24,30 +24,17 @@ body, html {
     z-index: -1; /* Mantém a imagem atrás dos outros elementos */
 }
 
-/* Estilo da logo no menu */
-/* nav {
-    background-color: rgba(255, 255, 255, 0.864); /* Fundo translúcido no menu */
-    /* padding: 10px 20px;
-    position: relative;
-    z-index: 1;
-} */ 
 
-.logo {
-    position: relative;
-    color: black;
-    font-size: 24px;
-}
-
-/* Estilo do formulário */
-.pai-form-login {
+/* Estilo dos formulários */
+.container-form {
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.form-login {
-    background-color: rgb(0, 13, 255); /* Fundo branco com transparência */
+.forms {
+    background-color: #005594;
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil ao redor do formulário */
@@ -56,15 +43,17 @@ body, html {
     text-align: center;
 }
 
-.titulo-login{
+.titulo-form{
     margin-bottom: 30px;
     color: white;
+    font-family: inter bold;
 }
 
-.text-login {
+.text-form {
     /* margin-bottom: 20px; */
     font-size: 18px;
     color: white;
+    font-family: inter medium;
 }
 
 .design-input {
@@ -78,22 +67,23 @@ body, html {
 .design-input[type="text"], 
 .design-input[type="password"] {
     font-size: 16px;
+    font-family: inter ligth;
 }
 
 button.design-input {
-    background-color: orangered;
+    background-color: #F78B1F;
     color: white;
     border: none;
     cursor: pointer;
 }
 
 button.design-input:hover {
-    background-color: rgb(179, 48, 0);
+    background-color: rgb(216, 68, 14);
 }
 
 /* Link de cadastro */
 .link-cadastro {
-    color: orangered;
+    color: #F78B1F;
     text-decoration: none;
 }
 
@@ -101,16 +91,7 @@ button.design-input:hover {
     text-decoration: underline;
 }
 
-/* Pagina Cadastro */
 
-.text-register{
-    color: white;
-}
-
-.titulo-register{
-    color: white;
-    margin-bottom: 30px;
-}
 
 
 /* Estilo do modal */
@@ -153,7 +134,60 @@ button.design-input:hover {
 }
 
 
+
 /* modal da pagina cadastro */
+
+
+/* Estilos básicos para o modal */
+#modal-alert {
+    display: none; /* Esconde o modal por padrão */
+    position: fixed; /* Fixa o modal na tela */
+    z-index: 1000; /* Garante que o modal esteja acima de outros conteúdos */
+    left: 0;
+    top: 0;
+    width: 100%; /* Largura total da tela */
+    height: 100%; /* Altura total da tela */
+    overflow: auto; /* Permite rolar o conteúdo se necessário */
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo escurecido com transparência */
+}
+
+/* Estilos para o conteúdo do modal */
+.modal-content {
+    background-color: #fefefe; /* Cor de fundo branca */
+    margin: 15% auto; /* Centraliza o modal vertical e horizontalmente */
+    padding: 20px; /* Espaçamento interno */
+    border: 1px solid #888; /* Borda cinza clara */
+    width: 80%; /* Largura do modal */
+    max-width: 600px; /* Largura máxima */
+    border-radius: 8px; /* Bordas arredondadas */
+    position: relative; /* Posiciona o conteúdo em relação ao seu container */
+}
+
+/* Estilo para o botão de fechar (X) */
+.close-btn {
+    color: #aaa; /* Cor cinza claro */
+    float: right; /* Posiciona o botão no canto superior direito */
+    font-size: 28px; /* Tamanho da fonte */
+    font-weight: bold; /* Negrito */
+    cursor: pointer; /* Cursor de mão ao passar sobre o botão */
+    position: absolute; /* Posiciona o botão de fechar em relação ao modal-content */
+    top: 10px; /* Espaçamento do topo */
+    right: 10px; /* Espaçamento da direita */
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black; /* Muda a cor ao passar o mouse */
+    text-decoration: none; /* Remove sublinhado */
+}
+
+/* Estilo para a mensagem dentro do modal */
+.modal-content p {
+    margin: 0; /* Remove margens padrão */
+    padding: 10px 0; /* Espaçamento acima e abaixo */
+    font-size: 16px; /* Tamanho da fonte */
+    color: #333; /* Cor do texto */
+}
 
 
 

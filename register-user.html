@@ -10,38 +10,42 @@
 
 <body>
     <img class="img-fundo" src="public_html/midias/midia-senac.jpeg">
-    <!-- <nav>
-        <h2>LOGO</h2>
-    </nav> -->
+   
 
     <main>
-        <div class="pai-form-login">
-            <div class="form-login">
-                <h3 class="titulo-register">Cadastre-se e acesse a Biblioteca Itinerante SENAC-TITO</h3>
+        <div class="container-form">
+            <div class="forms">
+                <h3 class="titulo-form">Cadastre-se e acesse a Biblioteca Itinerante SENAC-TITO</h3>
                 <form>
-                    <label for="name" class="text-login">Nome</label>
+                    <label for="name" class="text-form">Nome</label>
                     <input class="design-input" type="text" name="name" id="name"
                         placeholder="Digite seu nome completo">
                     <br>
-                    <label for="email" class="text-login">E-mail</label>
-                    <input class="design-input" type="email" name="email" id="email"
-                        placeholder="Digite seu email">
+                    <label for="email" class="text-form">E-mail</label>
+                    <input class="design-input" type="email" name="email" id="email" placeholder="Digite seu email">
                     <br>
-                    <label for="cpf" class="text-login">E-mail</label>
+                    <label for="cpf" class="text-form">CPF</label>
                     <input class="design-input" type="text" name="cpf" id="cpf" placeholder="Digite seu CPF">
                     <br>
-                    <label for="password" class="text-login">E-mail</label>
+                    <label for="password" class="text-form">Senha</label>
                     <input class="design-input" type="password" name="password" id="password"
                         placeholder="Digite sua senha">
                     <br>
-                    <label for="confirm-password" class="text-login">E-mail</label>
+                    <label for="confirm-password" class="text-form">Confirmação de Senha</label>
                     <input class="design-input" type="password" name="confirm-passwordr" id="confirm-password"
                         placeholder="Confirme sua senha">
-                    <button class="design-input" onclick="cadastrar()">Cadastrar-se</button>
+                    <button type="button" id="cad-btn" class="design-input">Cadastrar</button>
 
-                    <div class="text-register">Ja possui uma conta ?</div>
+                    <div class="text-form">Ja possui uma conta ?</div>
                     <a class="link-cadastro" href="index.html">Faça seu Login aqui</a>
                 </form>
+            </div>
+        </div>
+
+        <div id="modal-alert" style="display:none;">
+            <div class="modal-content">
+                <p>Preencha todos os campos antes de continuar</p>
+                <span class="close-btn">×</span>
             </div>
         </div>
     </main>
