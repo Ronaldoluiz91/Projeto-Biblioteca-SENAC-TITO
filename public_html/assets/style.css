@@ -96,8 +96,8 @@ button.design-input:hover {
 
 /* Estilo do modal */
 .modal-login {
-    display: none; /* Oculto por padrão */
-    position: fixed; /* Fixo na tela */
+    display: none; 
+    position: fixed; 
     z-index: 1000; /* Acima de outros elementos */
     left: 0;
     top: 0;
@@ -109,11 +109,11 @@ button.design-input:hover {
 .modal-content-login {
     background-color: #fff; /* Fundo branco da janela modal */
     margin: 15% auto; /* Centraliza o modal vertical e horizontalmente */
-    padding: 20px; /* Espaçamento interno */
-    border: 1px solid #888; /* Borda discreta */
+    padding: 20px; 
+    border: 1px solid #888; 
     width: 80%; /* Largura da janela modal */
     max-width: 400px; /* Tamanho máximo */
-    text-align: center; /* Centraliza o texto dentro da janela */
+    text-align: center; 
     border-radius: 8px; /* Bordas arredondadas */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
 }
@@ -123,12 +123,13 @@ button.design-input:hover {
     float: right; /* Posiciona o botão à direita */
     font-size: 28px; /* Tamanho da fonte do botão de fechar */
     font-weight: bold; /* Negrito */
+    top: 10px; 
     cursor: pointer; /* Cursor de ponteiro para indicar que é clicável */
 }
 
 .close-btn-login:hover,
 .close-btn-login:focus {
-    color: black; /* Cor preta quando o mouse passa por cima */
+    color: red; /* Cor preta quando o mouse passa por cima */
     text-decoration: none; /* Remove sublinhado */
     cursor: pointer;
 }
@@ -140,8 +141,8 @@ button.design-input:hover {
 
 /* Estilos básicos para o modal */
 #modal-alert {
-    display: none; /* Esconde o modal por padrão */
-    position: fixed; /* Fixa o modal na tela */
+    display: none;
+    position: fixed; 
     z-index: 1000; /* Garante que o modal esteja acima de outros conteúdos */
     left: 0;
     top: 0;
@@ -158,14 +159,14 @@ button.design-input:hover {
     padding: 20px; /* Espaçamento interno */
     border: 1px solid #888; /* Borda cinza clara */
     width: 80%; /* Largura do modal */
-    max-width: 600px; /* Largura máxima */
+    max-width: 400px; /* Largura máxima */
     border-radius: 8px; /* Bordas arredondadas */
     position: relative; /* Posiciona o conteúdo em relação ao seu container */
 }
 
 /* Estilo para o botão de fechar (X) */
 .close-btn {
-    color: #aaa; /* Cor cinza claro */
+    color: #aaa; 
     float: right; /* Posiciona o botão no canto superior direito */
     font-size: 28px; /* Tamanho da fonte */
     font-weight: bold; /* Negrito */
@@ -177,7 +178,7 @@ button.design-input:hover {
 
 .close-btn:hover,
 .close-btn:focus {
-    color: black; /* Muda a cor ao passar o mouse */
+    color: red; 
     text-decoration: none; /* Remove sublinhado */
 }
 
