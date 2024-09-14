@@ -16,7 +16,7 @@
         <div class="container-form">
             <div class="forms">
                 <h3 class="titulo-form">Cadastre-se e acesse a Biblioteca Itinerante SENAC-TITO</h3>
-                <span id="alertMsg">teste</span>
+                <span id="alertMsg"></span>
                 <form>
                     <label for="name" class="text-form">Nome</label>
                     <input class="design-input" type="text" name="name" id="name"

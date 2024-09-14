@@ -22,15 +22,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         email: email,
                         senha: senha,
                         fxLogin: fxLogin
-                    },
-                    // success: function (response) {
-                    //     console.log("Login realizado com sucesso:", response);
-                    // },
-                    // error: function (xhr, status, error) {
-                    //     console.error("Erro no login:", error);  // Aqui você obtém o erro específico
-                    //     console.error("Status:", status);        // O status da requisição
-                    //     console.error("Resposta do servidor:", xhr.responseText); // A resposta do servidor
-                    // }
+                    }
+               
                 })
 
                 .done(function(result) {
