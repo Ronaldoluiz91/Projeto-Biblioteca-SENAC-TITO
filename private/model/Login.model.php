@@ -1,5 +1,5 @@
 <?php
-//  include_once('Crypt.model.php');
+ include_once('Crypt.model.php');
 //Criando a classe de LOGIN
 class LOGIN
 {
@@ -9,7 +9,7 @@ class LOGIN
     private $newEmail;
     private $confirmPassword;
     private $cpf;
-    private $Acesso;
+    private $acesso;
 
 
     // Métodos para email e senha de login
@@ -72,6 +72,7 @@ class LOGIN
         return $this->confirmPassword;
     }
 
+    //-----------VALIDAÇÃO DE LOGIN ----------------//
     public function validateLogin(String $fxLogin)
     {
         require "../config/db/conn.php";
@@ -85,14 +86,28 @@ class LOGIN
 
         $emailDB = "";
         $passwordDB = "";
+        $acesso = "";
 
         // Busca o resultado da consulta
         if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $emailDB = $row['email'];
             $passwordDB = $row['senha'];
+            $acesso = $row['FK_idAcesso'];
 
-            // Verifica se o email e a senha estão corretos
-            if ($emailDB === $this->userLogin && $passwordDB === $this->userPassword) {
+
+        include_once('Crypt.model.php');
+        $Crypt = new Crypt();
+
+        $Cemail = $emailDB;
+        $Cpass = $this->userPassword;
+
+        //$userPassword = $Cpass;
+
+        $userPassword = $Crypt->CryptPass($Cemail, $Cpass);
+        $userHash = $Crypt->CryptHash($Cemail, $Cpass);
+
+            // Verifica se o email e a senha estão corretos 
+            if ($emailDB === $this->userLogin && $passwordDB === $userPassword  ) {
                 $result = [
                     'status' => true,
                     'msg' => "Usuário logado com sucesso.",
@@ -116,66 +131,68 @@ class LOGIN
         return $this->fxLogin = $result;
     }
 
-
-
+//-----------CADASTRO DE USUARIOS--------------------------------//
     public function cadastroLogin(String $fxLogin)
-    {
+{
+    $newEmail = $this->newEmail;
+    $newUser = $this->newUser;
+    $cpf = $this->cpf;
+    $userPassword = $this->userPassword;
+    $acesso = "1";
 
-        $newEmail = $this->newEmail;
-        $newUser = $this->newUser;
-        $cpf = $this->cpf;
-        $userPassword = $this->userPassword;
-        $Acesso = "2";
+    require "../config/db/conn.php";
 
-        require "../config/db/conn.php";
+    // Verifica se o email já está registrado no banco de dados
+    $sql = "SELECT * FROM tbl_login WHERE email = :email";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':email', $newEmail);
+    $stmt->execute();
 
+    $emailDB = "";
 
-        // Verifica se o email já está registrado no banco de dados
-        $sql = "SELECT email FROM tbl_login WHERE email = :email";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':email', $newEmail, PDO::PARAM_STR);
-        $stmt->execute();
-
-
-        $emailDB = "";
-
-
-        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $emailDB = $row['email'];
-        }
-
-        // Verifica se o email já está registrado
-        if ($emailDB === $newEmail) {
-            $result = [
-                'status' => false,
-                'msg' => "Email já registrado",
-                'usuario' => $newEmail,
-            ];
-        } else {
-            // Insere o novo usuário no banco de dados
-            $insertSql = "INSERT INTO tbl_login (idLogin, nome, email, cpf, senha, FK_idAcesso) 
-                      VALUES (null, :nome, :email, :cpf, :senha, :acesso)";
-            $insertStmt = $conn->prepare($insertSql);
-
-            // Hash da senha usando BCRYPT
-            $hashedPassword = password_hash($userPassword, PASSWORD_BCRYPT);
-
-            // Executa a inserção
-            $insertStmt->execute([
-                ':nome' => $newUser,
-                ':email' => $newEmail,
-                ':cpf' => $cpf,
-                ':senha' => $hashedPassword,
-                ':acesso' => $Acesso
-            ]);
-
-            $result = [
-                'status' => true,
-                'msg' => "Cadastro realizado com sucesso",
-            ];
-        }
-
-        // Retorna o resultado da operação
-        return $result;
+    if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $emailDB = $row['email'];
     }
+
+    // Verifica se o email já está registrado
+    if ($emailDB === $newEmail) {
+        $result = [
+            'status' => false,
+            'msg' => "Email já registrado",
+            'usuario' => $newEmail,
+            'usuario_banco' => $emailDB
+        ];
+    } else {
+        $crypt = new Crypt();
+
+        // Criptografa a senha e gera o hash
+        $hashedPassword = $crypt->CryptPass($newEmail, $userPassword);
+        $hash = $crypt->CryptHash($newEmail, $userPassword);
+
+        // Insere o novo usuário no banco de dados
+        $insertSql = "INSERT INTO tbl_login (idLogin, nome, email, cpf, senha, FK_idAcesso, hash) 
+                      VALUES (null, :nome, :email, :cpf, :senha, :acesso, :hash)";
+        $insertStmt = $conn->prepare($insertSql);
+
+        // Executa a inserção
+        $insertStmt->execute([
+            ':nome' => $newUser,
+            ':email' => $newEmail,
+            ':cpf' => $cpf,
+            ':senha' => $hashedPassword,
+            ':acesso' => $acesso,
+            ':hash' => $hash
+        ]);
+
+        $result = [
+            'status' => true,
+            'msg' => "Cadastro realizado com sucesso",
+        ];
+    }
+
+    // Retorna o resultado da operação
+    return $this->fxLogin = $result;
+}
+
+    
 }

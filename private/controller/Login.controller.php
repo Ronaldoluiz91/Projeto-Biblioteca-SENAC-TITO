@@ -30,14 +30,13 @@ switch ($fxLogin) {
         }
         break;
 
-
     case 'Cadastrar':
         $newUser = $_POST['nome'];
         $newEmail = $_POST['email'];
         $cpf = $_POST['cpf'];
         $userPassword = $_POST['senha'];
         $confirmPassword = $_POST['confirmSenha'];
-        $Acesso = "1"; // acesso padrão esta como 'USUARIO' para novos cadastro no sistema
+        $acesso = "1"; // acesso padrão esta como 'USUARIO' para novos cadastro no sistema
 
         if (
             (isset($newUser)) || (empty($newUser)) || ($newUser === "") ||
@@ -56,14 +55,7 @@ switch ($fxLogin) {
 
                 $LOGIN->cadastroLogin($fxLogin);
 
-                // $result = $LOGIN->fxLogin;
-                $result = [
-                    'status' => true,
-                    'msg' => "Usuario-cadastrado com sucesso",
-                    'usuario' => $newUser,
-                    'email' => $newEmail
-
-                ];
+                $result = $LOGIN->fxLogin;
             } else {
                 $result = [
                     'status' => false,
@@ -98,12 +90,12 @@ switch ($fxLogin) {
 }
 
 
-// header('Content-Type: Application/json');
-// echo json_encode($result);
+header('Content-Type: Application/json');
+echo json_encode($result);
 
-echo "<pre>";
-var_dump($LOGIN);
-echo "</pre>";
+// echo "<pre>";
+// var_dump($LOGIN);
+// echo "</pre>";
 
 // echo "<pre>";
 // var_dump($result);

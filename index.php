@@ -19,7 +19,7 @@
                 <h3 class="titulo-form">Bem vindo a Biblioteca itinerante SENAC- TITO !</h3>
 
 
-                <span id="alertMsg"></span>
+                <span id="alertMsg">OI</span>
                 <div id="form-user-login">
                     <label for="login-user" class="text-form">E-mail</label>
                     <input class="design-input" type="text" name="login-user" id="login-user"

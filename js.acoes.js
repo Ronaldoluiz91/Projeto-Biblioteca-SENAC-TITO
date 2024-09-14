@@ -23,19 +23,33 @@ document.addEventListener('DOMContentLoaded', function () {
                         senha: senha,
                         fxLogin: fxLogin
                     },
-                    success: function (response) {
-                        console.log("Login realizado com sucesso:", response);
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Erro no login:", error);  // Aqui você obtém o erro específico
-                        console.error("Status:", status);        // O status da requisição
-                        console.error("Resposta do servidor:", xhr.responseText); // A resposta do servidor
+                    // success: function (response) {
+                    //     console.log("Login realizado com sucesso:", response);
+                    // },
+                    // error: function (xhr, status, error) {
+                    //     console.error("Erro no login:", error);  // Aqui você obtém o erro específico
+                    //     console.error("Status:", status);        // O status da requisição
+                    //     console.error("Resposta do servidor:", xhr.responseText); // A resposta do servidor
+                    // }
+                })
+
+                .done(function(result) {
+                    if (result['status']) {
+                        document.getElementById("alertMsg").innerHTML = result.msg;
+                        // $('#alertMsg').removeClass("error");
+                        // $('#alertMsg').html(result.msg).addClass("sucess");
+                    } else {
+                        document.getElementById("alertMsg").innerHTML = result.msg;
+    
                     }
-                });
+                })
 
             }
         });
     };
+
+
+    
     // Fecha o modal quando o botão de fechar (X) é clicado
     const closeBtnLogin = document.querySelector('.close-btn-login');
     if (closeBtnLogin) {
@@ -56,8 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 });
 
-
-
+//--------------------------------------------------------------------------------------------------------------------------//
 // Verificação da pagina cadastro
 document.addEventListener('DOMContentLoaded', function () {
     // Função para exibir o modal
@@ -67,7 +80,6 @@ document.addEventListener('DOMContentLoaded', function () {
             modal.style.display = 'block';
         }
     }
-
     // Função para fechar o modal
     function closeModal() {
         const modal = document.getElementById('modal-alert');
@@ -75,9 +87,6 @@ document.addEventListener('DOMContentLoaded', function () {
             modal.style.display = 'none';
         }
     }
-
-
-
     // Verificação dos campos ao clicar no botão "Cadastrar-se"
     const cadBtn = document.getElementById('cad-btn');
     if (cadBtn) {
@@ -98,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 showModal(); // Exibe o modal se as senhas não coincidem
             } else {
-                alert("Cadastro realizado com sucesso!"); // Mensagem de sucesso
                 // Envia os dados para o controller via AJAX
                 $.ajax({
                     url: "http://localhost/projeto-biblioteca/private/controller/Login.controller.php",
@@ -114,7 +122,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     }
                 })
-
                     .done(function (result) {
                         if (result['status']) {
                             // document.getElementById("alertMsg").innerHTML = result.msg;
