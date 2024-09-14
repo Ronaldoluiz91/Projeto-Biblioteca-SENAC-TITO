@@ -12,14 +12,15 @@
 
 <body>
     <img class="img-fundo" src="public_html/midias/midia-senac.jpeg">
-  
 
     <main>
         <div class="container-form">
             <div class="forms">
                 <h3 class="titulo-form">Bem vindo a Biblioteca itinerante SENAC- TITO !</h3>
 
-                <form method="POST" action="#">
+
+                <span id="alertMsg"></span>
+                <div id="form-user-login">
                     <label for="login-user" class="text-form">E-mail</label>
                     <input class="design-input" type="text" name="login-user" id="login-user"
                         placeholder="Digite seu email" required>
@@ -28,11 +29,13 @@
                     <input class="design-input" type="password" name="password-user" id="password-user"
                         placeholder="Digite sua senha" required>
 
+                    <input type="hidden" name="fxLogin" id="fxLogin" value="Logar">
+
                     <button type="button" id="login-btn" class="design-input">Entrar</button>
-                </form>
+                </div>
 
                 <div class="text-form">Ainda não possui um Login?</div>
-                <a class="link-cadastro" href="register-user.html">Cadastre-se aqui</a> <br>
+                <a class="link-cadastro" href="register-user.php">Cadastre-se aqui</a> <br>
                 <a href="#" class="link-cadastro">Esqueceu sua senha?</a>
             </div>
         </div>
@@ -46,7 +49,7 @@
         </div>
     </main>
 
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js.acoes.js"></script>
 </body>
 

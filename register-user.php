@@ -10,7 +10,7 @@
 
 <body>
     <img class="img-fundo" src="public_html/midias/midia-senac.jpeg">
-   
+
 
     <main>
         <div class="container-form">
@@ -28,16 +28,18 @@
                     <input class="design-input" type="text" name="cpf" id="cpf" placeholder="Digite seu CPF">
                     <br>
                     <label for="password" class="text-form">Senha</label>
-                    <input class="design-input" type="password" name="password" id="password"
+                    <input class="design-input" type="text" name="password" id="password"
                         placeholder="Digite sua senha">
                     <br>
                     <label for="confirm-password" class="text-form">Confirmação de Senha</label>
-                    <input class="design-input" type="password" name="confirm-passwordr" id="confirm-password"
+                    <input class="design-input" type="text" name="confirm-password" id="confirm-password"
                         placeholder="Confirme sua senha">
+
+                    <input type="hidden" name="fxLogin" id="fxLogin" value="Cadastrar">
                     <button type="button" id="cad-btn" class="design-input">Cadastrar</button>
 
                     <div class="text-form">Ja possui uma conta ?</div>
-                    <a class="link-cadastro" href="index.html">Faça seu Login aqui</a>
+                    <a class="link-cadastro" href="index.php">Faça seu Login aqui</a>
                 </form>
             </div>
         </div>
@@ -50,6 +52,7 @@
         </div>
     </main>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js.acoes.js"></script>
 </body>
 
