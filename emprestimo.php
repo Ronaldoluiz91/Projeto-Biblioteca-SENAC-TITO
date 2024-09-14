@@ -7,14 +7,16 @@
     <title>Biblioteca Itinerante - SENAC TITO</title>
 
     <!-- Conexão com CSS externo -->
+
     <link rel="stylesheet" href="public_html/assets/style.css">
+
+    <!-- <link rel="preload" href="public_html/assets/style.css" as="style">
+    <link rel="stylesheet" href="public_html/assets/style.css"> -->
 </head>
 
 <body>
     <img class="img-fundo" src="public_html/midias/midia-senac.jpeg">
   
-
-
     <main>
         <div class="container-form">
             <div class="forms">
@@ -54,6 +56,9 @@
             </div>
         </div>
     </main>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js.acoes.js"></script>
 
 </body>
+
+</html>

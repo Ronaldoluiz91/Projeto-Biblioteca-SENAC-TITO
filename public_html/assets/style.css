@@ -143,24 +143,24 @@ button.design-input:hover {
 #modal-alert {
     display: none;
     position: fixed; 
-    z-index: 1000; /* Garante que o modal esteja acima de outros conteúdos */
+    z-index: 1000; 
     left: 0;
     top: 0;
-    width: 100%; /* Largura total da tela */
-    height: 100%; /* Altura total da tela */
-    overflow: auto; /* Permite rolar o conteúdo se necessário */
-    background-color: rgba(0, 0, 0, 0.5); /* Fundo escurecido com transparência */
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0, 0, 0, 0.5); 
 }
 
 /* Estilos para o conteúdo do modal */
 .modal-content {
-    background-color: #fefefe; /* Cor de fundo branca */
-    margin: 15% auto; /* Centraliza o modal vertical e horizontalmente */
-    padding: 20px; /* Espaçamento interno */
-    border: 1px solid #888; /* Borda cinza clara */
-    width: 80%; /* Largura do modal */
+    background-color: #fefefe; 
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
     max-width: 400px; /* Largura máxima */
-    border-radius: 8px; /* Bordas arredondadas */
+    border-radius: 8px; 
     position: relative; /* Posiciona o conteúdo em relação ao seu container */
 }
 

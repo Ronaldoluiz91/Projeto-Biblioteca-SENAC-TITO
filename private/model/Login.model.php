@@ -76,44 +76,49 @@ class LOGIN
     public function validateLogin(String $fxLogin)
     {
         require "../config/db/conn.php";
-
+    
         $sql = "SELECT * FROM tbl_login WHERE email = :userLogin";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':userLogin', $this->userLogin, PDO::PARAM_STR);
-
+    
         // Executa a consulta
         $stmt->execute();
-
+    
+        // Variáveis para armazenar resultados
         $emailDB = "";
         $passwordDB = "";
         $acesso = "";
-
-        // Busca o resultado da consulta
+    
         if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            // Extrai os dados do banco de dados
             $emailDB = $row['email'];
             $passwordDB = $row['senha'];
             $acesso = $row['FK_idAcesso'];
+    
+            include_once('Crypt.model.php');
+            $Crypt = new Crypt();
+    
+            // Criptografa a senha inserida pelo usuário
+            $Cemail = $emailDB;
+            $Cpass = $this->userPassword;
+    
+            $userPassword = $Crypt->CryptPass($Cemail, $Cpass);
+            $userHash = $Crypt->CryptHash($Cemail, $Cpass);
+    
+            // Verifica se o email e a senha estão corretos
+            if ($emailDB === $this->userLogin && $passwordDB === $userPassword) {
+                // Inicia a sessão e armazena o usuário logado
+              
+                session_start();
+                $_SESSION['usuario'] = $this->userLogin;
+                // Redireciona para a página de empréstimos
+                header('Location: http://localhost/projeto-biblioteca/emprestimo.php');
+                 // Interrompe a execução do script após o redirecionamento
+                exit();
 
 
-        include_once('Crypt.model.php');
-        $Crypt = new Crypt();
-
-        $Cemail = $emailDB;
-        $Cpass = $this->userPassword;
-
-        //$userPassword = $Cpass;
-
-        $userPassword = $Crypt->CryptPass($Cemail, $Cpass);
-        $userHash = $Crypt->CryptHash($Cemail, $Cpass);
-
-            // Verifica se o email e a senha estão corretos 
-            if ($emailDB === $this->userLogin && $passwordDB === $userPassword  ) {
-                $result = [
-                    'status' => true,
-                    'msg' => "Usuário logado com sucesso.",
-                    'usuario' => $this->userLogin,
-                ];
             } else {
+                // Retorna mensagem de erro se as credenciais forem inválidas
                 $result = [
                     'status' => false,
                     'msg' => "Usuário ou senha inválidos.",
@@ -121,15 +126,18 @@ class LOGIN
                 ];
             }
         } else {
+            // Retorna mensagem de erro se o usuário não for encontrado
             $result = [
                 'status' => false,
                 'msg' => "Usuário não encontrado.",
                 'usuario' => $this->userLogin,
             ];
         }
+    
         // Retorna o resultado da validação
         return $this->fxLogin = $result;
     }
+    
 
 //-----------CADASTRO DE USUARIOS--------------------------------//
     public function cadastroLogin(String $fxLogin)
