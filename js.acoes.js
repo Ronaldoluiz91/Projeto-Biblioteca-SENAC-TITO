@@ -23,26 +23,23 @@ document.addEventListener('DOMContentLoaded', function () {
                         senha: senha,
                         fxLogin: fxLogin
                     }
-               
+
                 })
 
-                .done(function(result) {
-                    if (result['status']) {
-                        document.getElementById("alertMsg").innerHTML = result.msg;
-                        // $('#alertMsg').removeClass("error");
-                        // $('#alertMsg').html(result.msg).addClass("sucess");
-                    } else {
-                        document.getElementById("alertMsg").innerHTML = result.msg;
-    
-                    }
-                })
+                    .done(function (result) {
+                        if (result['status']) {
+                            // document.getElementById("alertMsg").innerHTML = result.msg;
+                            $('#alertMsg').removeClass("error");
+                            $('#alertMsg').html(result.msg).addClass("sucess");
+                        } else {
+                            document.getElementById("alertMsg").innerHTML = result.msg;
 
+                        }
+                    })
             }
+
         });
     };
-
-
-    
     // Fecha o modal quando o botão de fechar (X) é clicado
     const closeBtnLogin = document.querySelector('.close-btn-login');
     if (closeBtnLogin) {
@@ -53,7 +50,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-
     // Fecha o modal se o usuário clicar fora do conteúdo do modal
     window.onclick = function (event) {
         const modal = document.getElementById('modal-alert-login');
@@ -62,6 +58,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 });
+
+
 
 //--------------------------------------------------------------------------------------------------------------------------//
 // Verificação da pagina cadastro
@@ -129,13 +127,11 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-
     // Fecha o modal quando o botão de fechar (X) é clicado
     const closeBtn = document.querySelector('.close-btn');
     if (closeBtn) {
         closeBtn.addEventListener('click', closeModal);
     }
-
     // Fecha o modal ao clicar fora do conteúdo do modal
     window.onclick = function (event) {
         const modal = document.getElementById('modal-alert');
@@ -144,5 +140,88 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 });
+
+
+//-------------------- pagina recuperação de senha 
+
+function recLogin() {
+    var recLoginEmail = $('#login-user').val();
+    var fxLogin = $('#fxLogin').val();
+
+    if (!recLoginEmail) {
+        $('#alertMsg').text('Por favor preencha o campo');
+        $('#user-login-email').focus();
+        return;
+    }
+
+    $.ajax({
+        url: "http://localhost/projeto-biblioteca/private/controller/Login.controller.php",
+        method: "POST",
+        async: true,
+        data: {
+            recLoginEmail: recLoginEmail,
+            fxLogin: fxLogin
+        }
+    })
+
+       .done(function(result){
+        if(result['status']){
+            //document.getElementById("alertMsg").innerHTML = result.msg;
+            $('#alertMsg').removeClass("error");
+            $('#alertMsg').html(result.msg).addClass("success");
+        }else{
+            $('#alertMsg').removeClass("success");
+            $('#alertMsg').html(result.msg).addClass("error");
+        }
+    }) 
+}
+
+
+//----------FUNÇÃO PARA NOVA SENHA-------------------------
+
+function resetLogin(){
+         $('#alertMsg').html('');
+
+    let fxLogin = $('#fxLogin').val();
+    let userLogin = $('#user-login').val();
+    let userPassword = $('#user-password').val();
+    let userConfirmPassword = $('#user-confirm-password').val();
+    let idRec = $('#idRec').val();
+
+
+
+    if((!userLogin || !userPassword || !userConfirmPassword) || (!idRec)) {
+        $('#alertMsg').html('<p>Usuário - Preencha o campo obrigatório!</p>');
+        $('#alertMsg').addClass('error');
+        $('#user-login-email').focus();
+        return;
+    }
+
+    $.ajax({
+        url:"http://localhost/projeto-biblioteca/private/controller/Login.controller.php",
+        method:"POST",
+        async:true,
+        data:{
+            fxLogin:fxLogin,
+            userLogin:userLogin,
+            userPassword:userPassword,
+            userConfirmPassword:userConfirmPassword,
+            idRec: idRec
+        }
+    })
+
+    .done(function(result){
+        if(result['status']){
+            //document.getElementById("alertMsg").innerHTML = result.msg;
+            $('#alertMsg').removeClass("error");
+            $('#alertMsg').html(result.msg).addClass("success");
+        }else{
+            $('#alertMsg').removeClass("success");
+            $('#alertMsg').html(result.msg).addClass("error");
+        }
+    })
+   
+
+}
 
 

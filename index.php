@@ -36,7 +36,7 @@
 
                 <div class="text-form">Ainda não possui um Login?</div>
                 <a class="link-cadastro" href="register-user.php">Cadastre-se aqui</a> <br>
-                <a href="#" class="link-cadastro">Esqueceu sua senha?</a>
+                <a href="recover-password.php" class="link-cadastro">Esqueceu sua senha?</a>
             </div>
         </div>
 
