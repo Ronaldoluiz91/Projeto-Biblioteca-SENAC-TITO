@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+if(!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']){
+    header("Location: index.php");
+    exit();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -5,13 +15,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca Itinerante - SENAC TITO</title>
-
     <!-- Conexão com CSS externo -->
-
     <link rel="stylesheet" href="public_html/assets/style.css">
 
-    <!-- <link rel="preload" href="public_html/assets/style.css" as="style">
-    <link rel="stylesheet" href="public_html/assets/style.css"> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js.acoes.js"></script>
 </head>
 
 <body>
@@ -52,12 +60,15 @@
 
                     <!-- Botão de alugar -->
                     <button type="submit" class="design-input">Alugar</button>
+                    <button type="submit" class="design-input">Renovar Aluguel</button>
                 </form>
             </div>
         </div>
+        <br>
+        <a href="logout.php" color:white>SAIR</a>
     </main>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="js.acoes.js"></script>
+   
+    
 
 </body>
 

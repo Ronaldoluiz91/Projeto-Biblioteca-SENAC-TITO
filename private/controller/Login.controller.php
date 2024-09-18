@@ -1,12 +1,12 @@
 <?php
 include("../model/Login.model.php");
+header('Content-Type: Application/json');
 
-//header('Content-Type: Application/json');
-
+//Inicia uma sessão
+session_start();
 
 $LOGIN = new LOGIN();
 $fxLogin = $_POST['fxLogin'];
-
 
 switch ($fxLogin) {
     case 'Logar':
@@ -29,7 +29,13 @@ switch ($fxLogin) {
     
             // Retornando o resultado do login
             $result = $LOGIN->fxLogin;
+
+            if($result['status']){
+                //Criando a sessão com o login bem sucedido
+                $_SESSION['userLogin'] = $userLogin;
+                $_SESSION['loginValido'] = true;
         }
+    }
         break;
 
         case 'Cadastrar':
@@ -116,7 +122,6 @@ switch ($fxLogin) {
         break;
 }
 
-header('Content-Type: Application/json');
 echo json_encode($result);
 
 // echo "<pre>";

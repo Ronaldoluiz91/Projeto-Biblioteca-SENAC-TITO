@@ -17,29 +17,31 @@ document.addEventListener('DOMContentLoaded', function () {
                 $.ajax({
                     url: "http://localhost/projeto-biblioteca/private/controller/Login.controller.php",
                     method: "POST",
+                     dataType: "json",
                     async: true,
                     data: {
                         email: email,
                         senha: senha,
                         fxLogin: fxLogin
                     }
-
                 })
 
-                    .done(function (result) {
-                        if (result['status']) {
-                            // document.getElementById("alertMsg").innerHTML = result.msg;
-                            $('#alertMsg').removeClass("error");
-                            $('#alertMsg').html(result.msg).addClass("sucess");
-                        } else {
-                            document.getElementById("alertMsg").innerHTML = result.msg;
-
-                        }
-                    })
+                .done(function(result) {
+                    console.log(result); // Verifica o resultado retornado
+                    if(result['status']) {
+                        $('#alertMsg').removeClass("error").html(result.msg).addClass("success");
+                        // window.location.href = result.dashboardClient;
+                        window.open(result.dashboardClient, '_blank');
+                    } else {
+                        $('#alertMsg').html(result.msg).addClass("error");
+                    }
+                })
+                
             }
 
         });
     };
+
     // Fecha o modal quando o botão de fechar (X) é clicado
     const closeBtnLogin = document.querySelector('.close-btn-login');
     if (closeBtnLogin) {

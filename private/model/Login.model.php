@@ -115,15 +115,13 @@ class LOGIN
             // Verifica se o email e a senha estão corretos
             if ($emailDB === $this->userLogin && $passwordDB === $userPassword) {
                 // Inicia a sessão e armazena o usuário logado
+
+                $result = [
+                    'status' => true,
+                    // 'msg' => "Usuario valido",
+                    'dashboardClient'=>'http://localhost/projeto-biblioteca/Dashboard-client.php',
+                ];
               
-                session_start();
-                $_SESSION['usuario'] = $this->userLogin;
-                // Redireciona para a página de empréstimos
-                header('Location: http://localhost/projeto-biblioteca/emprestimo.php');
-                 // Interrompe a execução do script após o redirecionamento
-                exit();
-
-
             } else {
                 // Retorna mensagem de erro se as credenciais forem inválidas
                 $result = [
@@ -132,15 +130,7 @@ class LOGIN
                     'usuario' => $this->userLogin,
                 ];
             }
-        } else {
-            // Retorna mensagem de erro se o usuário não for encontrado
-            $result = [
-                'status' => false,
-                'msg' => "Usuário não encontrado.",
-                'usuario' => $this->userLogin,
-            ];
-        }
-    
+        } 
         // Retorna o resultado da validação
         return $this->fxLogin = $result;
     }
