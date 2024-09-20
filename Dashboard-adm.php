@@ -136,7 +136,7 @@
     </table>
   </div>
 
-  <!-- Botão para redirecionar para a página de adicionar livros -->
+  
   <div class="add-book-container">
     <button onclick="window.location.href='add-new-book.php'">Adicionar Novo Livro</button>
   </div>
