@@ -1,5 +1,5 @@
 <?php
- include_once('Crypt.model.php');
+include_once('Crypt.model.php');
 //Criando a classe de LOGIN
 class LOGIN
 {
@@ -60,12 +60,14 @@ class LOGIN
         return $this->cpf;
     }
 
-      //Função para atualizar senha
-      public function setIdRec( string $idRec){
+    //Função para atualizar senha
+    public function setIdRec(string $idRec)
+    {
         $this->idRec = $idRec;
     }
 
-    public function getIdRec(){
+    public function getIdRec()
+    {
         return $this->idRec;
     }
 
@@ -83,51 +85,51 @@ class LOGIN
     public function validateLogin(String $fxLogin)
     {
         require "../config/db/conn.php";
-    
+
         $sql = "SELECT * FROM tbl_login WHERE email = :userLogin";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':userLogin', $this->userLogin, PDO::PARAM_STR);
-    
+
         // Executa a consulta
         $stmt->execute();
-    
+
         // Variáveis para armazenar resultados
         $emailDB = "";
         $passwordDB = "";
         $acesso = "";
-    
+
         if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             // Extrai os dados do banco de dados
             $emailDB = $row['email'];
             $passwordDB = $row['senha'];
             $acesso = $row['FK_idAcesso'];
-    
+
             include_once('Crypt.model.php');
             $Crypt = new Crypt();
-    
+
             // Criptografa a senha inserida pelo usuário
             $Cemail = $emailDB;
             $Cpass = $this->userPassword;
-    
+
             $userPassword = $Crypt->CryptPass($Cemail, $Cpass);
             $userHash = $Crypt->CryptHash($Cemail, $Cpass);
-    
+
             // Verifica se o email e a senha estão corretos 
-            if ($emailDB === $this->userLogin && $passwordDB === $userPassword ) {
+            if ($emailDB === $this->userLogin && $passwordDB === $userPassword) {
                 // Verifica o acesso (Usuario ou Admin)
-               if($acesso == 1){
-                  $result = [
-                  'status' => true,
-                  // 'msg' => "Usuario valido",
-                  'dashboard'=>'http://localhost/projeto-biblioteca/Dashboard-client.php',
-                    ];
-                }else{
+                if ($acesso == 1) {
                     $result = [
                         'status' => true,
                         // 'msg' => "Usuario valido",
-                        'dashboard'=>'http://localhost/projeto-biblioteca/Dashboard-admin.php',
-                          ];
-                }  
+                        'dashboard' => 'http://localhost/projeto-biblioteca/Dashboard-client.php',
+                    ];
+                } else {
+                    $result = [
+                        'status' => true,
+                        // 'msg' => "Usuario valido",
+                        'dashboard' => 'http://localhost/projeto-biblioteca/Dashboard-adm.php',
+                    ];
+                }
             } else {
                 // Retorna mensagem de erro se as credenciais forem inválidas
                 $result = [
@@ -136,7 +138,7 @@ class LOGIN
                     'usuario' => $this->userLogin,
                 ];
             }
-        } else{
+        } else {
             $result = [
                 'status' => false,
                 'msg' => "Usuário não cadastrado",
@@ -146,162 +148,160 @@ class LOGIN
         // Retorna o resultado da validação
         return $this->fxLogin = $result;
     }
-    
 
-//-----------CADASTRO DE USUARIOS--------------------------------//
+
+    //-----------CADASTRO DE USUARIOS--------------------------------//
     public function cadastroLogin(String $fxLogin)
-{
-    $newEmail = $this->newEmail;
-    $newUser = $this->newUser;
-    $cpf = $this->cpf;
-    $userPassword = $this->userPassword;
-    $acesso = "1";
+    {
+        $newEmail = $this->newEmail;
+        $newUser = $this->newUser;
+        $cpf = $this->cpf;
+        $userPassword = $this->userPassword;
+        $acesso = "1";
 
-    require "../config/db/conn.php";
+        require "../config/db/conn.php";
 
-    // Verifica se o email já está registrado no banco de dados
-    $sql = "SELECT * FROM tbl_login WHERE email = :email";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':email', $newEmail);
-    $stmt->execute();
+        // Verifica se o email já está registrado no banco de dados
+        $sql = "SELECT * FROM tbl_login WHERE email = :email";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':email', $newEmail);
+        $stmt->execute();
 
-    $emailDB = "";
+        $emailDB = "";
 
-    if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $emailDB = $row['email'];
-    }
+        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $emailDB = $row['email'];
+        }
 
-    // Verifica se o email já está registrado
-    if ($emailDB === $newEmail) {
-        $result = [
-            'status' => false,
-            'msg' => "Email já registrado",
-            'usuario' => $newEmail,
-            'usuario_banco' => $emailDB
-        ];
-    } else {
-        $crypt = new Crypt();
+        // Verifica se o email já está registrado
+        if ($emailDB === $newEmail) {
+            $result = [
+                'status' => false,
+                'msg' => "Email já registrado",
+                'usuario' => $newEmail,
+                'usuario_banco' => $emailDB
+            ];
+        } else {
+            $crypt = new Crypt();
 
-        // Criptografa a senha e gera o hash
-        $hashedPassword = $crypt->CryptPass($newEmail, $userPassword);
-        $hash = $crypt->CryptHash($newEmail, $userPassword);
+            // Criptografa a senha e gera o hash
+            $hashedPassword = $crypt->CryptPass($newEmail, $userPassword);
+            $hash = $crypt->CryptHash($newEmail, $userPassword);
 
-        // Insere o novo usuário no banco de dados
-        $insertSql = "INSERT INTO tbl_login (idLogin, nome, email, cpf, senha, FK_idAcesso, hash) 
+            // Insere o novo usuário no banco de dados
+            $insertSql = "INSERT INTO tbl_login (idLogin, nome, email, cpf, senha, FK_idAcesso, hash) 
                       VALUES (null, :nome, :email, :cpf, :senha, :acesso, :hash)";
-        $insertStmt = $conn->prepare($insertSql);
+            $insertStmt = $conn->prepare($insertSql);
 
-        // Executa a inserção
-        $insertStmt->execute([
-            ':nome' => $newUser,
-            ':email' => $newEmail,
-            ':cpf' => $cpf,
-            ':senha' => $hashedPassword,
-            ':acesso' => $acesso,
-            ':hash' => $hash
-        ]);
+            // Executa a inserção
+            $insertStmt->execute([
+                ':nome' => $newUser,
+                ':email' => $newEmail,
+                ':cpf' => $cpf,
+                ':senha' => $hashedPassword,
+                ':acesso' => $acesso,
+                ':hash' => $hash
+            ]);
 
-        $result = [
-            'status' => true,
-            'msg' => "Cadastro realizado com sucesso",
-        ];
+            $result = [
+                'status' => true,
+                'msg' => "Cadastro realizado com sucesso",
+            ];
+        }
+
+        // Retorna o resultado da operação
+        return $this->fxLogin = $result;
     }
 
-    // Retorna o resultado da operação
-    return $this->fxLogin = $result;
-}
 
+    //-------------FUNÇÃO PARA RECUPERAÇÃO DE SENHA
 
-//-------------FUNÇÃO PARA RECUPERAÇÃO DE SENHA
+    public function recoveryLogin(String $fxLogin)
+    {
+        require_once("../config/db/conn.php");
 
-public function recoveryLogin(String $fxLogin)
-{
-    require_once("../config/db/conn.php");
+        $sql = "SELECT nome, email, hash FROM tbl_login WHERE email = :userEmail";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':userEmail', $this->userLogin);
 
-    $sql = "SELECT nome, email, hash FROM tbl_login WHERE email = :userEmail";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':userEmail', $this->userLogin);
+        $stmt->execute();
 
-    $stmt->execute();
+        $userEmailDB = "";
 
-    $userEmailDB = "";
+        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $userEmailDB = $row['email'];
+            $userHash = $row['hash'];
+            $userNameDB = $row['nome'];
+        }
 
-    if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-        $userEmailDB = $row['email'];
-        $userHash = $row['hash'];
-        $userNameDB = $row['nome'];
-    }
+        if ($userEmailDB != $this->userLogin) {
+            $result = [
+                'status' => false,
+                'msg' => 'usuario ou email não cadastrado'
+            ];
+        } else {
+            $url = "http://localhost/projeto-biblioteca/password-reset.php?idRec=$userHash";
 
-    if($userEmailDB != $this->userLogin){
-        $result = [
-            'status'=> false,
-            'msg'=> 'usuario ou email não cadastrado'
-        ];
-    } else {
-        $url = "http://localhost/projeto-biblioteca/password-reset.php?idRec=$userHash";
-
-        $result = [
-            'status'=> true,
-            'msg'=> "<h2>Recuperar Senha</h2>
+            $result = [
+                'status' => true,
+                'msg' => "<h2>Recuperar Senha</h2>
             <p> Caro usuario $userNameDB , voce solicitou a recuperação de senha do Sistema</p>
             <p>Segue o link para recuperar a senha clique abaixo ou se preferir cole no seu navegador</p>
             <p><a href='$url' target='_blank'>$url<a/></p>
             <p>Caso não tenha solicitado, desconsidere este email</p> "
-        ];
-    }
-    return $this->fxLogin = $result;
-}
-
-//-------- FUNÇÃO PARA INCLUIR NOVA SENHA NO DB----------------
- public function passwordReset(string $fxLogin){
-    require_once("../config/db/conn.php");
-
-    $sql ="SELECT nome, email, hash FROM tbl_login WHERE email= :userEmail ";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam('userEmail', $this->userLogin);
-    $stmt->execute();
-
-    $emailDB ="";
-    $hashDB = "";
-
-    if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-       $emailDB = $row['email'];
-       $hashDB = $row['hash'];
-       $nameDB = $row['nome'];
-
+            ];
+        }
+        return $this->fxLogin = $result;
     }
 
-   if(!((($emailDB === $this->userLogin) && ($hashDB === $this->idRec)))
-       ){
+    //-------- FUNÇÃO PARA INCLUIR NOVA SENHA NO DB----------------
+    public function passwordReset(string $fxLogin)
+    {
+        require_once("../config/db/conn.php");
+
+        $sql = "SELECT nome, email, hash FROM tbl_login WHERE email= :userEmail ";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam('userEmail', $this->userLogin);
+        $stmt->execute();
+
+        $emailDB = "";
+        $hashDB = "";
+
+        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $emailDB = $row['email'];
+            $hashDB = $row['hash'];
+            $nameDB = $row['nome'];
+        }
+
+        if (!((($emailDB === $this->userLogin) && ($hashDB === $this->idRec)))) {
             $result = [
-           'status'=> false,
-           'msg'=> 'email ou seu idec invalido'
-       ];
-       }else{
-          include_once("Crypt.model.php");
-          $Crypt = new Crypt();
-          $Cpass = $this->userPassword;
-          $Cemail = $emailDB;
+                'status' => false,
+                'msg' => 'email ou seu idec invalido'
+            ];
+        } else {
+            include_once("Crypt.model.php");
+            $Crypt = new Crypt();
+            $Cpass = $this->userPassword;
+            $Cemail = $emailDB;
 
-          $passCP = $Crypt->CryptPass($Cemail, $Cpass);
-          $hashCP = $Crypt->CryptHash($Cemail, $Cpass);
+            $passCP = $Crypt->CryptPass($Cemail, $Cpass);
+            $hashCP = $Crypt->CryptHash($Cemail, $Cpass);
 
-       //Preparando update
-       $sql = "UPDATE tbl_login SET senha = :passCP, hash = :hashCP WHERE email=:emailDB";
-       $stmt = $conn->prepare($sql);
-       $stmt->bindParam(':passCP', $passCP);
-       $stmt->bindParam(':hashCP', $hashCP);
-       $stmt->bindParam(':emailDB', $emailDB);
-       $stmt->execute();
+            //Preparando update
+            $sql = "UPDATE tbl_login SET senha = :passCP, hash = :hashCP WHERE email=:emailDB";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':passCP', $passCP);
+            $stmt->bindParam(':hashCP', $hashCP);
+            $stmt->bindParam(':emailDB', $emailDB);
+            $stmt->execute();
 
 
             $result = [
-           'status'=> true,
-           'msg'=> 'Usúario sua senha foi alterada com sucesso'
-       ];
-       }
-    
-       return $this->fxLogin = $result;
-   }
-  
+                'status' => true,
+                'msg' => 'Usúario sua senha foi alterada com sucesso'
+            ];
+        }
+
+        return $this->fxLogin = $result;
+    }
 }
