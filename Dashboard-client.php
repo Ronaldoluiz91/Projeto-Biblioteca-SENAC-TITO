@@ -7,10 +7,8 @@ if(!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']){
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +26,7 @@ if(!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']){
     <main>
         <div class="container-form">
             <div class="forms">
-                <h3 class="titulo-form">Preencha os campos abaixo para o empréstimo</h3>
+                <h3 class="titulo-form">Preencha os campos abaixo para o Adicionar Livros</h3>
                 <form id="form-emprestimo">
                     <!-- Campo Nome do livro -->
                     <label for="livro" class="text-form">Nome do livro</label>

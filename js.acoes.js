@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if(result['status']) {
                         $('#alertMsg').removeClass("error").html(result.msg).addClass("success");
                         // window.location.href = result.dashboardClient;
-                        window.open(result.dashboardClient, '_blank');
+                        window.open(result.dashboard, '_blank');
                     } else {
                         $('#alertMsg').html(result.msg).addClass("error");
                     }

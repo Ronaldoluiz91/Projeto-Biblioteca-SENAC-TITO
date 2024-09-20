@@ -91,9 +91,6 @@ button.design-input:hover {
     text-decoration: underline;
 }
 
-
-
-
 /* Estilo do modal */
 .modal-login {
     display: none; 
@@ -189,6 +186,20 @@ button.design-input:hover {
     font-size: 16px; /* Tamanho da fonte */
     color: #333; /* Cor do texto */
 }
+
+
+/*Formulario da PG  Cadastro de Livros */
+
+.form-add-Livro {
+    background-color: blue;
+    /* padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil ao redor do formulário */
+    /* max-width: 600px;
+    width: 90%;
+    text-align: center; */ 
+}
+
 
 
 

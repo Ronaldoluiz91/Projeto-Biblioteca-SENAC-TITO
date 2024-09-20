@@ -112,25 +112,37 @@ class LOGIN
             $userPassword = $Crypt->CryptPass($Cemail, $Cpass);
             $userHash = $Crypt->CryptHash($Cemail, $Cpass);
     
-            // Verifica se o email e a senha estão corretos
-            if ($emailDB === $this->userLogin && $passwordDB === $userPassword) {
-                // Inicia a sessão e armazena o usuário logado
-
-                $result = [
-                    'status' => true,
-                    // 'msg' => "Usuario valido",
-                    'dashboardClient'=>'http://localhost/projeto-biblioteca/Dashboard-client.php',
-                ];
-              
+            // Verifica se o email e a senha estão corretos 
+            if ($emailDB === $this->userLogin && $passwordDB === $userPassword ) {
+                // Verifica o acesso (Usuario ou Admin)
+               if($acesso == 1){
+                  $result = [
+                  'status' => true,
+                  // 'msg' => "Usuario valido",
+                  'dashboard'=>'http://localhost/projeto-biblioteca/Dashboard-client.php',
+                    ];
+                }else{
+                    $result = [
+                        'status' => true,
+                        // 'msg' => "Usuario valido",
+                        'dashboard'=>'http://localhost/projeto-biblioteca/Dashboard-admin.php',
+                          ];
+                }  
             } else {
                 // Retorna mensagem de erro se as credenciais forem inválidas
                 $result = [
                     'status' => false,
-                    'msg' => "Usuário ou senha inválidos.",
+                    'msg' => "Usuário ou senha inválido.",
                     'usuario' => $this->userLogin,
                 ];
             }
-        } 
+        } else{
+            $result = [
+                'status' => false,
+                'msg' => "Usuário não cadastrado",
+                'usuario' => $this->userLogin,
+            ];
+        }
         // Retorna o resultado da validação
         return $this->fxLogin = $result;
     }
