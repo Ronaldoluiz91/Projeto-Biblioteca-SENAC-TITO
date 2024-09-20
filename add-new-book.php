@@ -7,7 +7,6 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -27,7 +26,7 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
 
 
     <div class="forms">
-        <div class="form-addLivro">
+        <div >
             <h3 class="titulo-form">Adicionar Novo Livro</h3>
             <br>
             <div>
@@ -55,41 +54,6 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
     </div>
 
 
-
-
-    <h2>Relatório de Empréstimos de Livros</h2>
-
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Nome do Livro</th>
-                    <th>Nome do Usuário</th>
-                    <th>Data do Empréstimo</th>
-                    <th>Data de Devolução</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Exemplos de dados de empréstimo -->
-                <tr>
-                    <td>O Senhor dos Anéis</td>
-                    <td>João Silva</td>
-                    <td>01/09/2024</td>
-                    <td>15/09/2024</td>
-                    <td>Em andamento</td>
-                </tr>
-                <tr>
-                    <td>A Revolução dos Bichos</td>
-                    <td>Maria Souza</td>
-                    <td>20/08/2024</td>
-                    <td>05/09/2024</td>
-                    <td>Concluído</td>
-                </tr>
-                <!-- Outros registros serão gerados dinamicamente -->
-            </tbody>
-        </table>
-    </div>
 
 
 </body>
