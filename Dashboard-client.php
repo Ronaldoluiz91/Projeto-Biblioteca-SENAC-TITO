@@ -63,7 +63,7 @@ if(!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']){
             </div>
         </div>
         <br>
-        <a href="logout.php" color:white>SAIR</a>
+        <a href="logout.php">SAIR</a>
     </main>
    
     

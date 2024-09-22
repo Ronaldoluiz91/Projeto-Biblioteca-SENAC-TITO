@@ -3,7 +3,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
 }
 
 body, html {
@@ -164,13 +163,13 @@ button.design-input:hover {
 /* Estilo para o botão de fechar (X) */
 .close-btn {
     color: #aaa; 
-    float: right; /* Posiciona o botão no canto superior direito */
-    font-size: 28px; /* Tamanho da fonte */
-    font-weight: bold; /* Negrito */
-    cursor: pointer; /* Cursor de mão ao passar sobre o botão */
-    position: absolute; /* Posiciona o botão de fechar em relação ao modal-content */
-    top: 10px; /* Espaçamento do topo */
-    right: 10px; /* Espaçamento da direita */
+    float: right; 
+    font-size: 28px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    position: absolute; 
+    top: 10px;
+    right: 10px; 
 }
 
 .close-btn:hover,
@@ -181,10 +180,10 @@ button.design-input:hover {
 
 /* Estilo para a mensagem dentro do modal */
 .modal-content p {
-    margin: 0; /* Remove margens padrão */
-    padding: 10px 0; /* Espaçamento acima e abaixo */
-    font-size: 16px; /* Tamanho da fonte */
-    color: #333; /* Cor do texto */
+    margin: 0; 
+    padding: 10px 0; 
+    font-size: 16px; 
+    color: #333; 
 }
 
 
@@ -204,16 +203,13 @@ button.design-input:hover {
 
 /*Relatorio de emprestimos */
 
-.relatorio {
+#relatorio {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
     margin: 0;
     padding: 20px;
-    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
   }
 
   h2 {
@@ -221,13 +217,37 @@ button.design-input:hover {
     color: #333;
   }
 
-.titulo-relatorio{
+  .search-container {
     text-align: center;
-}
+    margin-bottom: 20px;
+  }
 
+  .search-container form {
+    display: inline-block;
+  }
 
+  input,
+  select {
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
 
-.table-container {
+  .botaoBusca {
+    padding: 10px;
+    background-color:  #F78B1F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .botaoBusca:hover {
+    background-color:  rgb(216, 68, 14);;
+  }
+
+  .table-container {
     width: 90%;
     margin: 0 auto;
     overflow-x: auto;
@@ -241,14 +261,15 @@ button.design-input:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 
-  th, td {
+  th,
+  td {
     padding: 15px;
     text-align: left;
     border-bottom: 1px solid #ddd;
   }
 
   th {
-    background-color: #007bff;
+    background-color: #005594;
     color: white;
   }
 
@@ -260,6 +281,26 @@ button.design-input:hover {
     text-align: center;
     color: #888;
     padding: 20px;
+  }
+
+  /* Estilização do botão de adicionar livros */
+  .add-book-container {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .add-book-container button {
+    padding: 12px 20px;
+    background-color: #F78B1F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .add-book-container button:hover {
+    background-color:  rgb(216, 68, 14);;
   }
 
 

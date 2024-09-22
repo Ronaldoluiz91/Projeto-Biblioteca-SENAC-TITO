@@ -80,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
             modal.style.display = 'none';
         }
     }
+    
     // Verificação dos campos ao clicar no botão "Cadastrar-se"
     const cadBtn = document.getElementById('cad-btn');
     if (cadBtn) {

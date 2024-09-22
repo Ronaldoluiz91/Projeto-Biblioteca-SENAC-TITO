@@ -16,9 +16,6 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
     <title>Biblioteca Itinerante - SENAC TITO</title>
     <!-- Conexão com CSS externo -->
     <link rel="stylesheet" href="public_html/assets/style.css">
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="js.acoes.js"></script>
 </head>
 
 <body>
@@ -26,9 +23,11 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
 
 
     <div class="forms">
-        <div >
+        <div>
             <h3 class="titulo-form">Adicionar Novo Livro</h3>
             <br>
+            <div id="mensagem"></div>
+
             <div>
                 <label for="titulo" class="text-form">Nome do Livro:</label>
                 <input type="text" id="nomeLivro" name="nomeLivro" class="design-input" placeholder="Digite o nome do Livro" required>
@@ -36,12 +35,18 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
 
             <div>
                 <label for="autor" class="text-form">Quantidade:</label>
-                <input type="number" id="quantidadeLivro" name="quantidadeLivro" class="design-input" placeholder="Digite a quantidade de Livros" required>
+                <input type="number" id="quantLivro" name="quantLivro" class="design-input" placeholder="Digite a quantidade de Livros" required>
             </div>
 
             <div>
                 <label for="editora" class="text-form">Condição:</label>
-                <input type="text" id="condicaoLivro" name="condiLivro" class="design-input" placeholder="Digite a condição do Livro" required>
+                <input type="text" id="condLivro" name="condLivro" class="design-input" placeholder="Digite a condição do Livro" required>
+            </div>
+
+
+            <div>
+                <label for="editora" class="text-form">Codigo do Livro:</label>
+                <input type="text" id="codigoLivro" name="codigoLivro" class="design-input" placeholder="Digite a condição do Livro" required>
             </div>
 
             <div>
@@ -49,13 +54,13 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
                 <input type="text" id="autorLivro" name="autorLivro" class="design-input" placeholder="Digite o autor do Livro" required>
             </div>
 
-            <button type="submit" class="design-input">Adicionar Livro</button>
+            <button type="button" class="design-input" id="cad-livro">Adicionar Livro</button>
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
-
+    <script src="js.admin.js"></script>
 </body>
 
 </html>
