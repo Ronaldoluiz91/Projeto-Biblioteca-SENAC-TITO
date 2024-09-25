@@ -25,6 +25,9 @@
                     <label for="email" class="text-form">E-mail</label>
                     <input class="design-input" type="email" name="email" id="email" placeholder="Digite seu email">
                     <br>
+                    <label for="whatsapp" class="text-form">Whatsapp</label>
+                    <input class="design-input" type="text" name="whatsapp" id="whatsapp" placeholder="Digite seu Whatsapp">
+                    <br>
                     <label for="cpf" class="text-form">CPF</label>
                     <input class="design-input" type="text" name="cpf" id="cpf" placeholder="Digite seu CPF">
                     <br>

@@ -88,11 +88,12 @@ document.addEventListener('DOMContentLoaded', function () {
             const nome = document.getElementById('name')?.value;
             const email = document.getElementById('email')?.value;
             const cpf = document.getElementById('cpf')?.value;
+            const whatsapp = document.getElementById('whatsapp')?.value;
             const senha = document.getElementById('password')?.value;
             const confirmSenha = document.getElementById('confirm-password')?.value;
             const fxLogin = document.getElementById('fxLogin')?.value;
 
-            if (!nome || !email || !cpf || !senha || !confirmSenha) {
+            if (!nome || !email || !cpf || !senha || !confirmSenha || !whatsapp) {
                 showModal(); // Exibe o modal se houver campos vazios
             } else if (senha !== confirmSenha) {
                 const modalContent = document.querySelector('.modal-content p');
@@ -109,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     data: {
                         nome: nome,
                         email: email,
+                        whatsapp: whatsapp,
                         cpf: cpf,
                         senha: senha,
                         confirmSenha: confirmSenha,

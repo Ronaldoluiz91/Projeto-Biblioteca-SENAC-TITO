@@ -9,11 +9,12 @@ $quantidade = $_POST['quantidade'];
 $condicao = $_POST['condicao'];
 $codigo = $_POST['codigo'];
 $autor = $_POST['autor'];
+$andar = $_POST['andar'];
 
-if (empty($nomeLivro) || empty($quantidade) || empty($condicao) || empty($codigo) || empty($autor)) {
+if (empty($nomeLivro) || empty($quantidade) || empty($condicao) || empty($codigo) || empty($autor) || empty($andar)) {
     $result = [
         'status' => true,
-        'msg' => "preencha todos os campos"
+        'msg' => "preencha todos os campos bbb"
     ];
 } else {
 
@@ -22,6 +23,7 @@ if (empty($nomeLivro) || empty($quantidade) || empty($condicao) || empty($codigo
     $LIVRO->setCondicao($condicao);
     $LIVRO->setCodigo($codigo);
     $LIVRO->setAutor($autor);
+    $LIVRO->setAndar($andar);
 
      // Tenta cadastrar o livro e captura o retorno
      $result = $LIVRO->addLivro();

@@ -12,7 +12,7 @@ switch ($fxLogin) {
     case 'Logar':
         $userLogin = $_POST['email'];
         $userPassword = $_POST['senha'];
-    
+
         // Verificando se algum dos campos está vazio
         if (empty($userLogin) || empty($userPassword)) {
             $result = [
@@ -22,99 +22,99 @@ switch ($fxLogin) {
         } else {
             // Configurando as credenciais de login
             $LOGIN->setUserLogin($userLogin);
-            $LOGIN->setUserPassword($userPassword); 
-    
+            $LOGIN->setUserPassword($userPassword);
+
             // Validando o login
             $LOGIN->validateLogin($fxLogin);
-    
+
             // Retornando o resultado do login
             $result = $LOGIN->fxLogin;
 
-            if($result['status']){
+            if ($result['status']) {
                 //Criando a sessão com o login bem sucedido
                 $_SESSION['userLogin'] = $userLogin;
                 $_SESSION['loginValido'] = true;
+            }
         }
-    }
         break;
 
-        case 'Cadastrar':
-            $newUser = $_POST['nome'];
-            $newEmail = $_POST['email'];
-            $cpf = $_POST['cpf'];
-            $userPassword = $_POST['senha'];
-            $confirmPassword = $_POST['confirmSenha'];
-            $acesso = "1"; // acesso padrão para novos cadastros
-        
-            // Verificando se algum dos campos está vazio
-            if (
-                empty($newUser) || 
-                empty($newEmail) || 
-                empty($cpf) || 
-                empty($userPassword) || 
-                empty($confirmPassword)
-            ) {
+    case 'Cadastrar':
+        $newUser = $_POST['nome'];
+        $newEmail = $_POST['email'];
+        $whatsapp = $_POST['whatsapp'];
+        $cpf = $_POST['cpf'];
+        $userPassword = $_POST['senha'];
+        $confirmPassword = $_POST['confirmSenha'];
+        $acesso = "1"; // acesso padrão para novos cadastros
+
+        // Verificando se algum dos campos está vazio
+        if (
+            empty($newUser) ||
+            empty($newEmail) ||
+            empty($whatsapp) ||
+            empty($cpf) ||
+            empty($userPassword) ||
+            empty($confirmPassword)
+        ) {
+            $result = [
+                'status' => false,
+                'msg' => "Preencha todos os campos"
+            ];
+        } else {
+            // Verificando se as senhas coincidem
+            if ($userPassword === $confirmPassword) {
+                $LOGIN->setNewUser($newUser);
+                $LOGIN->setNewEmail($newEmail);
+                $LOGIN->setWhatsapp($whatsapp);
+                $LOGIN->setCpf($cpf);
+                $LOGIN->setUserPassword($userPassword);
+                $LOGIN->setConfirmPassword($confirmPassword);
+                // Função de cadastro
+                $LOGIN->cadastroLogin($fxLogin);
+                // Retornando o resultado do cadastro
+                $result = $LOGIN->fxLogin;
+            } else {
                 $result = [
                     'status' => false,
-                    'msg' => "Preencha todos os campos"
+                    'msg' => "Senhas não combinam",
                 ];
-            } else {
-                // Verificando se as senhas coincidem
-                if ($userPassword === $confirmPassword) {
-                    $LOGIN->setNewUser($newUser);
-                    $LOGIN->setNewEmail($newEmail);
-                    $LOGIN->setCpf($cpf);
-                    $LOGIN->setUserPassword($userPassword);
-                    $LOGIN->setConfirmPassword($confirmPassword);
-                    
-                    // Função de cadastro
-                    $LOGIN->cadastroLogin($fxLogin);
-        
-                    // Retornando o resultado do cadastro
-                    $result = $LOGIN->fxLogin;
-                } else {
-                    $result = [
-                        'status' => false,
-                        'msg' => "Senhas não combinam",
-                    ];
-                }
-
             }
-            break;
+        }
+        break;
 
-            case 'Recuperar':
-                $recLoginEmail = $_POST['recLoginEmail'];
-            
-                // Verifica se o campo está vazio
-                if (!isset($recLoginEmail) || empty($recLoginEmail) || $recLoginEmail === "") {
-                    $result = [
-                        'status' => false,
-                        'msg' => 'Preencha o campo'
-                    ];
-                } else {
-                    $LOGIN->setUserLogin($recLoginEmail);
-                    $LOGIN->recoveryLogin($fxLogin);
-            
-                    $result = $LOGIN->fxLogin;
-                }
-                break;
+    case 'Recuperar':
+        $recLoginEmail = $_POST['recLoginEmail'];
 
-                case 'PasswordReset':
-                    $userLogin = $_POST['userLogin'];
-                    $userPassword = $_POST['userPassword'];
-                    $userConfirmPassword = $_POST['userConfirmPassword'];
-                    $idRec = $_POST['idRec'];
-           
-                    $LOGIN->setUserLogin($userLogin);
-                    $LOGIN->setUserPassword($userPassword);
-                    $LOGIN->setIdRec($idRec);
-           
-                    $LOGIN->PasswordReset($fxLogin);
-           
-                   $result = $LOGIN->fxLogin;
-            break;
+        // Verifica se o campo está vazio
+        if (!isset($recLoginEmail) || empty($recLoginEmail) || $recLoginEmail === "") {
+            $result = [
+                'status' => false,
+                'msg' => 'Preencha o campo'
+            ];
+        } else {
+            $LOGIN->setUserLogin($recLoginEmail);
+            $LOGIN->recoveryLogin($fxLogin);
 
-         default:
+            $result = $LOGIN->fxLogin;
+        }
+        break;
+
+    case 'PasswordReset':
+        $userLogin = $_POST['userLogin'];
+        $userPassword = $_POST['userPassword'];
+        $userConfirmPassword = $_POST['userConfirmPassword'];
+        $idRec = $_POST['idRec'];
+
+        $LOGIN->setUserLogin($userLogin);
+        $LOGIN->setUserPassword($userPassword);
+        $LOGIN->setIdRec($idRec);
+
+        $LOGIN->PasswordReset($fxLogin);
+
+        $result = $LOGIN->fxLogin;
+        break;
+
+    default:
         $result = [
             'status' => false,
             'msg' => " <p>Sistema indisponivel. Tente mais tarde... </p>"

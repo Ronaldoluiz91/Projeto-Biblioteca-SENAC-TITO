@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if(!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']){
+if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
     header("Location: index.php");
     exit();
 }
@@ -9,6 +9,7 @@ if(!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']){
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +23,7 @@ if(!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']){
 
 <body>
     <img class="img-fundo" src="public_html/midias/midia-senac.jpeg">
-  
+
     <main>
         <div class="container-form">
             <div class="forms">
@@ -32,8 +33,33 @@ if(!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']){
                     <label for="livro" class="text-form">Nome do livro</label>
                     <select name="livro" id="livro" class="design-input" required>
                         <option value="">Selecione o livro</option>
-                        <option value="O Pequeno Príncipe">O Pequeno Príncipe</option>
+                        <?php
+                        // Conexão com o banco de dados
+                        require "private/config/db/conn.php"; // Inclui a conexão com o banco de dados
+
+                        try {
+                            // Consulta SQL para buscar os livros
+                            $sql = "SELECT idCadLivro, nomeLivro FROM tbl_livro"; 
+                            $stmt = $conn->prepare($sql);
+                            $stmt->execute();
+
+                            // Verifica se a consulta retornou resultados
+                            if ($stmt->rowCount() > 0) {
+                                // Itera pelos resultados e cria os options
+                                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    echo '<option value="' . htmlspecialchars($row['idCadLivro']) . '">' . htmlspecialchars($row['nomeLivro']) . '</option>';
+                                }
+                            } else {
+                                echo '<option value="">Nenhum livro disponível</option>'; // Opção se não houver livros
+                            }
+                        } catch (PDOException $e) {
+                            echo '<option value="">Erro ao carregar livros</option>'; // Tratar erro
+                            // Log do erro, se necessário
+                            // error_log("Erro ao buscar livros: " . $e->getMessage());
+                        }
+                        ?>
                     </select>
+
 
                     <!-- Campo Quantidade de livros -->
                     <label for="quantidade" class="text-form">Quantos livros deseja alugar</label>
@@ -47,14 +73,24 @@ if(!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']){
                     </select>
 
                     <!-- Campo Andar -->
-                    <label for="andar" class="text-form">Selecione o andar que está o livro</label>
-                    <select name="andar" id="andar" class="design-input" required>
-                        <option value="">Selecione o andar</option>
-                        <option value="1 andar">1º Andar</option>
-                        <option value="2 andar">2º Andar</option>
-                        <option value="3 andar">3º Andar</option>
-                        <option value="4 andar">4º Andar</option>
-                    </select>
+                    <label for="andar" class="text-form">Selecione o Andar:</label>
+                <select name="andar" id="andar" class="design-input" required>
+                    <option value="">Selecione o andar</option>
+                    <?php
+                    // Conexão com o banco de dados
+                    require "private/config/db/conn.php"; 
+
+                    // Consulta SQL para buscar os andares
+                    $sql = "SELECT idAndar, descricao FROM tbl_andar";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute();
+
+                    // Itera pelos resultados e cria os options
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        echo '<option value="' . $row['idAndar'] . '">' . $row['descricao'] . '</option>';
+                    }
+                    ?>
+                </select>
 
                     <!-- Botão de alugar -->
                     <button type="submit" class="design-input">Alugar</button>
@@ -65,8 +101,8 @@ if(!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']){
         <br>
         <a href="logout.php">SAIR</a>
     </main>
-   
-    
+
+
 
 </body>
 

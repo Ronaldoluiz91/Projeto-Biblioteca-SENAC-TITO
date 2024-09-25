@@ -7,6 +7,7 @@ class LOGIN
     private $userPassword;
     private $newUser;
     private $newEmail;
+    private $whatsapp;
     private $confirmPassword;
     private $cpf;
     private $acesso;
@@ -49,6 +50,14 @@ class LOGIN
     public function getNewEmail()
     {
         return $this->newEmail;
+    }
+
+    public function setWhatsapp (string $whatsapp)
+    {
+        $this->whatsapp = $whatsapp;
+    }
+    public function getWhatsapp(){
+        return $this->whatsapp;
     }
 
     public function setCpf(String $cpf)
@@ -155,31 +164,34 @@ class LOGIN
     {
         $newEmail = $this->newEmail;
         $newUser = $this->newUser;
+        $whatsapp = $this->whatsapp;
         $cpf = $this->cpf;
         $userPassword = $this->userPassword;
         $acesso = "1";
 
         require "../config/db/conn.php";
 
-        // Verifica se o email já está registrado no banco de dados
-        $sql = "SELECT * FROM tbl_login WHERE email = :email";
+        // Verifica se o email ou cpf já está registrado no banco de dados
+        $sql = "SELECT * FROM tbl_login WHERE email = :email OR cpf = :cpf";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':email', $newEmail);
+        $stmt->bindParam(':cpf', $cpf);
         $stmt->execute();
 
         $emailDB = "";
+        $cpfDB = "";
+       
 
         if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $emailDB = $row['email'];
+            $cpfDB = $row['cpf'];
         }
 
-        // Verifica se o email já está registrado
-        if ($emailDB === $newEmail) {
+        // Verifica se o email ou cpf  já está registrado
+        if ($emailDB === $newEmail || $cpfDB === $cpf) {
             $result = [
                 'status' => false,
-                'msg' => "Email já registrado",
-                'usuario' => $newEmail,
-                'usuario_banco' => $emailDB
+                'msg' => "Email ou CPF já registrado",
             ];
         } else {
             $crypt = new Crypt();
@@ -189,14 +201,15 @@ class LOGIN
             $hash = $crypt->CryptHash($newEmail, $userPassword);
 
             // Insere o novo usuário no banco de dados
-            $insertSql = "INSERT INTO tbl_login (idLogin, nome, email, cpf, senha, FK_idAcesso, hash) 
-                      VALUES (null, :nome, :email, :cpf, :senha, :acesso, :hash)";
+            $insertSql = "INSERT INTO tbl_login (idLogin, nome, email, whatsapp, cpf, senha, FK_idAcesso, hash) 
+                      VALUES (null, :nome, :email, :whatsapp, :cpf, :senha, :acesso, :hash)";
             $insertStmt = $conn->prepare($insertSql);
 
             // Executa a inserção
             $insertStmt->execute([
                 ':nome' => $newUser,
                 ':email' => $newEmail,
+                ':whatsapp'=> $whatsapp,
                 ':cpf' => $cpf,
                 ':senha' => $hashedPassword,
                 ':acesso' => $acesso,
