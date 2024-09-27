@@ -60,14 +60,13 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
                     <option value="">Selecione o andar</option>
                     <?php
                     // Conexão com o banco de dados
-                    require "private/config/db/conn.php"; // Inclui a conexão com o banco de dados
+                    require "private/config/db/conn.php"; 
 
                     // Consulta SQL para buscar os andares
                     $sql = "SELECT idAndar, descricao FROM tbl_andar";
                     $stmt = $conn->prepare($sql);
                     $stmt->execute();
 
-                    // Itera pelos resultados e cria os options
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                         echo '<option value="' . $row['idAndar'] . '">' . $row['descricao'] . '</option>';
                     }

@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 $.ajax({
                     url: "http://localhost/projeto-biblioteca/private/controller/Login.controller.php",
                     method: "POST",
-                     dataType: "json",
+                    dataType: "json",
                     async: true,
                     data: {
                         email: email,
@@ -26,17 +26,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 })
 
-                .done(function(result) {
-                    console.log(result); // Verifica o resultado retornado
-                    if(result['status']) {
-                        $('#alertMsg').removeClass("error").html(result.msg).addClass("success");
-                        // window.location.href = result.dashboardClient;
-                        window.open(result.dashboard, '_blank');
-                    } else {
-                        $('#alertMsg').html(result.msg).addClass("error");
-                    }
-                })
-                
+                    .done(function (result) {
+                        console.log(result); // Verifica o resultado retornado
+                        if (result['status']) {
+                            $('#alertMsg').removeClass("error").html(result.msg).addClass("success");
+                            // window.location.href = result.dashboardClient;
+                            window.open(result.dashboard, '_blank');
+                        } else {
+                            $('#alertMsg').html(result.msg).addClass("error");
+                        }
+                    })
+
             }
 
         });
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
             modal.style.display = 'none';
         }
     }
-    
+
     // Verificação dos campos ao clicar no botão "Cadastrar-se"
     const cadBtn = document.getElementById('cad-btn');
     if (cadBtn) {
@@ -107,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     url: "http://localhost/projeto-biblioteca/private/controller/Login.controller.php",
                     method: "POST",
                     async: true,
+                    dataType: 'json', // Força a resposta como JSON
                     data: {
                         nome: nome,
                         email: email,
@@ -115,19 +116,18 @@ document.addEventListener('DOMContentLoaded', function () {
                         senha: senha,
                         confirmSenha: confirmSenha,
                         fxLogin: fxLogin
-
                     }
                 })
-                    .done(function (result) {
-                        if (result['status']) {
-                            // document.getElementById("alertMsg").innerHTML = result.msg;
-                            $('#alertMsg').removeClass("error");
-                            $('#alertMsg').html(result.msg).addClass("sucess");
-                        } else {
-                            $('#alertMsg').html(result.msg).addClass("error");
-
-                        }
-                    })
+                .done(function (result) {
+                    console.log(result); // Verifica se o result já é JSON
+                    if (result.status) {
+                        $('#alertMsg').removeClass("error");
+                        $('#alertMsg').html(result.msg).addClass("success");
+                    } else {
+                        $('#alertMsg').html(result.msg).addClass("error");
+                    }
+                });
+                
 
             }
         });
@@ -169,23 +169,23 @@ function recLogin() {
         }
     })
 
-       .done(function(result){
-        if(result['status']){
-            //document.getElementById("alertMsg").innerHTML = result.msg;
-            $('#alertMsg').removeClass("error");
-            $('#alertMsg').html(result.msg).addClass("success");
-        }else{
-            $('#alertMsg').removeClass("success");
-            $('#alertMsg').html(result.msg).addClass("error");
-        }
-    }) 
+        .done(function (result) {
+            if (result['status']) {
+                //document.getElementById("alertMsg").innerHTML = result.msg;
+                $('#alertMsg').removeClass("error");
+                $('#alertMsg').html(result.msg).addClass("success");
+            } else {
+                $('#alertMsg').removeClass("success");
+                $('#alertMsg').html(result.msg).addClass("error");
+            }
+        })
 }
 
 
 //----------FUNÇÃO PARA NOVA SENHA-------------------------
 
-function resetLogin(){
-         $('#alertMsg').html('');
+function resetLogin() {
+    $('#alertMsg').html('');
 
     let fxLogin = $('#fxLogin').val();
     let userLogin = $('#user-login').val();
@@ -195,7 +195,7 @@ function resetLogin(){
 
 
 
-    if((!userLogin || !userPassword || !userConfirmPassword) || (!idRec)) {
+    if ((!userLogin || !userPassword || !userConfirmPassword) || (!idRec)) {
         $('#alertMsg').html('<p>Usuário - Preencha o campo obrigatório!</p>');
         $('#alertMsg').addClass('error');
         $('#user-login-email').focus();
@@ -203,29 +203,29 @@ function resetLogin(){
     }
 
     $.ajax({
-        url:"http://localhost/projeto-biblioteca/private/controller/Login.controller.php",
-        method:"POST",
-        async:true,
-        data:{
-            fxLogin:fxLogin,
-            userLogin:userLogin,
-            userPassword:userPassword,
-            userConfirmPassword:userConfirmPassword,
+        url: "http://localhost/projeto-biblioteca/private/controller/Login.controller.php",
+        method: "POST",
+        async: true,
+        data: {
+            fxLogin: fxLogin,
+            userLogin: userLogin,
+            userPassword: userPassword,
+            userConfirmPassword: userConfirmPassword,
             idRec: idRec
         }
     })
 
-    .done(function(result){
-        if(result['status']){
-            //document.getElementById("alertMsg").innerHTML = result.msg;
-            $('#alertMsg').removeClass("error");
-            $('#alertMsg').html(result.msg).addClass("success");
-        }else{
-            $('#alertMsg').removeClass("success");
-            $('#alertMsg').html(result.msg).addClass("error");
-        }
-    })
-   
+        .done(function (result) {
+            if (result['status']) {
+                //document.getElementById("alertMsg").innerHTML = result.msg;
+                $('#alertMsg').removeClass("error");
+                $('#alertMsg').html(result.msg).addClass("success");
+            } else {
+                $('#alertMsg').removeClass("success");
+                $('#alertMsg').html(result.msg).addClass("error");
+            }
+        })
+
 
 }
 

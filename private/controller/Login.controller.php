@@ -68,7 +68,6 @@ switch ($fxLogin) {
                 $LOGIN->setWhatsapp($whatsapp);
                 $LOGIN->setCpf($cpf);
                 $LOGIN->setUserPassword($userPassword);
-                $LOGIN->setConfirmPassword($confirmPassword);
                 // Função de cadastro
                 $LOGIN->cadastroLogin($fxLogin);
                 // Retornando o resultado do cadastro
