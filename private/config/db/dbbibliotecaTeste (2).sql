@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `tbl_acesso` (
-  `idAcesso` int(4) NOT NULL,
+  `idAcesso` int(1) NOT NULL,
   `tipo` int(2) NOT NULL,
   `descricao` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -52,8 +52,8 @@ CREATE TABLE `tbl_andar` (
 INSERT INTO `tbl_andar` (`idAndar`, `descricao`) VALUES
 (1, '1° andar'),
 (2, '2° andar'),
-(3, '3° andar');
-(4, '4°andar');
+(3, '3° andar'),
+(4, '4° andar');
 
 -- --------------------------------------------------------
 
@@ -83,6 +83,7 @@ CREATE TABLE `tbl_livro` (
   `condicao` varchar(50) NOT NULL,
   `codigoLivro` int(11) NOT NULL,
   `autor` varchar(45) NOT NULL,
+  `anoLancamento` date NOT NULL,
   `FK_andar` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -100,8 +101,16 @@ CREATE TABLE `tbl_login` (
   `cpf` varchar(15) NOT NULL,
   `senha` varchar(60) NOT NULL,
   `hash` varchar(60) NOT NULL,
-  `FK_idAcesso` int(11) NOT NULL
+  `FK_idAcesso` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tbl_login`
+--
+
+INSERT INTO `tbl_login` (`idLogin`, `nome`, `email`, `whatsapp`, `cpf`, `senha`, `hash`, `FK_idAcesso`) VALUES
+(30, 'Ronaldo Luiz', 'ronaldo@gmail.com', '1111111', '2222222', '$2b$09$35c9a940f021a234bd335uki1COiMHpHqtQJGgwufNIBEAabDw01m', '$2b$08$9970eed0c06dfe3b3beb0uWqkGh0Pl2RfkrhZtC92lvCWqMhUFXxK', 2),
+(31, 'Ana', 'ana@gmail.com', '222222', '3333333', '$2b$09$115d3c551e205494e16a6O6DAfO45lugzdJZLRODvZrYNpwSnnQMu', '$2b$08$59ec18006207f1183c891ONLFYIm7BRSNCBNLR236GB6Q9dM7ixx6', 1);
 
 -- --------------------------------------------------------
 
@@ -203,7 +212,7 @@ ALTER TABLE `tbl_acesso`
 -- AUTO_INCREMENT de tabela `tbl_andar`
 --
 ALTER TABLE `tbl_andar`
-  MODIFY `idAndar` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idAndar` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_emprestimo`
@@ -215,13 +224,13 @@ ALTER TABLE `tbl_emprestimo`
 -- AUTO_INCREMENT de tabela `tbl_livro`
 --
 ALTER TABLE `tbl_livro`
-  MODIFY `idCadLivro` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `idCadLivro` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_login`
 --
 ALTER TABLE `tbl_login`
-  MODIFY `idLogin` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `idLogin` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_relatorio`

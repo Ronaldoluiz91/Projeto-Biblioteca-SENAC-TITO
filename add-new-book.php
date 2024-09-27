@@ -43,6 +43,11 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
                 <input type="text" id="condLivro" name="condLivro" class="design-input" placeholder="Digite a condição do Livro" required>
             </div>
 
+            <div>
+                <label for="anoLancamento" class="text-form">Ano Lançamento:</label>
+                <input type="date" id="anoLancamento" name="anoLancamento" class="design-input"  required>
+            </div>
+
 
             <div>
                 <label for="editora" class="text-form">Codigo do Livro:</label>

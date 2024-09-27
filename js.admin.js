@@ -6,12 +6,13 @@ if (cadLivro) {
         var nomeLivro = document.getElementById("nomeLivro").value;
         var quantidade = document.getElementById("quantLivro").value;
         var condicao = document.getElementById("condLivro").value;
+        var anoLancamento = document.getElementById("anoLancamento").value;
         var codigo = document.getElementById("codigoLivro").value;
         var autor = document.getElementById("autorLivro").value;
         var andar = document.getElementById('andar').value;
 
         // Verifica se todos os campos obrigatórios estão preenchidos
-        if (!nomeLivro || !quantidade || !condicao || !codigo || !autor || !andar) {
+        if (!nomeLivro || !quantidade || !condicao || !codigo || !autor || !andar || !anoLancamento) {
             document.getElementById("mensagem").innerHTML = `<p style="color: red;">Por favor, preencha todos os campos.</p>`;
             return;
         }else{
@@ -24,6 +25,7 @@ if (cadLivro) {
                  nomeLivro: nomeLivro,
                  quantidade: quantidade,
                  condicao: condicao,
+                 anoLancamento: anoLancamento,
                  codigo: codigo,
                  autor: autor,
                  andar: andar

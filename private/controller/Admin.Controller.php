@@ -7,11 +7,12 @@ $LIVRO = new LIVRO();
 $nomeLivro = $_POST['nomeLivro'];
 $quantidade = $_POST['quantidade'];
 $condicao = $_POST['condicao'];
+$anoLancamento = $_POST['anoLancamento'];
 $codigo = $_POST['codigo'];
 $autor = $_POST['autor'];
 $andar = $_POST['andar'];
 
-if (empty($nomeLivro) || empty($quantidade) || empty($condicao) || empty($codigo) || empty($autor) || empty($andar)) {
+if (empty($nomeLivro) || empty($quantidade) || empty($condicao) || empty($codigo) || empty($autor) || empty($andar) || empty($anoLancamento)) {
     $result = [
         'status' => true,
         'msg' => "preencha todos os campos bbb"
@@ -21,6 +22,7 @@ if (empty($nomeLivro) || empty($quantidade) || empty($condicao) || empty($codigo
     $LIVRO->setNomeLivro($nomeLivro);
     $LIVRO->setQuantidade($quantidade);
     $LIVRO->setCondicao($condicao);
+    $LIVRO->setAnoLancamento($anoLancamento);
     $LIVRO->setCodigo($codigo);
     $LIVRO->setAutor($autor);
     $LIVRO->setAndar($andar);

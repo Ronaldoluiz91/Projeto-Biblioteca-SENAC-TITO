@@ -30,7 +30,7 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
                 <h3 class="titulo-form">Preencha os campos abaixo para o Adicionar Livros</h3>
                 <form id="form-emprestimo">
                     <!-- Campo Nome do livro -->
-                    <label for="livro" class="text-form">Nome do livro</label>
+                    <label for="livro" class="text-form">Livros disponiveis:</label>
                     <select name="livro" id="livro" class="design-input" required>
                         <option value="">Selecione o livro</option>
                         <?php

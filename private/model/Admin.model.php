@@ -5,6 +5,7 @@ class LIVRO
     private $nomeLivro;
     private $quantidade;
     private $condicao;
+    private $anoLancamento;
     private $autor;
     private $codigo;
     private $andar;
@@ -40,6 +41,15 @@ class LIVRO
     public function getCondicao(string $condicao)
     {
         return $this->condicao;
+    }
+
+    public function setAnoLancamento(string $anoLancamento)
+    {
+        $this->anoLancamento = $anoLancamento;
+    }
+    public function getAnoLancamento()
+    {
+        return $this->anoLancamento;
     }
 
     public function setAutor(string $autor)
@@ -78,14 +88,15 @@ public function getAndar(){
         $quantidade = $this->quantidade;
         $condicao = $this->condicao;
         $autor = $this->autor;
+        $ano = $this->anoLancamento;
         $codigo = $this->codigo;
         $andar = $this->andar;
 
         require "../config/db/conn.php";
 
         // Insere o novo livro no banco de dados
-        $insertSql = "INSERT INTO tbl_livro (idCadLivro, nomeLivro, quantidadeDisp, condicao, codigoLivro, autor, FK_andar) 
-          VALUES (null, :nomeLivro, :quantidade, :condicao, :codigoLivro, :autor, :andar)";
+        $insertSql = "INSERT INTO tbl_livro (idCadLivro, nomeLivro, quantidadeDisp, condicao, codigoLivro, autor, anoLancamento, FK_andar) 
+          VALUES (null, :nomeLivro, :quantidade, :condicao, :codigoLivro, :autor, :ano, :andar)";
         $insertStmt = $conn->prepare($insertSql);
 
         // Executa a inserção
@@ -95,6 +106,7 @@ public function getAndar(){
             ':condicao' => $condicao,
             ':codigoLivro' => $codigo,
             ':autor' => $autor,
+            ':ano'=> $ano,
             'andar'=> $andar
         ]);
 
