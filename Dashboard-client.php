@@ -27,75 +27,73 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
     <main>
         <div class="container-form">
             <div class="forms">
-                <h3 class="titulo-form">Preencha os campos abaixo para o Adicionar Livros</h3>
-                <form id="form-emprestimo">
-                    <!-- Campo Nome do livro -->
-                    <label for="livro" class="text-form">Livros disponiveis:</label>
-                    <select name="livro" id="livro" class="design-input" required>
-                        <option value="">Selecione o livro</option>
-                        <?php
-                        // Conexão com o banco de dados
-                        require "private/config/db/conn.php"; // Inclui a conexão com o banco de dados
-
-                        try {
-                            // Consulta SQL para buscar os livros
-                            $sql = "SELECT idCadLivro, nomeLivro FROM tbl_livro"; 
-                            $stmt = $conn->prepare($sql);
-                            $stmt->execute();
-
-                            // Verifica se a consulta retornou resultados
-                            if ($stmt->rowCount() > 0) {
-                                // Itera pelos resultados e cria os options
-                                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                    echo '<option value="' . htmlspecialchars($row['idCadLivro']) . '">' . htmlspecialchars($row['nomeLivro']) . '</option>';
-                                }
-                            } else {
-                                echo '<option value="">Nenhum livro disponível</option>'; // Opção se não houver livros
-                            }
-                        } catch (PDOException $e) {
-                            echo '<option value="">Erro ao carregar livros</option>'; // Tratar erro
-                            // Log do erro, se necessário
-                            // error_log("Erro ao buscar livros: " . $e->getMessage());
-                        }
-                        ?>
-                    </select>
+                <h3 class="titulo-form">Preencha os campos abaixo para realizar seu empréstimo</h3>
 
 
-                    <!-- Campo Quantidade de livros -->
-                    <label for="quantidade" class="text-form">Quantos livros deseja alugar</label>
-                    <select name="quantidade" id="quantidade" class="design-input" required>
-                        <option value="">Selecione a quantidade</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-
-                    <!-- Campo Andar -->
-                    <label for="andar" class="text-form">Selecione o Andar:</label>
-                <select name="andar" id="andar" class="design-input" required>
-                    <option value="">Selecione o andar</option>
+                <label for="livro" class="text-form">Acervo de Livros:</label>
+                <select name="livro" id="livro" class="design-input" required>
+                    <option value="">Selecione o livro</option>
                     <?php
-                    // Conexão com o banco de dados
-                    require "private/config/db/conn.php"; 
+                    try {
+                        require "private/config/db/conn.php";
+                        // Consulta juntando a tblLivro e tblStatus
+                        $query = "SELECT l.idCadLivro, l.nomeLivro, s.descricao AS statusDescricao
+                                      FROM tbl_livro l
+                                      INNER JOIN tbl_status s ON l.FK_status = s.idStatus";
 
-                    // Consulta SQL para buscar os andares
-                    $sql = "SELECT idAndar, descricao FROM tbl_andar";
-                    $stmt = $conn->prepare($sql);
-                    $stmt->execute();
+                        $stmt = $conn->prepare($query);
+                        $stmt->execute();
 
-                    // Itera pelos resultados e cria os options
-                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                        echo '<option value="' . $row['idAndar'] . '">' . $row['descricao'] . '</option>';
+                        // Verifica se a consulta retornou algum resultado
+                        if ($stmt->rowCount() > 0) {
+                            // Iterar sobre os resultados e criar os options
+                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                $id = htmlspecialchars($row['idCadLivro']);
+                                $nomeLivro = htmlspecialchars($row['nomeLivro']);
+                                $status = htmlspecialchars($row['statusDescricao']);
+
+                                // Criar as opções do select
+                                echo '<option value="' . $id . '">' . $nomeLivro . ' - ' . $status . '</option>';
+                            }
+                        } else {
+                            echo '<option value="">Nenhum livro encontrado</option>';
+                        }
+                    } catch (PDOException $e) {
+                        echo "Erro: " . $e->getMessage();
                     }
+
                     ?>
                 </select>
 
-                    <!-- Botão de alugar -->
-                    <button type="submit" class="design-input">Alugar</button>
-                    <button type="submit" class="design-input">Renovar Aluguel</button>
-                </form>
+                <label for="andar" class="text-form">Selecione o Andar:</label>
+                <select name="andar" id="andar" class="design-input" required>
+                    <option value="">Selecione o andar</option>
+                    <?php
+                    try {
+                        require "private/config/db/conn.php";
+                        // Consulta SQL para buscar os andares
+                        $sql = "SELECT idAndar, descricao FROM tbl_andar";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->execute();
+
+                        // Itera pelos resultados e cria os options
+                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            echo '<option value="' . $row['idAndar'] . '">' . $row['descricao'] . '</option>';
+                        }
+                    } catch (PDOException $e) {
+                        echo "Erro: " . $e->getMessage();
+                    }
+
+                    ?>
+                </select>
+
+                <button type="submit" id="btn-alugar" class="design-input">Alugar</button>
+
+
+
+
+                <button type="submit" class="design-input">Renovar Aluguel</button>
+
             </div>
         </div>
         <br>

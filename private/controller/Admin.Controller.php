@@ -31,4 +31,5 @@ if (empty($nomeLivro) || empty($quantidade) || empty($condicao) || empty($codigo
      $result = $LIVRO->addLivro();
 }
 
+
 echo json_encode($result);

@@ -71,15 +71,14 @@ class LIVRO
     {
         return $this->codigo;
     }
-public function setAndar(string $andar)
-{
-    $this->andar = $andar;
-}
-public function getAndar(){
-    return $this->andar;
-}
-
-
+    public function setAndar(string $andar)
+    {
+        $this->andar = $andar;
+    }
+    public function getAndar()
+    {
+        return $this->andar;
+    }
 
 
     public function addLivro()
@@ -92,11 +91,13 @@ public function getAndar(){
         $codigo = $this->codigo;
         $andar = $this->andar;
 
+        $statusLivro = 4;  // cada novo cadastro de livro o status entra como disponivel
+
         require "../config/db/conn.php";
 
         // Insere o novo livro no banco de dados
-        $insertSql = "INSERT INTO tbl_livro (idCadLivro, nomeLivro, quantidadeDisp, condicao, codigoLivro, autor, anoLancamento, FK_andar) 
-          VALUES (null, :nomeLivro, :quantidade, :condicao, :codigoLivro, :autor, :ano, :andar)";
+        $insertSql = "INSERT INTO tbl_livro (idCadLivro, nomeLivro, quantidadeDisp, condicao, codigoLivro, autor, anoLancamento, FK_andar, FK_status) 
+          VALUES (null, :nomeLivro, :quantidade, :condicao, :codigoLivro, :autor, :ano, :andar , :statusLivro)";
         $insertStmt = $conn->prepare($insertSql);
 
         // Executa a inserção
@@ -106,8 +107,9 @@ public function getAndar(){
             ':condicao' => $condicao,
             ':codigoLivro' => $codigo,
             ':autor' => $autor,
-            ':ano'=> $ano,
-            'andar'=> $andar
+            ':ano' => $ano,
+            'andar' => $andar,
+            'statusLivro' => $statusLivro,
         ]);
 
         $result = [
@@ -117,4 +119,6 @@ public function getAndar(){
 
         return $result;
     }
+
+    
 }

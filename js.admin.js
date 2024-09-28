@@ -15,20 +15,20 @@ if (cadLivro) {
         if (!nomeLivro || !quantidade || !condicao || !codigo || !autor || !andar || !anoLancamento) {
             document.getElementById("mensagem").innerHTML = `<p style="color: red;">Por favor, preencha todos os campos.</p>`;
             return;
-        }else{
-             // Envia os dados para o controller via AJAX
-             $.ajax({
+        } else {
+            // Envia os dados para o controller via AJAX
+            $.ajax({
                 url: "http://localhost/projeto-biblioteca/private/controller/Admin.Controller.php",
                 method: "POST",
                 async: true,
                 data: {
-                 nomeLivro: nomeLivro,
-                 quantidade: quantidade,
-                 condicao: condicao,
-                 anoLancamento: anoLancamento,
-                 codigo: codigo,
-                 autor: autor,
-                 andar: andar
+                    nomeLivro: nomeLivro,
+                    quantidade: quantidade,
+                    condicao: condicao,
+                    anoLancamento: anoLancamento,
+                    codigo: codigo,
+                    autor: autor,
+                    andar: andar
                 }
             })
                 .done(function (result) {
@@ -43,7 +43,38 @@ if (cadLivro) {
         }
 
     });
-    }
+}
+
+
+//FORMULARIO DE EMPRESTIMOS 
+
+$(document).ready(function () {
+    $('#btn-alugar').on('click', function (e) {
+        e.preventDefault(); // Impede o envio do formulário padrão
+
+        var livroId = $('#livro').val();
+
+        if (livroId === "") {
+            alert("Por favor, selecione um livro.");
+            return;
+        }
+
+        $.ajax({
+            url: 'http://localhost/projeto-biblioteca/private/controller/User-controller.php',
+            type: 'POST',
+            data: {
+                livroId: livroId
+            },
+            dataType: 'json',
+            success: function (response) {
+                alert(response.message); // Mostra a mensagem retornada
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("Erro: " + textStatus + " - " + errorThrown);
+            }
+        });
+    });
+});
 
 
 
@@ -73,36 +104,6 @@ if (cadLivro) {
 
 
 
-        // Criando um objeto com os dados
-        // var dadosLivro = {
-        //     nomeLivro: nomeLivro,
-        //     quantidade: quantidade,
-        //     condicao: condicao,
-        //     codigo: codigo,
-        //     autor: autor
-        // };
 
-        // Enviando os dados via fetch (AJAX)
-    //     fetch('http://localhost/projeto-biblioteca/private/controller/Admin.Controller.php', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(dadosLivro)
-    //     })
-    
-    //         .then(response => response.json()) // Convertendo a resposta em JSON
-    //         .then(data => {
-    //             var mensagemDiv = document.getElementById("mensagem");
-    //             if (data.sucesso) {
-    //                 mensagemDiv.innerHTML = `<p style="color: green;">${data.mensagem}</p>`;
-    //             } else {
-    //                 mensagemDiv.innerHTML = `<p style="color: red;">${data.mensagem}</p>`;
-    //             }
-    //         })
-    //         .catch(error => {
-    //             console.error('Erro:', error);
-    //             document.getElementById("mensagem").innerHTML = `<p style="color: red;">Erro ao enviar os dados.</p>`;
-    //         });
-    // });
+
 
