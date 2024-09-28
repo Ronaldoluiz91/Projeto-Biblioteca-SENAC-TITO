@@ -1,3 +1,5 @@
+
+// FUNÇÃO PARA ADICIONAR LIVROS
 const cadLivro = document.getElementById('cad-livro');
 if (cadLivro) {
     cadLivro.addEventListener('click', function (event) {
@@ -46,35 +48,6 @@ if (cadLivro) {
 }
 
 
-//FORMULARIO DE EMPRESTIMOS 
-
-$(document).ready(function () {
-    $('#btn-alugar').on('click', function (e) {
-        e.preventDefault(); // Impede o envio do formulário padrão
-
-        var livroId = $('#livro').val();
-
-        if (livroId === "") {
-            alert("Por favor, selecione um livro.");
-            return;
-        }
-
-        $.ajax({
-            url: 'http://localhost/projeto-biblioteca/private/controller/User-controller.php',
-            type: 'POST',
-            data: {
-                livroId: livroId
-            },
-            dataType: 'json',
-            success: function (response) {
-                alert(response.message); // Mostra a mensagem retornada
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert("Erro: " + textStatus + " - " + errorThrown);
-            }
-        });
-    });
-});
 
 
 

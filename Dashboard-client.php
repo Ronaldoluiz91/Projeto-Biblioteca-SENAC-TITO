@@ -14,11 +14,15 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca Itinerante - SENAC TITO</title>
-    <!-- Conexão com CSS externo -->
-    <link rel="stylesheet" href="public_html/assets/style.css">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="js.acoes.js"></script>
+    <script src="js.user.js"></script>
+    <!-- Conexão com CSS externo -->
+    <link rel="stylesheet" href="public_html/assets/style.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
@@ -76,7 +80,7 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
                         $stmt = $conn->prepare($sql);
                         $stmt->execute();
 
-                        // Itera pelos resultados e cria os options
+                        //  cria os options
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                             echo '<option value="' . $row['idAndar'] . '">' . $row['descricao'] . '</option>';
                         }
@@ -89,9 +93,6 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
 
                 <button type="submit" id="btn-alugar" class="design-input">Alugar</button>
 
-
-
-
                 <button type="submit" class="design-input">Renovar Aluguel</button>
 
             </div>
@@ -99,6 +100,27 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
         <br>
         <a href="logout.php">SAIR</a>
     </main>
+
+    <!-- Modal de Sucesso -->
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Boa leitura</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Seu empréstimo foi realizado com sucesso !
+                    <p id="modalMessage"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
