@@ -1,6 +1,6 @@
 /* Configurações gerais */
 * {
-    margin: 0;
+    /* margin: 0; */
     padding: 0;
     box-sizing: border-box;
 }
@@ -224,7 +224,7 @@ button.design-input:hover {
 
   h2 {
     text-align: center;
-    color: #333;
+    /* color: #333; */
   }
 
   .search-container {
@@ -311,6 +311,19 @@ button.design-input:hover {
 
   .add-book-container button:hover {
     background-color:  rgb(216, 68, 14);;
+  }
+
+
+  .design-inputRelatorio{
+    background-color: #F78B1F;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 18%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
   }
 
 

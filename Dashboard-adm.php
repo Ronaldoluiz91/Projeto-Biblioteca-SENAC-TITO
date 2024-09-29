@@ -23,35 +23,54 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
 
 <body id="relatorio">
 
-<h2>Relatório de Empréstimos por Mês</h2>
+  <h2>Relatório de Empréstimos por Mês</h2>
 
-<div class="search-container">
+  <div class="search-container">
     <form id="relatorioForm">
-        <label for="mes">Selecione o Mês:</label>
-        <input type="month" id="mes" name="mes" required>
 
-        <input type="hidden" name="mtAdmin" id="mtAdmin" value="relatorio">
+      <div id="mensagem"></div>
 
-        <button id="botaoBusca" type="button">Buscar</button>
+      <label for="mes">Selecione o Mês:</label>
+      <select id="mes">
+        <option value="">Selecione um mês</option>
+        <option value="1">Janeiro</option>
+        <option value="2">Fevereiro</option>
+        <option value="3">Março</option>
+        <option value="4">Abril</option>
+        <option value="5">Maio</option>
+        <option value="6">Junho</option>
+        <option value="7">Julho</option>
+        <option value="8">Agosto</option>
+        <option value="9">Setembro</option>
+        <option value="10">Outubro</option>
+        <option value="11">Novembro</option>
+        <option value="12">Dazezembro</option>
+     
+      </select>
+
+
+      <input type="hidden" name="mtAdmin" id="mtAdmin" value="relatorio">
+
+      <button id="botaoBusca" type="button" class="design-inputRelatorio">Buscar</button>
     </form>
-</div>
+  </div>
 
-<div class="table-container">
-    <table>
-        <thead>
-            <tr>
-                <th>Nome do Livro</th>
-                <th>Nome do Usuário</th>
-                <th>Data do Empréstimo</th>
-                <th>Data de Devolução</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody id="resultadoEmprestimos">
-            <!-- Os dados serão preenchidos dinamicamente com JavaScript -->
-        </tbody>
+  <div class="table-container">
+  <table style="color: black;">
+      <thead>
+        <tr>
+          <th>Nome do Livro</th>
+          <th>Nome do Usuário</th>
+          <th>Data do Empréstimo</th>
+          <th>Data de Devolução</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="resultadoEmprestimos">
+        <!-- Os dados serão preenchidos dinamicamente com JavaScript -->
+      </tbody>
     </table>
-</div>
+  </div>
 
 
 

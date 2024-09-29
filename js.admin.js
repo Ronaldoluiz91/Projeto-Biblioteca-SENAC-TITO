@@ -61,46 +61,59 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function buscarEmprestimos() {
         const mes = document.getElementById("mes").value;
+        console.log("Mês selecionado:", mes);
 
         if (!mes) {
             document.getElementById("mensagem").innerHTML = `<p style="color: red;">Por favor, selecione um mês.</p>`;
             return;
         }
 
-        $.ajax({
-            url: "http://localhost/projeto-biblioteca/private/controller/Admin.Controller.php",
-            method: "POST",
-            async: true,
-            data: {
-                mes: mes,
-                mtAdmin: 'relatorio'
-            }
-        })
-            .done(function (result) {
-                if (result.status) {
-                    const tbody = document.querySelector('tbody');
-                    tbody.innerHTML = ''; // Limpa a tabela antes de adicionar novos dados
+        // Verifique se 'mtAdmin' está definida
+        const mtAdmin = document.getElementById('mtAdmin') ? document.getElementById('mtAdmin').value : null;
 
+        if (!mtAdmin) {
+            console.error("mtAdmin não está definida ou não foi encontrada");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost/projeto-biblioteca/private/controller/Admin.Controller.php",
+            data: { mes: mes, mtAdmin: mtAdmin },
+            success: function (result) {
+                console.log(result); // Verifique a resposta recebida
+
+                // Limpa o conteúdo anterior do tbody
+                $("#resultadoEmprestimos").empty();
+
+                if (result.status) {
+                    // Popula o tbody com os dados recebidos
                     result.data.forEach(function (emprestimo) {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                        <td>${emprestimo.nomeLivro}</td>
-                        <td>${emprestimo.nomeUsuario}</td>
-                        <td>${emprestimo.dataEmprestimo}</td>
-                        <td>${emprestimo.dataDevolucao}</td>
-                        <td>${emprestimo.status}</td>
-                    `;
-                        tbody.appendChild(row);
+                        $("#resultadoEmprestimos").append(
+                            `<tr>
+                                <td>${emprestimo.nomeLivro}</td>
+                                <td>${emprestimo.nomeUsuario}</td>
+                                <td>${emprestimo.dataRetirada}</td>
+                                <td>${emprestimo.dataEntrega}</td> 
+                                <td>${emprestimo.status}</td>
+                            </tr>`
+                        );
                     });
                 } else {
-                    $('#mensagem').html(result.msg).addClass("error");
+                    // Caso não haja dados, exibe a mensagem apropriada
+                    $("#resultadoEmprestimos").append(
+                        `<tr>
+                            <td colspan="5">${result.msg}</td>
+                        </tr>`
+                    );
                 }
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                $('#mensagem').html("Ocorreu um erro: " + textStatus).addClass("error");
-            });
+            },
+
+        });
+
     }
 });
+
 
 
 

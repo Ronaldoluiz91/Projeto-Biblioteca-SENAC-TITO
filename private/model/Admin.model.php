@@ -10,16 +10,6 @@ class LIVRO
     private $codigo;
     private $andar;
 
-
-    private $conn; 
-
-    public function __construct() {
-        require "../config/db/conn.php"; 
-        $this->conn = $conn; // Atribui a conexão à propriedade
-    }
-
-
-
     public function setNomeLivro(string $nomeLivro)
     {
         $this->nomeLivro = $nomeLivro;
@@ -137,11 +127,29 @@ class LIVRO
         // Fechar a conexão após todas as operações
         $conn = null;
     }
+}
+
+
+class RELATORIO
+{
+    private $conn;
+
+    public function __construct()
+    {
+        require "../config/db/conn.php";
+        $this->conn = $conn; // Atribui a conexão à propriedade
+    }
 
     public function getEmprestimosPorMes($mes)
     {
         // Prepara a consulta
-        $stmt = $this->conn->prepare("SELECT * FROM tbl_emprestimo WHERE MONTH(dataRetirada) = ?");
+        $stmt = $this->conn->prepare("SELECT e.idEmprestimo, e.dataRetirada, e.dataEntrega, l.nomeLivro, u.nome AS nomeUsuario, s.descricao AS status
+         FROM tbl_emprestimo e
+        INNER JOIN tbl_livro l ON e.FK_idCadLivro = l.idCadLivro
+        INNER JOIN tbl_login u ON e.FK_idLogin = u.idLogin
+        INNER JOIN tbl_status s ON e.FK_idStatus = s.idStatus
+        WHERE MONTH(e.dataRetirada) = ? 
+        ORDER BY e.dataRetirada ASC;");
         $stmt->execute([$mes]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna todos os registros
     }

@@ -4,6 +4,8 @@ include("../model/Admin.model.php");
 
 $LIVRO = new LIVRO();
 
+$RELATORIO = new RELATORIO();
+
 $mtAdmin = $_POST['mtAdmin'];
 
 
@@ -43,21 +45,20 @@ switch ($mtAdmin) {
         }
         break;
 
-        case 'relatorio':
-            $mes = $_POST['mes'];
-            $mtAdmin = $_POST['mtAdmin'];
-        
-            if (empty($mes)) {
-                $result = [
-                    'status' => false,
-                    'msg' => "Por favor, preencha o mês para obter um relatório."
-                ];
-            } else {
-                // Chama a função para gerar o relatório
-                $result = $this->relatorioEmprestimos($mes); // Passe o mês como argumento
-            }
-            break;
-        
+    case 'relatorio':
+        $mes = $_POST['mes'];
+        $mtAdmin = $_POST['mtAdmin'];
+
+        if (empty($mes)) {
+            $result = [
+                'status' => false,
+                'msg' => "Por favor, preencha o mês para obter um relatório."
+            ];
+        } else {
+            // Chama a função para gerar o relatório
+            $result = $RELATORIO->relatorioEmprestimos($mes); // Passe o mês como argumento
+        }
+        break;
 }
 
 // Retorna a resposta como JSON

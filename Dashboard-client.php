@@ -5,7 +5,7 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
     header("Location: index.php");
     exit();
 }
- $usuario =  $_SESSION['idLogin'];
+$usuario =  $_SESSION['idLogin'];
 
 ?>
 
@@ -42,8 +42,10 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
                         require "private/config/db/conn.php";
                         // Consulta juntando a tblLivro e tblStatus
                         $query = "SELECT l.idCadLivro, l.nomeLivro, s.descricao AS statusDescricao
-                                      FROM tbl_livro l
-                                      INNER JOIN tbl_status s ON l.FK_status = s.idStatus";
+                         FROM tbl_livro l
+                         INNER JOIN tbl_status s ON l.FK_status = s.idStatus
+                         ORDER BY l.nomeLivro ASC;  
+ ";
 
                         $stmt = $conn->prepare($query);
                         $stmt->execute();
