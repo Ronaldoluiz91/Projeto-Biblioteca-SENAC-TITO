@@ -11,6 +11,14 @@ class LIVRO
     private $andar;
 
 
+    private $conn; 
+
+    public function __construct() {
+        require "../config/db/conn.php"; 
+        $this->conn = $conn; // Atribui a conexão à propriedade
+    }
+
+
 
     public function setNomeLivro(string $nomeLivro)
     {
@@ -91,34 +99,66 @@ class LIVRO
         $codigo = $this->codigo;
         $andar = $this->andar;
 
-        $statusLivro = 4;  // cada novo cadastro de livro o status entra como disponivel
+        $statusLivro = 4;  // Cada novo cadastro de livro o status entra como 'disponível'
 
         require "../config/db/conn.php";
 
-        // Insere o novo livro no banco de dados
-        $insertSql = "INSERT INTO tbl_livro (idCadLivro, nomeLivro, quantidadeDisp, condicao, codigoLivro, autor, anoLancamento, FK_andar, FK_status) 
-          VALUES (null, :nomeLivro, :quantidade, :condicao, :codigoLivro, :autor, :ano, :andar , :statusLivro)";
-        $insertStmt = $conn->prepare($insertSql);
+        try {
+            // Insere o novo livro no banco de dados
+            $insertSql = "INSERT INTO tbl_livro (idCadLivro, nomeLivro, quantidadeDisp, condicao, codigoLivro, autor, anoLancamento, FK_andar, FK_status) 
+              VALUES (null, :nomeLivro, :quantidade, :condicao, :codigoLivro, :autor, :ano, :andar, :statusLivro)";
+            $insertStmt = $conn->prepare($insertSql);
 
-        // Executa a inserção
-        $insertStmt->execute([
-            ':nomeLivro' => $nomeLivro,
-            ':quantidade' => $quantidade,
-            ':condicao' => $condicao,
-            ':codigoLivro' => $codigo,
-            ':autor' => $autor,
-            ':ano' => $ano,
-            'andar' => $andar,
-            'statusLivro' => $statusLivro,
-        ]);
+            // Executa a inserção
+            $insertStmt->execute([
+                ':nomeLivro' => $nomeLivro,
+                ':quantidade' => $quantidade,
+                ':condicao' => $condicao,
+                ':codigoLivro' => $codigo,
+                ':autor' => $autor,
+                ':ano' => $ano,
+                ':andar' => $andar,
+                ':statusLivro' => $statusLivro,
+            ]);
 
-        $result = [
-            'status' => true,
-            'msg' => "Cadastro realizado com sucesso",
-        ];
+            // Retorna a mensagem de sucesso
+            return [
+                'status' => true,
+                'msg' => "Cadastro realizado com sucesso",
+            ];
+        } catch (PDOException $e) {
+            // Em caso de erro, retorna a mensagem de erro
+            return [
+                'status' => false,
+                'msg' => "Erro ao cadastrar o livro: " . $e->getMessage(),
+            ];
+        }
 
-        return $result;
+        // Fechar a conexão após todas as operações
+        $conn = null;
     }
 
-    
+    public function getEmprestimosPorMes($mes)
+    {
+        // Prepara a consulta
+        $stmt = $this->conn->prepare("SELECT * FROM tbl_emprestimo WHERE MONTH(dataRetirada) = ?");
+        $stmt->execute([$mes]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna todos os registros
+    }
+
+    // Função para gerar o relatório de empréstimos via AJAX
+    public function relatorioEmprestimos($mes)
+    {
+        // Chama a função para pegar os empréstimos
+        $emprestimos = $this->getEmprestimosPorMes($mes);
+
+        // Verifica se a consulta retornou resultados
+        if ($emprestimos) {
+            // Retorna os dados em formato JSON
+            echo json_encode(['status' => true, 'data' => $emprestimos]);
+        } else {
+            echo json_encode(['status' => false, 'msg' => 'Nenhum empréstimo encontrado para este mês.']);
+        }
+        exit(); // Não esquecer de encerrar a execução após o echo
+    }
 }

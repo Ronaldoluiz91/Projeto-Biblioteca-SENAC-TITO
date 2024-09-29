@@ -12,6 +12,12 @@ body, html {
     align-items: center;
 }
 
+body {
+  background: linear-gradient(to bottom, #003366, #85bbd6); /* Degradê de azul escuro para um azul mais claro */
+  color: white; /* Opcional: muda a cor do texto para branco para melhor contraste */
+}
+
+
 /* Imagem de fundo ocupando toda a tela */
 .img-fundo {
     position: absolute;
@@ -43,7 +49,7 @@ body, html {
 }
 
 .titulo-form{
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; */
     color: white;
     font-family: inter bold;
 }
@@ -112,6 +118,10 @@ button.design-input:hover {
     text-align: center; 
     border-radius: 8px; /* Bordas arredondadas */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
+}
+
+.modal-content-login p{
+  color: #333; 
 }
 
 .close-btn-login {

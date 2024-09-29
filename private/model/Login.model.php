@@ -52,11 +52,12 @@ class LOGIN
         return $this->newEmail;
     }
 
-    public function setWhatsapp (string $whatsapp)
+    public function setWhatsapp(string $whatsapp)
     {
         $this->whatsapp = $whatsapp;
     }
-    public function getWhatsapp(){
+    public function getWhatsapp()
+    {
         return $this->whatsapp;
     }
 
@@ -106,12 +107,14 @@ class LOGIN
         $emailDB = "";
         $passwordDB = "";
         $acesso = "";
+        $idLogin = "";
 
         if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             // Extrai os dados do banco de dados
             $emailDB = $row['email'];
             $passwordDB = $row['senha'];
             $acesso = $row['FK_idAcesso'];
+            $idLogin = $row['idLogin'];
 
             include_once('Crypt.model.php');
             $Crypt = new Crypt();
@@ -130,12 +133,14 @@ class LOGIN
                     $result = [
                         'status' => true,
                         // 'msg' => "Usuario valido",
+                        'idLogin' => $idLogin, // Adicione o idLogin ao retorno
                         'dashboard' => 'http://localhost/projeto-biblioteca/Dashboard-client.php',
                     ];
                 } else {
                     $result = [
                         'status' => true,
                         // 'msg' => "Usuario valido",
+                        'idLogin' => $idLogin, // Adicione o idLogin ao retorno
                         'dashboard' => 'http://localhost/projeto-biblioteca/Dashboard-adm.php',
                     ];
                 }
@@ -156,6 +161,9 @@ class LOGIN
         }
         // Retorna o resultado da validação
         return $this->fxLogin = $result;
+
+        // Fechar a conexão após todas as operações
+        $conn = null;
     }
 
 
@@ -180,7 +188,7 @@ class LOGIN
 
         $emailDB = "";
         $cpfDB = "";
-       
+
 
         if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $emailDB = $row['email'];
@@ -209,7 +217,7 @@ class LOGIN
             $insertStmt->execute([
                 ':nome' => $newUser,
                 ':email' => $newEmail,
-                ':whatsapp'=> $whatsapp,
+                ':whatsapp' => $whatsapp,
                 ':cpf' => $cpf,
                 ':senha' => $hashedPassword,
                 ':acesso' => $acesso,
@@ -224,6 +232,9 @@ class LOGIN
 
         // Retorna o resultado da operação
         return $this->fxLogin = $result;
+
+        // Fechar a conexão após todas as operações
+        $conn = null;
     }
 
 
@@ -265,6 +276,9 @@ class LOGIN
             ];
         }
         return $this->fxLogin = $result;
+
+        // Fechar a conexão após todas as operações
+        $conn = null;
     }
 
     //-------- FUNÇÃO PARA INCLUIR NOVA SENHA NO DB----------------
@@ -316,5 +330,8 @@ class LOGIN
         }
 
         return $this->fxLogin = $result;
+
+        // Fechar a conexão após todas as operações
+        $conn = null;
     }
 }

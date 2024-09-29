@@ -1,3 +1,4 @@
+// LOGIN
 document.addEventListener('DOMContentLoaded', function () {
     // Adiciona o evento de clique para o botão de login
     const loginBtn = document.getElementById('login-btn');
@@ -199,6 +200,12 @@ function resetLogin() {
         $('#alertMsg').html('<p>Usuário - Preencha o campo obrigatório!</p>');
         $('#alertMsg').addClass('error');
         $('#user-login-email').focus();
+        return;
+    }
+
+    if( userPassword != userConfirmPassword){
+        $('#alertMsg').html('<p>Usuário - As senhas não combinam!</p>');
+        $('#alertMsg').addClass('error');
         return;
     }
 

@@ -12,7 +12,7 @@ switch ($fxLogin) {
     case 'Logar':
         $userLogin = $_POST['email'];
         $userPassword = $_POST['senha'];
-
+        
         // Verificando se algum dos campos está vazio
         if (empty($userLogin) || empty($userPassword)) {
             $result = [
@@ -34,6 +34,7 @@ switch ($fxLogin) {
                 //Criando a sessão com o login bem sucedido
                 $_SESSION['userLogin'] = $userLogin;
                 $_SESSION['loginValido'] = true;
+                $_SESSION['idLogin'] = $result['idLogin'];
             }
         }
         break;

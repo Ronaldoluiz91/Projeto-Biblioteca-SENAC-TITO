@@ -7,11 +7,11 @@
     <title>Biblioteca Itinerante - SENAC TITO</title>
 
     <!-- Conexão com CSS externo -->
-    <link rel="stylesheet" href="public_html/assets/style.css">
+    <link rel="stylesheet" href="public/assets/style.css">
 </head>
 
 <body>
-    <img class="img-fundo" src="public_html/midias/midia-senac.jpeg">
+<!-- <img class="img-fundo" src="public/midias/midia-senac.jpeg"> -->
 
     <main>
         <div class="container-form">

@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Usuário</title>
-    <link rel="stylesheet" href="public_html/assets/style.css">
+    <link rel="stylesheet" href="public/assets/style.css">
 </head>
 
 <body>
-    <img class="img-fundo" src="public_html/midias/midia-senac.jpeg">
+<img class="img-fundo" src="public/midias/midia-senac.jpeg">
 
 
     <main>

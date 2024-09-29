@@ -5,6 +5,8 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
     header("Location: index.php");
     exit();
 }
+ $usuario =  $_SESSION['idLogin'];
+
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +20,7 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js.user.js"></script>
     <!-- Conexão com CSS externo -->
-    <link rel="stylesheet" href="public_html/assets/style.css">
+    <link rel="stylesheet" href="public/assets/style.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Bootstrap -->
@@ -26,14 +28,12 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
 </head>
 
 <body>
-    <img class="img-fundo" src="public_html/midias/midia-senac.jpeg">
+    <!-- <img class="img-fundo" src="public_html/midias/midia-senac.jpeg"> -->
 
     <main>
         <div class="container-form">
             <div class="forms">
                 <h3 class="titulo-form">Preencha os campos abaixo para realizar seu empréstimo</h3>
-
-
                 <label for="livro" class="text-form">Acervo de Livros:</label>
                 <select name="livro" id="livro" class="design-input" required>
                     <option value="">Selecione o livro</option>
@@ -68,7 +68,6 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
 
                     ?>
                 </select>
-
                 <label for="andar" class="text-form">Selecione o Andar:</label>
                 <select name="andar" id="andar" class="design-input" required>
                     <option value="">Selecione o andar</option>
@@ -87,9 +86,11 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
                     } catch (PDOException $e) {
                         echo "Erro: " . $e->getMessage();
                     }
-
                     ?>
                 </select>
+
+                <input type="hidden" id="usuarioEmail" name="usuarioEmail" value="<?php echo $usuario; ?>">
+
 
                 <button type="submit" id="btn-alugar" class="design-input">Alugar</button>
 
@@ -101,7 +102,12 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
         <a href="logout.php">SAIR</a>
     </main>
 
-    <!-- Modal de Sucesso -->
+    <?php
+    // Fechar a conexão após todas as operações
+    $conn = null;
+    ?>
+
+    <!-- Modal de Sucesso e erro -->
     <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -112,8 +118,7 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
                     </button>
                 </div>
                 <div class="modal-body">
-                    Seu empréstimo foi realizado com sucesso !
-                    <p id="modalMessage"></p>
+                    <p id="modalMessage">Seu empréstimo foi realizado com sucesso!</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -121,8 +126,6 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
             </div>
         </div>
     </div>
-
-
 
 </body>
 
