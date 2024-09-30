@@ -70,22 +70,7 @@ CREATE TABLE `tbl_emprestimo` (
   `FK_idLogin` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `tbl_emprestimo`
---
 
-INSERT INTO `tbl_emprestimo` (`idEmprestimo`, `dataRetirada`, `dataEntrega`, `FK_idCadLivro`, `FK_idStatus`, `FK_idLogin`) VALUES
-(2, '2024-09-29', '2024-10-14', 25, 5, 31),
-(7, '2024-09-08', '2024-09-23', 22, 5, 33),
-(9, '2024-09-05', '2024-09-20', 24, 5, 31),
-(10, '2024-09-29', '2024-10-14', 30, 5, 31),
-(11, '2024-09-29', '2024-10-14', 31, 5, 30),
-(12, '2024-09-29', '2024-10-14', 21, 5, 30),
-(13, '2024-09-29', '2024-10-14', 31, 5, 31);
-
--- --------------------------------------------------------
-
---
 -- Estrutura para tabela `tbl_livro`
 --
 
@@ -106,11 +91,11 @@ CREATE TABLE `tbl_livro` (
 --
 
 INSERT INTO `tbl_livro` (`idCadLivro`, `nomeLivro`, `quantidadeDisp`, `condicao`, `codigoLivro`, `autor`, `anoLancamento`, `FK_andar`, `FK_status`) VALUES
-(21, 'Biomecânica Básica', 1, 'Novo', '15', 'Susan J. Hall', 1953, 4, 5),
-(22, 'A outra face', 2, 'Novo', '7', 'Sidney Sheldon', 1994, 4, 5),
-(24, 'Cerveja com Design', 1, 'Usado', '0010', 'Miriam Gurgel; José Marcio F. Cunha', 2017, 4, 5),
-(25, 'Saúde com Sabor', 1, 'Usado', '0012', 'Eunice Leme Vidal', 2004, 4, 5),
-(29, 'Atlas das Cidades', 1, 'Usado', '0028', 'Paul Knox org.', 2016, 4, 5);
+(21, 'Biomecânica Básica', 1, 'Novo', '15', 'Susan J. Hall', 1953, 4, 4),
+(22, 'A outra face', 2, 'Novo', '7', 'Sidney Sheldon', 1994, 4, 4),
+(24, 'Cerveja com Design', 1, 'Usado', '0010', 'Miriam Gurgel; José Marcio F. Cunha', 2017, 4, 4),
+(25, 'Saúde com Sabor', 1, 'Usado', '0012', 'Eunice Leme Vidal', 2004, 4, 4),
+(29, 'Atlas das Cidades', 1, 'Usado', '0028', 'Paul Knox org.', 2016, 4, 4);
 
 
 -- --------------------------------------------------------
