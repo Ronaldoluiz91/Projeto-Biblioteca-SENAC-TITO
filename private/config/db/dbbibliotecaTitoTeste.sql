@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `tbl_acesso` (
-  `idAcesso` int(1) NOT NULL,
+  `idAcesso` int(4) NOT NULL,
   `tipo` int(2) NOT NULL,
   `descricao` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -70,6 +70,19 @@ CREATE TABLE `tbl_emprestimo` (
   `FK_idLogin` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Despejando dados para a tabela `tbl_emprestimo`
+--
+
+INSERT INTO `tbl_emprestimo` (`idEmprestimo`, `dataRetirada`, `dataEntrega`, `FK_idCadLivro`, `FK_idStatus`, `FK_idLogin`) VALUES
+(2, '2024-09-29', '2024-10-14', 25, 5, 31),
+(7, '2024-09-08', '2024-09-23', 22, 5, 33),
+(9, '2024-09-05', '2024-09-20', 24, 5, 31),
+(10, '2024-09-29', '2024-10-14', 30, 5, 31),
+(11, '2024-09-29', '2024-10-14', 31, 5, 30),
+(12, '2024-09-29', '2024-10-14', 21, 5, 30),
+(13, '2024-09-29', '2024-10-14', 31, 5, 31);
+
 -- --------------------------------------------------------
 
 --
@@ -81,11 +94,24 @@ CREATE TABLE `tbl_livro` (
   `nomeLivro` varchar(70) NOT NULL,
   `quantidadeDisp` int(4) NOT NULL,
   `condicao` varchar(50) NOT NULL,
-  `codigoLivro` int(11) NOT NULL,
+  `codigoLivro` varchar(15) NOT NULL,
   `autor` varchar(45) NOT NULL,
-  `anoLancamento` date NOT NULL,
-  `FK_andar` int(1) NOT NULL
+  `anoLancamento` int(4) NOT NULL,
+  `FK_andar` int(1) NOT NULL,
+  `FK_status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tbl_livro`
+--
+
+INSERT INTO `tbl_livro` (`idCadLivro`, `nomeLivro`, `quantidadeDisp`, `condicao`, `codigoLivro`, `autor`, `anoLancamento`, `FK_andar`, `FK_status`) VALUES
+(21, 'Biomecânica Básica', 1, 'Novo', '15', 'Susan J. Hall', 1953, 4, 5),
+(22, 'A outra face', 2, 'Novo', '7', 'Sidney Sheldon', 1994, 4, 5),
+(24, 'Cerveja com Design', 1, 'Usado', '0010', 'Miriam Gurgel; José Marcio F. Cunha', 2017, 4, 5),
+(25, 'Saúde com Sabor', 1, 'Usado', '0012', 'Eunice Leme Vidal', 2004, 4, 5),
+(29, 'Atlas das Cidades', 1, 'Usado', '0028', 'Paul Knox org.', 2016, 4, 5);
+
 
 -- --------------------------------------------------------
 
@@ -101,7 +127,7 @@ CREATE TABLE `tbl_login` (
   `cpf` varchar(15) NOT NULL,
   `senha` varchar(60) NOT NULL,
   `hash` varchar(60) NOT NULL,
-  `FK_idAcesso` int(1) NOT NULL
+  `FK_idAcesso` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -109,8 +135,10 @@ CREATE TABLE `tbl_login` (
 --
 
 INSERT INTO `tbl_login` (`idLogin`, `nome`, `email`, `whatsapp`, `cpf`, `senha`, `hash`, `FK_idAcesso`) VALUES
-(30, 'Ronaldo Luiz', 'ronaldo@gmail.com', '1111111', '2222222', '$2b$09$35c9a940f021a234bd335uki1COiMHpHqtQJGgwufNIBEAabDw01m', '$2b$08$9970eed0c06dfe3b3beb0uWqkGh0Pl2RfkrhZtC92lvCWqMhUFXxK', 2),
-(31, 'Ana', 'ana@gmail.com', '222222', '3333333', '$2b$09$115d3c551e205494e16a6O6DAfO45lugzdJZLRODvZrYNpwSnnQMu', '$2b$08$59ec18006207f1183c891ONLFYIm7BRSNCBNLR236GB6Q9dM7ixx6', 1);
+(30, 'Ronaldo Luiz', 'ronaldo@gmail.com', '1111111', '2222222', '$2b$09$35c9a940f021a234bd335uki1COiMHpHqtQJGgwufNIBEAabDw01m', '$2b$08$3cca3a2e5fa953c7ea6b7OKYI69eJDG/42.we4mhbyib2pZUBxYna', 2),
+(31, 'Ana', 'ana@gmail.com', '222222', '3333333', '$2b$09$115d3c551e205494e16a6O6DAfO45lugzdJZLRODvZrYNpwSnnQMu', '$2b$08$59ec18006207f1183c891ONLFYIm7BRSNCBNLR236GB6Q9dM7ixx6', 1),
+(32, 'gggggggggggggg', 'ddddddddddddddd', '1111111111', '22222222222222', '$2b$09$3f0bafa4d651d32723d41uc2Ed8XGuYXfai3PA91cFNXKy62fiYCG', '$2b$08$984caa7f1c88c6e299351uvK0a4WkdGPdJyAEQ8yICXdMvPp9B5M.', 1),
+(33, 'Maria', 'maria@gmail.com', '333333', '4444444', '$2b$09$7f2a24386d6ca9d472c15OLylRH0DK4Q.tDk6o09d.dLdyBBHpt.S', '$2b$08$fbb41f68a40fb152464fdufHeC0VeALSqCDJpSDMy6RfmeE4P51D6', 1);
 
 -- --------------------------------------------------------
 
@@ -130,7 +158,7 @@ CREATE TABLE `tbl_relatorio` (
 --
 
 CREATE TABLE `tbl_status` (
-  `idStatus` int(4) NOT NULL,
+  `idStatusLivro` int(4) NOT NULL,
   `descricao` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -138,9 +166,9 @@ CREATE TABLE `tbl_status` (
 -- Despejando dados para a tabela `tbl_status`
 --
 
-INSERT INTO `tbl_status` (`idStatus`, `descricao`) VALUES
-(2, 'DISPONIVEL'),
-(3, 'EMPRESTADO');
+INSERT INTO `tbl_status` (`idStatusLivro`, `descricao`) VALUES
+(4, 'Disponivel'),
+(5, 'Emprestado');
 
 --
 -- Índices para tabelas despejadas
@@ -172,7 +200,8 @@ ALTER TABLE `tbl_emprestimo`
 --
 ALTER TABLE `tbl_livro`
   ADD PRIMARY KEY (`idCadLivro`),
-  ADD KEY `FK_idAndar_idx` (`FK_andar`);
+  ADD KEY `FK_idAndar_idx` (`FK_andar`),
+  ADD KEY `FK_status` (`FK_status`);
 
 --
 -- Índices de tabela `tbl_login`
@@ -196,7 +225,7 @@ ALTER TABLE `tbl_relatorio`
 -- Índices de tabela `tbl_status`
 --
 ALTER TABLE `tbl_status`
-  ADD PRIMARY KEY (`idStatus`);
+  ADD PRIMARY KEY (`idStatusLivro`);
 
 --
 -- AUTO_INCREMENT para tabelas despejadas
@@ -218,19 +247,19 @@ ALTER TABLE `tbl_andar`
 -- AUTO_INCREMENT de tabela `tbl_emprestimo`
 --
 ALTER TABLE `tbl_emprestimo`
-  MODIFY `idEmprestimo` int(4) NOT NULL AUTO_INCREMENT;
+  MODIFY `idEmprestimo` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_livro`
 --
 ALTER TABLE `tbl_livro`
-  MODIFY `idCadLivro` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `idCadLivro` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_login`
 --
 ALTER TABLE `tbl_login`
-  MODIFY `idLogin` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `idLogin` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_relatorio`
@@ -242,7 +271,7 @@ ALTER TABLE `tbl_relatorio`
 -- AUTO_INCREMENT de tabela `tbl_status`
 --
 ALTER TABLE `tbl_status`
-  MODIFY `idStatus` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idStatusLivro` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restrições para tabelas despejadas
@@ -253,14 +282,15 @@ ALTER TABLE `tbl_status`
 --
 ALTER TABLE `tbl_emprestimo`
   ADD CONSTRAINT `FK_idLogin` FOREIGN KEY (`FK_idLogin`) REFERENCES `tbl_login` (`idLogin`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FK_idStatus` FOREIGN KEY (`FK_idStatus`) REFERENCES `tbl_status` (`idStatus`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_idStatus` FOREIGN KEY (`FK_idStatus`) REFERENCES `tbl_status` (`idStatusLivro`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_tbl_emprestimo_tbl_CadLivro1` FOREIGN KEY (`FK_idCadLivro`) REFERENCES `tbl_livro` (`idCadLivro`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Restrições para tabelas `tbl_livro`
 --
 ALTER TABLE `tbl_livro`
-  ADD CONSTRAINT `FK_idAndar` FOREIGN KEY (`FK_andar`) REFERENCES `tbl_andar` (`idAndar`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `FK_idAndar` FOREIGN KEY (`FK_andar`) REFERENCES `tbl_andar` (`idAndar`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_status` FOREIGN KEY (`FK_status`) REFERENCES `tbl_status` (`idStatusLivro`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Restrições para tabelas `tbl_login`

@@ -57,7 +57,7 @@ class EMPRESTIMO
 
             // Atualiza o status do livro para 'Emprestado'
             $updateQuery = "UPDATE tbl_livro 
-                SET FK_status = (SELECT idStatus FROM tbl_status WHERE descricao = 'Emprestado') 
+                SET FK_status = (SELECT idStatusLivro FROM tbl_status WHERE descricao = 'Emprestado') 
                 WHERE idCadLivro = :livroId";
             $stmt = $conn->prepare($updateQuery);
             $stmt->bindParam(':livroId', $livroId, PDO::PARAM_INT);
@@ -66,7 +66,7 @@ class EMPRESTIMO
             // Adiciona o empréstimo na tbl_emprestimo
             $insertQuery = "INSERT INTO tbl_emprestimo (dataRetirada, dataEntrega, FK_idCadLivro, FK_idStatus, FK_idLogin) 
                             VALUES (NOW(), DATE_ADD(NOW(), INTERVAL 15 DAY), :livroId, 
-                            (SELECT idStatus FROM tbl_status WHERE descricao = 'Emprestado'), :usuarioId)";
+                            (SELECT idStatusLivro FROM tbl_status WHERE descricao = 'Emprestado'), :usuarioId)";
             $stmt = $conn->prepare($insertQuery);
             $stmt->bindParam(':livroId', $livroId, PDO::PARAM_INT);
             $stmt->bindParam(':usuarioId', $usuarioId, PDO::PARAM_INT);

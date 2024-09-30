@@ -43,7 +43,7 @@ $usuario =  $_SESSION['idLogin'];
                         // Consulta juntando a tblLivro e tblStatus
                         $query = "SELECT l.idCadLivro, l.nomeLivro, s.descricao AS statusDescricao
                          FROM tbl_livro l
-                         INNER JOIN tbl_status s ON l.FK_status = s.idStatus
+                         INNER JOIN tbl_status s ON l.FK_status = s.idStatusLivro
                          ORDER BY l.nomeLivro ASC;  
  ";
 

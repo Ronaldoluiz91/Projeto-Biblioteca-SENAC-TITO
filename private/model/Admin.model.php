@@ -147,7 +147,7 @@ class RELATORIO
          FROM tbl_emprestimo e
         INNER JOIN tbl_livro l ON e.FK_idCadLivro = l.idCadLivro
         INNER JOIN tbl_login u ON e.FK_idLogin = u.idLogin
-        INNER JOIN tbl_status s ON e.FK_idStatus = s.idStatus
+        INNER JOIN tbl_status s ON e.FK_idStatus = s.idStatusLivro
         WHERE MONTH(e.dataRetirada) = ? 
         ORDER BY e.dataRetirada ASC;");
         $stmt->execute([$mes]);
