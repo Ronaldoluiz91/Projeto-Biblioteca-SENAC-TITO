@@ -65,8 +65,8 @@ $(document).ready(function () {
         var mtUser = $('#mtUser2').val();
 
         if (emprestimoId === "") {
-            // Exibe um modal informando que é necessário selecionar um empréstimo
             $("#modalMessage2").text("Por favor, selecione um empréstimo ativo para renovar.");
+            $("#renewModalLabel").text("Erro na Renovação"); 
             $("#renewModal").modal('show');
             return;
         }
@@ -80,21 +80,27 @@ $(document).ready(function () {
                 mtUser: mtUser,
             },
             success: function (response) {
-                console.log("Raw response:", response); 
-                console.log("Tipo da resposta:", typeof response); 
-            
-                // Verifique o status e defina a mensagem no modal
-                if (response.status) {
-                    // Mensagem de sucesso
-                    $("#modalMessage2").text(response.message);
-                } else {
-                    // Mensagem de erro
-                    $("#modalMessage2").text("Erro: " + response.message);
+                console.log("Raw response:", response);
+                console.log("Tipo da resposta:", typeof response);
+
+                try {
+                    $("#renewModalLabel").text(response.status ? "Renovação Bem-Sucedida" : "Erro na Renovação"); // Atualiza o título do modal
+
+                    if (response.status) {
+                        // Mensagem de sucesso
+                        $("#modalMessage2").text(response.message);
+                    } else {
+                        // Mensagem de erro
+                        $("#modalMessage2").text("Erro: " + response.message);
+                    }
+                } catch (e) {
+                    console.error("Erro ao processar a resposta:", e);
+                    $("#modalMessage2").text("Erro ao processar a resposta do servidor."); // Mensagem de erro
+                    $("#renewModalLabel").text("Erro na Renovação"); // Atualiza o título para erro
                 }
-            
-                // Exibe o modal de renovação
                 $("#renewModal").modal('show');
             },
+
             error: function (xhr, status, error) {
                 console.error("Status:", status); // Mostra o status da requisição
                 console.error("Error:", error); // Mostra o erro

@@ -132,12 +132,12 @@ class EMPRESTIMO
 
         if ($stmt->rowCount() > 0) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            $renovacoes = $row['renovacao'];
+            $renovacao = $row['renovacao'];
             $dataEntrega = new DateTime($row['dataEntrega']);
             $dataAtual = new DateTime();
 
             // Verifique se já foram feitas duas renovações
-            if ($renovacoes >= 2) {
+            if ($renovacao >= 2) {
                 throw new Exception("Você já renovou este empréstimo duas vezes.");
             }
 
@@ -148,15 +148,16 @@ class EMPRESTIMO
             }
 
             // Se tudo estiver certo, atualize o empréstimo
-            $renovacoes++;
+            $renovacao++;
 
             // Adiciona 15 dias à data de entrega
             $dataEntrega->modify('+15 days');
+            $dataEntregaFormatada = $dataEntrega->format('Y-m-d');
 
-            $updateQuery = "UPDATE tbl_emprestimo SET renovacoes = :renovacoes, dataEntrega = :dataEntrega WHERE idEmprestimo = :emprestimoId";
+            $updateQuery = "UPDATE tbl_emprestimo SET renovacao = :renovacao, dataEntrega = :dataEntrega WHERE idEmprestimo = :emprestimoId";
             $updateStmt = $this->conn->prepare($updateQuery);
-            $updateStmt->bindParam(':renovacoes', $renovacoes);
-            $updateStmt->bindParam(':dataEntrega', $dataEntrega->format('Y-m-d'));
+            $updateStmt->bindParam(':renovacao', $renovacao);
+            $updateStmt->bindParam(':dataEntrega', $dataEntregaFormatada);
             $updateStmt->bindParam(':emprestimoId', $emprestimoId);
             $updateStmt->execute();
 
