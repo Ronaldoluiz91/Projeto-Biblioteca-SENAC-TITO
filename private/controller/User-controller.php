@@ -51,7 +51,6 @@ switch ($mtUser) {
                         'message' => $mensagem
                     ];
                 } catch (Exception $e) {
-                    // Captura qualquer erro que ocorra durante a renovação
                     $result = [
                         'status' => false,
                         'message' => "Erro ao processar a solicitação: " . $e->getMessage()
@@ -60,7 +59,7 @@ switch ($mtUser) {
             }
 
             echo json_encode($result);
-            exit; // Para garantir que o script PHP pare após enviar a resposta
+            exit; 
         }
 
 
