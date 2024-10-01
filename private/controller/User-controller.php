@@ -31,7 +31,7 @@ switch ($mtUser) {
                     return;
                 }
 
-                $mensagem = $emprestimo->alugarLivro($livroId, $usuarioId);
+                $mensagem = $EMPRESTIMO->alugarLivro($livroId, $usuarioId);
                 $result = [
                     'status' => true,
                     'message' => $mensagem
