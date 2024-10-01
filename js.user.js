@@ -34,8 +34,8 @@ $(document).ready(function () {
 
                 if (response.nomeLivro) {
                     modalMessage.html(response.message + "<br><strong>Livro: " + response.nomeLivro + "</strong>");
-                    modalMessage.css('color', 'green'); 
-                    modalTitle.text("Boa leitura"); 
+                    modalMessage.css('color', 'green');
+                    modalTitle.text("Boa leitura");
                 } else {
                     // Caso o nome do livro não esteja presente 
                     modalMessage.html(response.message);
@@ -56,6 +56,7 @@ $(document).ready(function () {
 });
 
 
+
 // RENOVAÇÃO DE EMPRÉSTIMOS
 $(document).ready(function () {
     $('#btn-renovar').click(function () {
@@ -64,43 +65,46 @@ $(document).ready(function () {
         var mtUser = $('#mtUser2').val();
 
         if (emprestimoId === "") {
-            $("#warningModal").modal('show');
-            var modalPreencha =   $("#warningModal");
-            modalPreencha.css('color', 'red');
+            // Exibe um modal informando que é necessário selecionar um empréstimo
+            $("#modalMessage2").text("Por favor, selecione um empréstimo ativo para renovar.");
+            $("#renewModal").modal('show');
             return;
         }
 
         $.ajax({
             url: 'http://localhost/projeto-biblioteca/private/controller/User-controller.php',
             type: 'POST',
-            dataType: 'json', 
             data: {
                 emprestimoId: emprestimoId,
                 usuario: usuarioId,
                 mtUser: mtUser,
             },
             success: function (response) {
-                var modalMessage = $('#modalMessage');
-
-                console.log(response); // Verifica a resposta
+                console.log("Raw response:", response); 
+                console.log("Tipo da resposta:", typeof response); 
+            
+                // Verifique o status e defina a mensagem no modal
                 if (response.status) {
-                    $("#modalMessage").text(response.message);
-                    modalMessage.css('color', 'green');
-                    $("#successModal").modal('show');
+                    // Mensagem de sucesso
+                    $("#modalMessage2").text(response.message);
                 } else {
-                    $("#modalMessage").text(response.message);
-                    modalMessage.css('color', 'red');
-                    $("#renewModal").modal('show');
+                    // Mensagem de erro
+                    $("#modalMessage2").text("Erro: " + response.message);
                 }
+            
+                // Exibe o modal de renovação
+                $("#renewModal").modal('show');
             },
             error: function (xhr, status, error) {
-                console.error("Status:", status);
-                console.error("Error:", error);
+                console.error("Status:", status); // Mostra o status da requisição
+                console.error("Error:", error); // Mostra o erro
                 console.error("Response:", xhr.responseText); // Mostra a resposta do servidor
-                $("#modalMessage").text("Erro ao renovar o empréstimo. Tente novamente mais tarde.");
-                $("#renewModal").modal('show');
+                $("#modalMessage2").text("Erro ao renovar o empréstimo. Tente novamente mais tarde."); // Mensagem de erro
+                $("#renewModal").modal('show'); // Exibe o modal de erro
             }
         });
     });
 });
+
+
 

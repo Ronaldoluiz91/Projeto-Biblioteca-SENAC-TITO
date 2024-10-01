@@ -58,10 +58,11 @@ switch ($mtUser) {
                 }
             }
 
+            // Codifique a resposta como JSON
             echo json_encode($result);
-            exit; 
+            exit;
         }
-
+        break;
 
     default:
         $result = [

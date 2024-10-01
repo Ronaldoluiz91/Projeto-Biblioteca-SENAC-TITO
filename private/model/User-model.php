@@ -15,8 +15,6 @@ class EMPRESTIMO
     public function alugarLivro($livroId, $usuarioId)
     {
         try {
-            require "../config/db/conn.php";
-
             // Verifica o status do livro antes de alugar
             $statusAtual = $this->verificarStatus($livroId);
 
@@ -29,6 +27,8 @@ class EMPRESTIMO
                 exit();
             }
 
+            require "../config/db/conn.php";
+
             // Verifica o nome do livro pelo seu ID
             $sql = "SELECT nomeLivro FROM tbl_livro WHERE idCadLivro = :livroId";
             $stmt = $conn->prepare($sql);
@@ -39,9 +39,8 @@ class EMPRESTIMO
 
             // Verifica se o livro foi encontrado no banco de dados
             if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $nomeLivroDB = $row['nomeLivro']; // Atribui o nome do livro
+                $nomeLivroDB = $row['nomeLivro'];
             } else {
-                // Caso o livro não seja encontrado
                 $response = [
                     "message" => "Erro: Livro não encontrado!",
                     "bookName" => null
@@ -60,7 +59,6 @@ class EMPRESTIMO
             if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $nomeUsuarioDB = $row['nome'];
             } else {
-                // Caso o usuario não seja encontrado
                 $response = [
                     "message" => "Erro: Usuario não encontrado!",
                     "user" => null
@@ -101,7 +99,6 @@ class EMPRESTIMO
         echo json_encode($response);
         exit();
 
-        // Fechar a conexão após todas as operações
         $conn = null;
     }
 
@@ -126,29 +123,46 @@ class EMPRESTIMO
 
     public function renovarEmprestimo($emprestimoId, $usuarioId)
     {
-        try {
-            // Verifique se o empréstimo existe
-            $sql = "SELECT * FROM tbl_emprestimo WHERE idEmprestimo = :emprestimoId AND FK_idLogin = :usuarioId";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':emprestimoId', $emprestimoId, PDO::PARAM_INT);
-            $stmt->bindParam(':usuarioId', $usuarioId, PDO::PARAM_INT);
-            $stmt->execute();
+        // Verifique se o empréstimo existe e obtenha seu status e número de renovações
+        $query = "SELECT renovacao, dataEntrega FROM tbl_emprestimo WHERE idEmprestimo = :emprestimoId AND FK_idLogin = :usuarioId";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':emprestimoId', $emprestimoId);
+        $stmt->bindParam(':usuarioId', $usuarioId);
+        $stmt->execute();
 
-            if ($stmt->rowCount() == 0) {
-                return "Empréstimo não encontrado ou não pertence a você.";
+        if ($stmt->rowCount() > 0) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $renovacoes = $row['renovacao'];
+            $dataEntrega = new DateTime($row['dataEntrega']);
+            $dataAtual = new DateTime();
+
+            // Verifique se já foram feitas duas renovações
+            if ($renovacoes >= 2) {
+                throw new Exception("Você já renovou este empréstimo duas vezes.");
             }
 
-            // Atualize a data de entrega para mais 15 dias
-            $updateQuery = "UPDATE tbl_emprestimo 
-                            SET dataEntrega = DATE_ADD(dataEntrega, INTERVAL 15 DAY) 
-                            WHERE idEmprestimo = :emprestimoId";
-            $stmt = $this->conn->prepare($updateQuery);
-            $stmt->bindParam(':emprestimoId', $emprestimoId, PDO::PARAM_INT);
-            $stmt->execute();
+            // Verifique se faltam 5 dias para a data de entrega
+            $intervalo = $dataAtual->diff($dataEntrega);
+            if ($intervalo->days > 5) {
+                throw new Exception("Não é possível renovar o empréstimo. Faltam mais de 5 dias para a data de entrega.");
+            }
+
+            // Se tudo estiver certo, atualize o empréstimo
+            $renovacoes++;
+
+            // Adiciona 15 dias à data de entrega
+            $dataEntrega->modify('+15 days');
+
+            $updateQuery = "UPDATE tbl_emprestimo SET renovacoes = :renovacoes, dataEntrega = :dataEntrega WHERE idEmprestimo = :emprestimoId";
+            $updateStmt = $this->conn->prepare($updateQuery);
+            $updateStmt->bindParam(':renovacoes', $renovacoes);
+            $updateStmt->bindParam(':dataEntrega', $dataEntrega->format('Y-m-d'));
+            $updateStmt->bindParam(':emprestimoId', $emprestimoId);
+            $updateStmt->execute();
 
             return "Empréstimo renovado com sucesso!";
-        } catch (PDOException $e) {
-            throw new Exception("Erro ao renovar o empréstimo: " . $e->getMessage());
+        } else {
+            throw new Exception("Empréstimo não encontrado.");
         }
     }
 }

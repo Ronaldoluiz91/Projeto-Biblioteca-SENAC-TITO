@@ -154,6 +154,7 @@ $usuario =  $_SESSION['idLogin'];
     </div>
 
 
+
     <!-- Modal de Renovação de Empréstimo -->
     <div class="modal fade" id="renewModal" tabindex="-1" role="dialog" aria-labelledby="renewModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -165,7 +166,7 @@ $usuario =  $_SESSION['idLogin'];
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p id="modalMessage">Mensagem aqui.</p>
+                    <p id="modalMessage2">Mensagem aqui.</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -176,24 +177,24 @@ $usuario =  $_SESSION['idLogin'];
 
 
     <!-- Modal de Aviso -->
-<div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="warningModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="warningModalLabel">Atenção</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p id="warningMessage">Por favor, selecione um empréstimo ativo para renovar.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+    <div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="warningModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="warningModalLabel">Atenção</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="warningMessage">Por favor, selecione um empréstimo ativo para renovar.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
     <script src="js.user.js"></script>
