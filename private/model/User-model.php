@@ -12,6 +12,15 @@ class EMPRESTIMO
         $this->conn = $conn;
     }
 
+    public function contarEmprestimosAtivos($usuarioId) {
+        $sql = "SELECT COUNT(*) as total FROM tbl_emprestimo WHERE FK_idLogin = :usuarioId AND FK_idStatus = (SELECT idStatusLivro FROM tbl_status WHERE descricao = 'Emprestado')";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':usuarioId', $usuarioId);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    }
+    
+
     public function alugarLivro($livroId, $usuarioId)
     {
         try {
@@ -26,6 +35,8 @@ class EMPRESTIMO
                 echo json_encode($response);
                 exit();
             }
+
+            if($usuarioId )
 
             require "../config/db/conn.php";
 

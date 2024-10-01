@@ -11,8 +11,6 @@
 </head>
 
 <body>
-<!-- <img class="img-fundo" src="public/midias/midia-senac.jpeg"> -->
-
     <main>
         <div class="container-form">
             <div class="forms">

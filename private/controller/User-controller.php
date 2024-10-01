@@ -15,20 +15,30 @@ switch ($mtUser) {
             $livroId = $_POST['livroId'];
             $andar = $_POST['andar'];
             $usuarioId = $_POST['usuario'];
+
             if (empty($livroId) || empty($andar)) {
                 $result = [
                     'status' => false,
                     'message' => "Preencha todos os campos para realizar o empréstimo"
                 ];
             } else {
-                $mensagem = $EMPRESTIMO->alugarLivro($livroId, $usuarioId); // Chama o método para alugar o livro
+                $totalEmprestimosAtivos = $EMPRESTIMO->contarEmprestimosAtivos($usuarioId);
+                if ($totalEmprestimosAtivos >= 5) {
+                    echo json_encode([
+                        'status' => false,
+                        'message' => 'Você não pode efetuar um novo empréstimo, pois já possui 5 empréstimos ativos.'
+                    ]);
+                    return;
+                }
+
+                $mensagem = $emprestimo->alugarLivro($livroId, $usuarioId);
                 $result = [
                     'status' => true,
                     'message' => $mensagem
                 ];
             }
             echo json_encode($result);
-            exit;
+            exit; // Encerra o script
         }
         break;
 
@@ -57,8 +67,6 @@ switch ($mtUser) {
                     ];
                 }
             }
-
-            // Codifique a resposta como JSON
             echo json_encode($result);
             exit;
         }
