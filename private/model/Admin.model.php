@@ -162,11 +162,11 @@ class RELATORIO
 
         // Verifica se a consulta retornou resultados
         if ($emprestimos) {
-            // Retorna os dados em formato JSON
+            // Retorna os dados em formato JSO
             echo json_encode(['status' => true, 'data' => $emprestimos]);
         } else {
             echo json_encode(['status' => false, 'msg' => 'Nenhum empréstimo encontrado para este mês.']);
         }
-        exit(); // Não esquecer de encerrar a execução após o echo
+        exit(); 
     }
 }
