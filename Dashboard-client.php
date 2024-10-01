@@ -18,7 +18,6 @@ $usuario =  $_SESSION['idLogin'];
     <title>Biblioteca Itinerante - SENAC TITO</title>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="js.user.js"></script>
     <!-- Conexão com CSS externo -->
     <link rel="stylesheet" href="public/assets/style.css">
     <!-- Bootstrap CSS -->
@@ -28,8 +27,6 @@ $usuario =  $_SESSION['idLogin'];
 </head>
 
 <body>
-    <!-- <img class="img-fundo" src="public_html/midias/midia-senac.jpeg"> -->
-
     <main>
         <div class="container-form">
             <div class="forms">
@@ -90,14 +87,9 @@ $usuario =  $_SESSION['idLogin'];
                     }
                     ?>
                 </select>
-
                 <input type="hidden" id="usuarioEmail" name="usuarioEmail" value="<?php echo $usuario; ?>">
-
-
+                <input type="hidden" name="mtUser" id="mtUser" value="Emprestimo">
                 <button type="submit" id="btn-alugar" class="design-input">Alugar</button>
-
-                <button type="submit" class="design-input">Renovar Aluguel</button>
-
             </div>
         </div>
         <br>
@@ -128,6 +120,83 @@ $usuario =  $_SESSION['idLogin'];
             </div>
         </div>
     </div>
+
+
+    <div class="forms">
+        <h3 class="titulo-form">Renovar Empréstimo</h3>
+        <!-- Formulário de renovação de empréstimo -->
+        <label for="emprestimo" class="text-form">Empréstimos Ativos:</label>
+        <select name="emprestimo" id="emprestimo" class="design-input" required>
+            <option value="">Selecione o empréstimo</option>
+            <?php
+            try {
+                require "private/config/db/conn.php";
+                // Consulta para buscar os empréstimos ativos do usuário
+                $sql = "SELECT e.idEmprestimo, l.nomeLivro 
+                        FROM tbl_emprestimo e 
+                        INNER JOIN tbl_livro l ON e.FK_idCadLivro = l.idCadLivro 
+                        WHERE e.FK_idLogin = :usuarioId AND e.FK_idStatus = (SELECT idStatusLivro FROM tbl_status WHERE descricao = 'Emprestado')";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(':usuarioId', $usuario, PDO::PARAM_INT);
+                $stmt->execute();
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    echo '<option value="' . $row['idEmprestimo'] . '">' . htmlspecialchars($row['nomeLivro']) . '</option>';
+                }
+            } catch (PDOException $e) {
+                echo "Erro: " . $e->getMessage();
+            }
+            ?>
+        </select>
+
+        <input type="hidden" name="mtUser2" id="mtUser2" value="Renovar">
+        <button type="button" id="btn-renovar" class="design-input">Renovar Empréstimo</button>
+    </div>
+    </div>
+
+
+    <!-- Modal de Renovação de Empréstimo -->
+    <div class="modal fade" id="renewModal" tabindex="-1" role="dialog" aria-labelledby="renewModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="renewModalLabel">Resultado da Operação</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="modalMessage">Mensagem aqui.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal de Aviso -->
+<div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="warningModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="warningModalLabel">Atenção</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="warningMessage">Por favor, selecione um empréstimo ativo para renovar.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <script src="js.user.js"></script>
 
 </body>
 

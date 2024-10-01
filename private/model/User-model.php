@@ -17,6 +17,18 @@ class EMPRESTIMO
         try {
             require "../config/db/conn.php";
 
+            // Verifica o status do livro antes de alugar
+            $statusAtual = $this->verificarStatus($livroId);
+
+            if ($statusAtual === 'Emprestado') {
+                $response = [
+                    "message" => "Erro: Este livro já está emprestado! <br> Verifique com a biblioteca a data de disponibilidade do livro",
+                    "nomeLivro" => null
+                ];
+                echo json_encode($response);
+                exit();
+            }
+
             // Verifica o nome do livro pelo seu ID
             $sql = "SELECT nomeLivro FROM tbl_livro WHERE idCadLivro = :livroId";
             $stmt = $conn->prepare($sql);
@@ -77,14 +89,11 @@ class EMPRESTIMO
                 "message" => "Seu empréstimo foi realizado com sucesso!",
                 "nomeLivro" => $nomeLivroDB
             ];
-
         } catch (PDOException $e) {
             // Em caso de erro, retorna uma mensagem de erro
             $response = [
                 "message" => "Erro ao atualizar o status do livro: " . $e->getMessage()
             ];
-
-        
         }
 
         ob_clean();
@@ -94,5 +103,52 @@ class EMPRESTIMO
 
         // Fechar a conexão após todas as operações
         $conn = null;
+    }
+
+    public function verificarStatus($idLivro)
+    {
+        try {
+            // Verifica o status do livro no banco
+            $query = "SELECT s.descricao FROM tbl_livro l
+                      INNER JOIN tbl_status s ON l.FK_status = s.idStatusLivro
+                      WHERE l.idCadLivro = :idLivro";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':idLivro', $idLivro, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row ? $row['descricao'] : null;
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
+
+    public function renovarEmprestimo($emprestimoId, $usuarioId)
+    {
+        try {
+            // Verifique se o empréstimo existe
+            $sql = "SELECT * FROM tbl_emprestimo WHERE idEmprestimo = :emprestimoId AND FK_idLogin = :usuarioId";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':emprestimoId', $emprestimoId, PDO::PARAM_INT);
+            $stmt->bindParam(':usuarioId', $usuarioId, PDO::PARAM_INT);
+            $stmt->execute();
+
+            if ($stmt->rowCount() == 0) {
+                return "Empréstimo não encontrado ou não pertence a você.";
+            }
+
+            // Atualize a data de entrega para mais 15 dias
+            $updateQuery = "UPDATE tbl_emprestimo 
+                            SET dataEntrega = DATE_ADD(dataEntrega, INTERVAL 15 DAY) 
+                            WHERE idEmprestimo = :emprestimoId";
+            $stmt = $this->conn->prepare($updateQuery);
+            $stmt->bindParam(':emprestimoId', $emprestimoId, PDO::PARAM_INT);
+            $stmt->execute();
+
+            return "Empréstimo renovado com sucesso!";
+        } catch (PDOException $e) {
+            throw new Exception("Erro ao renovar o empréstimo: " . $e->getMessage());
+        }
     }
 }
