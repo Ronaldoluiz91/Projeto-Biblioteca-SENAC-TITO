@@ -59,20 +59,22 @@ $(document).ready(function () {
 
 // RENOVAÇÃO DE EMPRÉSTIMOS
 $(document).ready(function () {
-    $('#btn-renovar').click(function () {
-        var emprestimoId = $('#emprestimo').val();
-        var usuarioId = $('#usuarioEmail').val();
-        var mtUser = $('#mtUser2').val();
+    // Ao clicar no botão de renovar
+    $('.btn-renovar').click(function () {
+        var emprestimoId = $(this).data('id');  
+        var usuarioId = $('#usuarioEmail').val(); 
+        var mtUser = $('#mtUser2').val();  // Valor oculto de controle
 
-        if (emprestimoId === "") {
-            $("#modalMessage2").text("Por favor, selecione um empréstimo ativo para renovar.");
-            $("#renewModalLabel").text("Erro na Renovação"); 
+        if (!emprestimoId) {
+            $("#modalMessage2").text("Erro ao identificar o empréstimo para renovação.");
+            $("#renewModalLabel").text("Erro na Renovação");
             $("#renewModal").modal('show');
             return;
         }
 
+        // Requisição AJAX
         $.ajax({
-            url: 'http://localhost/projeto-biblioteca/private/controller/User-controller.php',
+            url: 'http://localhost/projeto-biblioteca/private/controller/User-controller.php',  
             type: 'POST',
             data: {
                 emprestimoId: emprestimoId,
@@ -80,37 +82,38 @@ $(document).ready(function () {
                 mtUser: mtUser,
             },
             success: function (response) {
-                console.log("Raw response:", response);
-                console.log("Tipo da resposta:", typeof response);
+                console.log("Resposta recebida:", response);
 
                 try {
-                    $("#renewModalLabel").text(response.status ? "Renovação Bem-Sucedida" : "Erro na Renovação"); // Atualiza o título do modal
-
-                    if (response.status) {
-                        // Mensagem de sucesso
-                        $("#modalMessage2").text(response.message);
-                    } else {
-                        // Mensagem de erro
-                        $("#modalMessage2").text("Erro: " + response.message);
+                    // Verifica se a resposta está em formato JSON
+                    if (typeof response === 'string') {
+                        response = JSON.parse(response);
                     }
+
+                    // Atualiza o modal de acordo com o status da resposta
+                    $("#renewModalLabel").text(response.status ? "Renovação Bem-Sucedida" : "Erro na Renovação");
+
+                    // Mensagem de sucesso ou erro
+                    $("#modalMessage2").text(response.message);
                 } catch (e) {
                     console.error("Erro ao processar a resposta:", e);
-                    $("#modalMessage2").text("Erro ao processar a resposta do servidor."); // Mensagem de erro
-                    $("#renewModalLabel").text("Erro na Renovação"); // Atualiza o título para erro
+                    $("#modalMessage2").text("Erro ao processar a resposta do servidor.");
+                    $("#renewModalLabel").text("Erro na Renovação");
                 }
+
+                // Exibe o modal com o resultado da ação
                 $("#renewModal").modal('show');
             },
 
             error: function (xhr, status, error) {
-                console.error("Status:", status); // Mostra o status da requisição
-                console.error("Error:", error); // Mostra o erro
-                console.error("Response:", xhr.responseText); // Mostra a resposta do servidor
-                $("#modalMessage2").text("Erro ao renovar o empréstimo. Tente novamente mais tarde."); // Mensagem de erro
-                $("#renewModal").modal('show'); // Exibe o modal de erro
+                console.error("Erro na requisição AJAX:", status, error);
+                $("#modalMessage2").text("Erro ao renovar o empréstimo. Tente novamente mais tarde.");
+                $("#renewModal").modal('show');
             }
         });
     });
 });
+
 
 
 

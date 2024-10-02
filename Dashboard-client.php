@@ -27,73 +27,138 @@ $usuario =  $_SESSION['idLogin'];
 </head>
 
 <body>
-    <main>
-        <div class="container-form">
-            <div class="forms">
-                <h3 class="titulo-form">Preencha os campos abaixo para realizar seu empréstimo</h3>
-                <label for="livro" class="text-form">Acervo de Livros:</label>
-                <select name="livro" id="livro" class="design-input" required>
-                    <option value="">Selecione o livro</option>
-                    <?php
-                    try {
-                        require "private/config/db/conn.php";
-                        // Consulta juntando a tblLivro e tblStatus
-                        $query = "SELECT l.idCadLivro, l.nomeLivro, s.descricao AS statusDescricao
+    <main class="container">
+        <!-- Primeira seção: Formulário de Aluguel -->
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="forms">
+                    <h3 class="titulo-form">Preencha os campos abaixo para realizar seu empréstimo</h3>
+                    <form id="form-alugar">
+                        <label for="livro" class="text-form">Acervo de Livros:</label>
+                        <select name="livro" id="livro" class="design-input" required>
+                            <option value="">Selecione o livro</option>
+                            <?php
+                            try {
+                                require "private/config/db/conn.php";
+                                // Consulta juntando a tblLivro e tblStatus
+                                $query = "SELECT l.idCadLivro, l.nomeLivro, s.descricao AS statusDescricao
                          FROM tbl_livro l
                          INNER JOIN tbl_status s ON l.FK_status = s.idStatusLivro
-                         ORDER BY l.nomeLivro ASC;  
- ";
+                         ORDER BY l.nomeLivro ASC; ";
+                                $stmt = $conn->prepare($query);
+                                $stmt->execute();
 
-                        $stmt = $conn->prepare($query);
-                        $stmt->execute();
+                                // Verifica se a consulta retornou algum resultado
+                                if ($stmt->rowCount() > 0) {
+                                    // Iterar sobre os resultados e criar os options
+                                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                        $id = htmlspecialchars($row['idCadLivro']);
+                                        $nomeLivro = htmlspecialchars($row['nomeLivro']);
+                                        $status = htmlspecialchars($row['statusDescricao']);
 
-                        // Verifica se a consulta retornou algum resultado
-                        if ($stmt->rowCount() > 0) {
-                            // Iterar sobre os resultados e criar os options
-                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                $id = htmlspecialchars($row['idCadLivro']);
-                                $nomeLivro = htmlspecialchars($row['nomeLivro']);
-                                $status = htmlspecialchars($row['statusDescricao']);
-
-                                // Criar as opções do select
-                                echo '<option value="' . $id . '">' . $nomeLivro . ' - ' . $status . '</option>';
+                                        // Criar as opções do select
+                                        echo '<option value="' . $id . '">' . $nomeLivro . ' - ' . $status . '</option>';
+                                    }
+                                } else {
+                                    echo '<option value="">Nenhum livro encontrado</option>';
+                                }
+                            } catch (PDOException $e) {
+                                echo "Erro: " . $e->getMessage();
                             }
-                        } else {
-                            echo '<option value="">Nenhum livro encontrado</option>';
-                        }
-                    } catch (PDOException $e) {
-                        echo "Erro: " . $e->getMessage();
-                    }
 
-                    ?>
-                </select>
-                <label for="andar" class="text-form">Selecione o Andar:</label>
-                <select name="andar" id="andar" class="design-input" required>
-                    <option value="">Selecione o andar</option>
-                    <?php
-                    try {
-                        require "private/config/db/conn.php";
-                        // Consulta SQL para buscar os andares
-                        $sql = "SELECT idAndar, descricao FROM tbl_andar";
-                        $stmt = $conn->prepare($sql);
-                        $stmt->execute();
+                            ?>
+                        </select>
 
-                        //  cria os options
-                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                            echo '<option value="' . $row['idAndar'] . '">' . $row['descricao'] . '</option>';
-                        }
-                    } catch (PDOException $e) {
-                        echo "Erro: " . $e->getMessage();
-                    }
-                    ?>
-                </select>
-                <input type="hidden" id="usuarioEmail" name="usuarioEmail" value="<?php echo $usuario; ?>">
-                <input type="hidden" name="mtUser" id="mtUser" value="Emprestimo">
-                <button type="submit" id="btn-alugar" class="design-input">Alugar</button>
+                        <label for="andar" class="text-form">Selecione o Andar:</label>
+                        <select name="andar" id="andar" class="design-input" required>
+                            <option value="">Selecione o andar</option>
+                            <?php
+                            try {
+                                require "private/config/db/conn.php";
+                                // Consulta SQL para buscar os andares
+                                $sql = "SELECT idAndar, descricao FROM tbl_andar";
+                                $stmt = $conn->prepare($sql);
+                                $stmt->execute();
+
+                                //  cria os options
+                                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    echo '<option value="' . $row['idAndar'] . '">' . $row['descricao'] . '</option>';
+                                }
+                            } catch (PDOException $e) {
+                                echo "Erro: " . $e->getMessage();
+                            }
+                            ?>
+                        </select>
+
+                        <input type="hidden" id="usuarioEmail" name="usuarioEmail" value="<?php echo $usuario; ?>">
+                        <input type="hidden" name="mtUser" id="mtUser" value="Emprestimo">
+
+                        <button type="submit" id="btn-alugar" class="btn btn-primary mt-3">Alugar</button>
+                    </form>
+                </div>
+            </div>
+
+
+
+
+
+
+            <!-- Segunda seção: Tabela de Empréstimos Ativos -->
+            <div class="col-md-6 col-sm-12">
+                <div class="forms">
+                    <h3 class="titulo-form">Empréstimos Ativos</h3>
+                    <form id="form-renovar">
+                        <input type="hidden" name="mtUser" id="mtUser2" value="Renovar">
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Nome do Livro</th>
+                                        <th>Data Retirada</th>
+                                        <th>Data Entrega</th>
+                                        <th>Renovações</th>
+                                        <th>Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    try {
+                                        require "private/config/db/conn.php";
+                                        // Consulta para buscar os empréstimos ativos do usuário
+                                        $sql = "SELECT e.idEmprestimo, l.nomeLivro, e.dataRetirada, e.dataEntrega, e.renovacao 
+                        FROM tbl_emprestimo e 
+                        INNER JOIN tbl_livro l ON e.FK_idCadLivro = l.idCadLivro 
+                        WHERE e.FK_idLogin = :usuarioId 
+                        AND e.FK_idStatus = (SELECT idStatusLivro FROM tbl_status WHERE descricao = 'Emprestado')";
+                                        $stmt = $conn->prepare($sql);
+                                        $stmt->bindParam(':usuarioId', $usuario, PDO::PARAM_INT);
+                                        $stmt->execute();
+                                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                            echo '<tr>';
+                                            echo '<td>' . htmlspecialchars($row['nomeLivro']) . '</td>';
+                                            echo '<td>' . htmlspecialchars($row['dataRetirada']) . '</td>';
+                                            echo '<td>' . htmlspecialchars($row['dataEntrega']) . '</td>';
+                                            echo '<td>' . htmlspecialchars($row['renovacao']) . '</td>';
+                                            echo '<td> <button type="button" id="btn-renovar" class="btn btn-info btn-renovar" data-id="' . $row['idEmprestimo'] . '">Renovar</button></td>';
+
+
+                                            echo '</tr>';
+                                        }
+                                    } catch (PDOException $e) {
+                                        echo "<tr><td colspan='5'>Erro: " . $e->getMessage() . "</td></tr>";
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
+
         <br>
-        <a href="logout.php">SAIR</a>
+        <a href="logout.php" class="btn btn-danger">SAIR</a>
     </main>
 
     <?php
@@ -119,38 +184,6 @@ $usuario =  $_SESSION['idLogin'];
                 </div>
             </div>
         </div>
-    </div>
-
-
-    <div class="forms">
-        <h3 class="titulo-form">Renovar Empréstimo</h3>
-        <!-- Formulário de renovação de empréstimo -->
-        <label for="emprestimo" class="text-form">Empréstimos Ativos:</label>
-        <select name="emprestimo" id="emprestimo" class="design-input" required>
-            <option value="">Selecione o empréstimo</option>
-            <?php
-            try {
-                require "private/config/db/conn.php";
-                // Consulta para buscar os empréstimos ativos do usuário
-                $sql = "SELECT e.idEmprestimo, l.nomeLivro 
-                        FROM tbl_emprestimo e 
-                        INNER JOIN tbl_livro l ON e.FK_idCadLivro = l.idCadLivro 
-                        WHERE e.FK_idLogin = :usuarioId AND e.FK_idStatus = (SELECT idStatusLivro FROM tbl_status WHERE descricao = 'Emprestado')";
-                $stmt = $conn->prepare($sql);
-                $stmt->bindParam(':usuarioId', $usuario, PDO::PARAM_INT);
-                $stmt->execute();
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    echo '<option value="' . $row['idEmprestimo'] . '">' . htmlspecialchars($row['nomeLivro']) . '</option>';
-                }
-            } catch (PDOException $e) {
-                echo "Erro: " . $e->getMessage();
-            }
-            ?>
-        </select>
-
-        <input type="hidden" name="mtUser2" id="mtUser2" value="Renovar">
-        <button type="button" id="btn-renovar" class="design-input">Renovar Empréstimo</button>
-    </div>
     </div>
 
 
