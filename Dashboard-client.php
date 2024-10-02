@@ -44,7 +44,7 @@ $usuario =  $_SESSION['idLogin'];
                                 $query = "SELECT l.idCadLivro, l.nomeLivro, s.descricao AS statusDescricao
                          FROM tbl_livro l
                          INNER JOIN tbl_status s ON l.FK_status = s.idStatusLivro
-                         ORDER BY l.nomeLivro ASC; ";
+                         ORDER BY s.idStatusLivro  ASC; ";
                                 $stmt = $conn->prepare($query);
                                 $stmt->execute();
 

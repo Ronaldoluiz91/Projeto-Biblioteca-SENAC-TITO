@@ -154,8 +154,8 @@ class EMPRESTIMO
 
             // Verifique se faltam 5 dias para a data de entrega
             $intervalo = $dataAtual->diff($dataEntrega);
-            if ($intervalo->days > 5) {
-                throw new Exception("Não é possível renovar o empréstimo. Faltam mais de 5 dias para a data de entrega.");
+            if ($intervalo->days <= 2) {
+                throw new Exception("Não é possível renovar o empréstimo. Faltam menos de 2 dias para a data de entrega. Procure a Biblioteca");
             }
 
             // Se tudo estiver certo, atualize o empréstimo
