@@ -98,12 +98,7 @@ $usuario =  $_SESSION['idLogin'];
                 </div>
             </div>
 
-
-
-
-
-
-            <!-- Segunda seção: Tabela de Empréstimos Ativos -->
+            <!-- Tabela de Empréstimos Ativos -->
             <div class="col-md-6 col-sm-12">
                 <div class="forms">
                     <h3 class="titulo-form">Empréstimos Ativos</h3>
@@ -156,7 +151,6 @@ $usuario =  $_SESSION['idLogin'];
                 </div>
             </div>
         </div>
-
         <br>
         <a href="logout.php" class="btn btn-danger">SAIR</a>
     </main>
