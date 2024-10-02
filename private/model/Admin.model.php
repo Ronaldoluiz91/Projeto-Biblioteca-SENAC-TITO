@@ -140,7 +140,7 @@ class RELATORIO
         $this->conn = $conn; // Atribui a conexão à propriedade
     }
 
-    public function getEmprestimosPorMes($mes)
+    public function getEmprestimosPorMes($mes, $ano)
     {
         // Prepara a consulta
         $stmt = $this->conn->prepare("SELECT e.idEmprestimo, e.dataRetirada, e.dataEntrega, l.nomeLivro, u.nome AS nomeUsuario, s.descricao AS status
@@ -148,24 +148,24 @@ class RELATORIO
         INNER JOIN tbl_livro l ON e.FK_idCadLivro = l.idCadLivro
         INNER JOIN tbl_login u ON e.FK_idLogin = u.idLogin
         INNER JOIN tbl_status s ON e.FK_idStatus = s.idStatusLivro
-        WHERE MONTH(e.dataRetirada) = ? 
+        WHERE MONTH(e.dataRetirada) = ? AND YEAR(e.dataRetirada) = ?
         ORDER BY e.dataRetirada ASC;");
-        $stmt->execute([$mes]);
+        $stmt->execute([$mes, $ano]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna todos os registros
     }
 
     // Função para gerar o relatório de empréstimos via AJAX
-    public function relatorioEmprestimos($mes)
+    public function relatorioEmprestimos($mes, $ano)
     {
         // Chama a função para pegar os empréstimos
-        $emprestimos = $this->getEmprestimosPorMes($mes);
+        $emprestimos = $this->getEmprestimosPorMes($mes, $ano);
 
         // Verifica se a consulta retornou resultados
         if ($emprestimos) {
             // Retorna os dados em formato JSO
             echo json_encode(['status' => true, 'data' => $emprestimos]);
         } else {
-            echo json_encode(['status' => false, 'msg' => 'Nenhum empréstimo encontrado para este mês.']);
+            echo json_encode(['status' => false, 'msg' => 'Nenhum empréstimo encontrado para este mês/ano.']);
         }
         exit(); 
     }

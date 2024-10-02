@@ -47,17 +47,24 @@ switch ($mtAdmin) {
 
     case 'relatorio':
         $mes = $_POST['mes'];
+        $ano = $_POST['ano'];
         $mtAdmin = $_POST['mtAdmin'];
 
-        if (empty($mes)) {
+        if (empty($mes) || empty($ano)) {
             $result = [
                 'status' => false,
-                'msg' => "Por favor, preencha o mês para obter um relatório."
+                'msg' => "Por favor, preencha o mês e ano para obter um relatório."
             ];
         } else {
             // Chama a função para gerar o relatório
-            $result = $RELATORIO->relatorioEmprestimos($mes); // Passe o mês como argumento
+            $result = $RELATORIO->relatorioEmprestimos($mes, $ano);
         }
+        break;
+    default:
+        $result = [
+            'status' => false,
+            'msg' => " <p>Sistema indisponivel. Tente mais tarde... </p>"
+        ];
         break;
 }
 

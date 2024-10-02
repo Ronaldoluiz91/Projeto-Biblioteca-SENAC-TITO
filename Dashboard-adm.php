@@ -44,9 +44,11 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
         <option value="9">Setembro</option>
         <option value="10">Outubro</option>
         <option value="11">Novembro</option>
-        <option value="12">Dazezembro</option>
-     
+        <option value="12">Dezezembro</option>
       </select>
+
+      <label for="ano">Ano:</label>
+      <input type="text" id="ano" name="ano">
 
 
       <input type="hidden" name="mtAdmin" id="mtAdmin" value="relatorio">
@@ -56,7 +58,7 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
   </div>
 
   <div class="table-container">
-  <table style="color: black;">
+    <table style="color: black;">
       <thead>
         <tr>
           <th>Nome do Livro</th>

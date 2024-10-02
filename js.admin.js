@@ -3,7 +3,7 @@
 const cadLivro = document.getElementById('cad-livro');
 if (cadLivro) {
     cadLivro.addEventListener('click', function (event) {
-        event.preventDefault(); // Previne o envio normal do formulário, essencial se o botão estiver dentro de um <form>
+        event.preventDefault(); 
 
         var nomeLivro = document.getElementById("nomeLivro").value;
         var quantidade = document.getElementById("quantLivro").value;
@@ -57,31 +57,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
     botaoBusca.addEventListener('click', function () {
         buscarEmprestimos();
+        event.preventDefault(); 
     });
 
     function buscarEmprestimos() {
         const mes = document.getElementById("mes").value;
-        console.log("Mês selecionado:", mes);
+        console.log("Mês:", mes);
+        const ano = document.getElementById("ano").value;
+        console.log("ano:", ano);
+        const mtAdmin = document.getElementById('mtAdmin').value;
 
-        if (!mes) {
-            document.getElementById("mensagem").innerHTML = `<p style="color: red;">Por favor, selecione um mês.</p>`;
-            return;
-        }
-
-        // Verifique se 'mtAdmin' está definida
-        const mtAdmin = document.getElementById('mtAdmin') ? document.getElementById('mtAdmin').value : null;
-
-        if (!mtAdmin) {
-            console.error("mtAdmin não está definida ou não foi encontrada");
+        if (!mes || !ano) {
+            document.getElementById("mensagem").innerHTML = `<p style="color: red;">Por favor, selecione um mês/ano.</p>`;
             return;
         }
 
         $.ajax({
             type: "POST",
             url: "http://localhost/projeto-biblioteca/private/controller/Admin.Controller.php",
-            data: { mes: mes, mtAdmin: mtAdmin },
+            data: { mes: mes, ano: ano, mtAdmin: mtAdmin },
             success: function (result) {
-                console.log(result); // Verifique a resposta recebida
+                console.log(result);
 
                 // Limpa o conteúdo anterior do tbody
                 $("#resultadoEmprestimos").empty();
