@@ -3,7 +3,7 @@
 const cadLivro = document.getElementById('cad-livro');
 if (cadLivro) {
     cadLivro.addEventListener('click', function (event) {
-        event.preventDefault(); 
+        event.preventDefault();
 
         var nomeLivro = document.getElementById("nomeLivro").value;
         var quantidade = document.getElementById("quantLivro").value;
@@ -49,22 +49,18 @@ if (cadLivro) {
     });
 }
 
-
 // relatorio de empréstimos
-
 document.addEventListener('DOMContentLoaded', function () {
     const botaoBusca = document.getElementById('botaoBusca');
 
-    botaoBusca.addEventListener('click', function () {
+    botaoBusca.addEventListener('click', function (event) {
         buscarEmprestimos();
-        event.preventDefault(); 
+        event.preventDefault();
     });
 
     function buscarEmprestimos() {
         const mes = document.getElementById("mes").value;
-        console.log("Mês:", mes);
         const ano = document.getElementById("ano").value;
-        console.log("ano:", ano);
         const mtAdmin = document.getElementById('mtAdmin').value;
 
         if (!mes || !ano) {
@@ -87,14 +83,22 @@ document.addEventListener('DOMContentLoaded', function () {
                     result.data.forEach(function (emprestimo) {
                         $("#resultadoEmprestimos").append(
                             `<tr>
-                                <td>${emprestimo.nomeLivro}</td>
-                                <td>${emprestimo.nomeUsuario}</td>
-                                <td>${emprestimo.dataRetirada}</td>
-                                <td>${emprestimo.dataEntrega}</td> 
-                                <td>${emprestimo.status}</td>
-                            </tr>`
+            <td>${emprestimo.nomeLivro}</td>
+            <td>${emprestimo.nomeUsuario}</td>
+            <td>${emprestimo.dataRetirada}</td>
+            <td>${emprestimo.dataEntrega}</td> 
+            <td>
+                <select class="status-dropdown" data-emprestimo-id="${emprestimo.idEmprestimo}">
+                    <option value="5" ${emprestimo.status === 'Emprestado' ? 'selected' : ''}>Emprestado</option>
+                    <option value="6" ${emprestimo.status === 'Devolvido' ? 'selected' : ''}>Devolvido</option>
+                </select>
+                <button class="atualizar-status" data-emprestimo-id="${emprestimo.idEmprestimo}">Atualizar</button>
+            </td>
+        </tr>`
                         );
                     });
+                    AtualizarStatus();
+
                 } else {
                     // Caso não haja dados, exibe a mensagem apropriada
                     $("#resultadoEmprestimos").append(
@@ -104,10 +108,53 @@ document.addEventListener('DOMContentLoaded', function () {
                     );
                 }
             },
-
         });
-
     }
+
+    // Função para adicionar os eventos de clique no botão de atualizar status
+    function AtualizarStatus() {
+        const atualizarButtons = document.querySelectorAll('.atualizar-status');
+
+        atualizarButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                const emprestimoId = this.getAttribute('data-emprestimo-id');
+                const novoStatus = this.previousElementSibling.value; // Obtém o valor do dropdown
+                const mtAdmin = 'atualizarStatusEmprestimo';
+
+                if (!novoStatus) {
+                    alert('Por favor, selecione um novo status.');
+                    return;
+                }
+
+                console.log('ID do Empréstimo:', emprestimoId);
+                console.log('Novo Status:', novoStatus);
+                console.log('mtAdmin:', mtAdmin);
+
+
+                // Faz a requisição AJAX para atualizar o status no backend
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost/projeto-biblioteca/private/controller/Admin.Controller.php?action=atualizar-status",
+                    data: {
+                        emprestimoId: emprestimoId,
+                        novoStatus: novoStatus,
+                        mtAdmin: mtAdmin
+                    },
+                    success: function (result) {
+                        if (result.status) {
+                            alert('Status atualizado com sucesso!');
+                        } else {
+                            alert('Erro ao atualizar status: ' + result.msg);
+                        }
+                    },
+                    error: function (error) {
+                        console.error('Erro ao atualizar status:', error);
+                    }
+                });
+            });
+        });
+    }
+
 });
 
 

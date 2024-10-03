@@ -21,9 +21,7 @@ switch ($mtAdmin) {
         $andar = $_POST['andar'];
         $mtAdmin = $_POST['mtAdmin'];
 
-        // Verifica se algum campo obrigatório está vazio
         if (empty($nomeLivro) || empty($quantidade) || empty($condicao) || empty($codigo) || empty($autor) || empty($andar) || empty($anoLancamento)) {
-            // Retorna erro se algum campo estiver vazio
             $result = [
                 'status' => false,
                 'msg' => "Por favor, preencha todos os campos."
@@ -40,8 +38,6 @@ switch ($mtAdmin) {
 
             // Tenta cadastrar o livro e captura o retorno
             $result = $LIVRO->addLivro();
-
-            // Supondo que o método addLivro() retorna um array com 'status' e 'msg'
         }
         break;
 
@@ -60,6 +56,38 @@ switch ($mtAdmin) {
             $result = $RELATORIO->relatorioEmprestimos($mes, $ano);
         }
         break;
+
+    case 'atualizarStatusEmprestimo':
+        // Recebe os dados via POST
+        $idEmprestimo = $_POST['emprestimoId'];
+        $novoStatus = $_POST['novoStatus'];
+
+       
+
+        // Verifica se os campos obrigatórios foram preenchidos
+        if (empty($idEmprestimo) || empty($novoStatus)) {
+            $result = [
+                'status' => false,
+                'msg' => "ID do empréstimo ou novo status ausente."
+            ];
+        } else {
+            // Chama o método para atualizar o status
+            $atualizado = $RELATORIO->atualizarStatusEmprestimo($idEmprestimo, $novoStatus);
+
+            if ($atualizado) {
+                $result = [
+                    'status' => true,
+                    'msg' => "Status do empréstimo atualizado com sucesso!"
+                ];
+            } else {
+                $result = [
+                    'status' => false,
+                    'msg' => "Erro ao atualizar o status. Tente novamente."
+                ];
+            }
+        }
+        break;
+
     default:
         $result = [
             'status' => false,

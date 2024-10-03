@@ -149,7 +149,7 @@ class RELATORIO
         INNER JOIN tbl_login u ON e.FK_idLogin = u.idLogin
         INNER JOIN tbl_status s ON e.FK_idStatus = s.idStatusLivro
         WHERE MONTH(e.dataRetirada) = ? AND YEAR(e.dataRetirada) = ?
-        ORDER BY e.dataRetirada ASC;");
+        ORDER BY  s.idStatusLivro ASC;");
         $stmt->execute([$mes, $ano]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna todos os registros
     }
@@ -160,13 +160,53 @@ class RELATORIO
         // Chama a função para pegar os empréstimos
         $emprestimos = $this->getEmprestimosPorMes($mes, $ano);
 
-        // Verifica se a consulta retornou resultados
+        
         if ($emprestimos) {
-            // Retorna os dados em formato JSO
             echo json_encode(['status' => true, 'data' => $emprestimos]);
         } else {
             echo json_encode(['status' => false, 'msg' => 'Nenhum empréstimo encontrado para este mês/ano.']);
         }
-        exit(); 
+        exit();
+    }
+
+    public function atualizarStatusEmprestimo($idEmprestimo, $novoStatus)
+    {
+        try {
+            // Prepara a query para atualizar o status do empréstimo
+            $stmt = $this->conn->prepare("UPDATE tbl_emprestimo SET FK_idStatus = ? WHERE idEmprestimo = ?");
+            $stmt->execute([$novoStatus, $idEmprestimo]);
+
+
+            if ($stmt->rowCount() > 0) {
+                if ($novoStatus == '6') {
+                    // Obtém o ID do livro associado ao empréstimo
+                    $stmtLivro = $this->conn->prepare("SELECT FK_idCadLivro FROM tbl_emprestimo WHERE idEmprestimo = ?");
+                    $stmtLivro->execute([$idEmprestimo]);
+                    $idLivro = $stmtLivro->fetchColumn();
+
+                    // Atualiza o status do livro para "Disponível"
+                    $stmtUpdateLivro = $this->conn->prepare("UPDATE tbl_livro SET FK_status = ? WHERE idCadLivro = ?");
+                    $statusDisponivel = '4';
+                    $stmtUpdateLivro->execute([$statusDisponivel, $idLivro]);
+                }
+
+                if ($novoStatus == '5') {
+                    // Obtém o ID do livro associado ao empréstimo
+                    $stmtLivro = $this->conn->prepare("SELECT FK_idCadLivro FROM tbl_emprestimo WHERE idEmprestimo = ?");
+                    $stmtLivro->execute([$idEmprestimo]);
+                    $idLivro = $stmtLivro->fetchColumn();
+
+                    // Atualiza o status do livro para "Emprestado"
+                    $stmtUpdateLivro = $this->conn->prepare("UPDATE tbl_livro SET FK_status = ? WHERE idCadLivro = ?");
+                    $statusEmprestado = '5'; // Código para "Emprestado"
+                    $stmtUpdateLivro->execute([$statusEmprestado, $idLivro]);
+                }
+
+                return true;
+            }
+            return false;
+        } catch (PDOException $e) {
+            return false;
+        }
     }
 }
