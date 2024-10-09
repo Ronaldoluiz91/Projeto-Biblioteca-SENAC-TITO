@@ -1,5 +1,4 @@
 <?php
-
 class LIVRO
 {
     private $nomeLivro;
@@ -151,7 +150,7 @@ class RELATORIO
         WHERE MONTH(e.dataRetirada) = ? AND YEAR(e.dataRetirada) = ?
         ORDER BY  s.idStatusLivro ASC;");
         $stmt->execute([$mes, $ano]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna todos os registros
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Função para gerar o relatório de empréstimos via AJAX
@@ -160,7 +159,7 @@ class RELATORIO
         // Chama a função para pegar os empréstimos
         $emprestimos = $this->getEmprestimosPorMes($mes, $ano);
 
-        
+
         if ($emprestimos) {
             echo json_encode(['status' => true, 'data' => $emprestimos]);
         } else {
@@ -207,6 +206,44 @@ class RELATORIO
             return false;
         } catch (PDOException $e) {
             return false;
+        }
+    }
+}
+
+
+class ACESSO
+{
+
+    private $conn;
+
+    public function __construct()
+    {
+        require "../config/db/conn.php";
+        $this->conn = $conn; // Atribui a conexão à propriedade
+    }
+
+
+    public function buscarUsuarioPorEmail($email)
+    {
+        $query = "SELECT idLogin, email FROM tbl_login WHERE email = :email LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC); // Retorna um único usuário
+    }
+
+    public function alterarAcesso($usuarioId, $novoAcessoId)
+    {
+        $query = "UPDATE tbl_login SET FK_idAcesso = :novoAcesso WHERE idLogin = :usuarioId";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':novoAcesso', $novoAcessoId, PDO::PARAM_INT);
+        $stmt->bindParam(':usuarioId', $usuarioId, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return true; 
+        } else {
+            return false; 
         }
     }
 }

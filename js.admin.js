@@ -1,29 +1,26 @@
 
 // FUNÇÃO PARA ADICIONAR LIVROS
-const cadLivro = document.getElementById('cad-livro');
-if (cadLivro) {
-    cadLivro.addEventListener('click', function (event) {
-        event.preventDefault();
+const cadLivroBtn = document.getElementById('cad-livro');
+if (cadLivroBtn) {
+    cadLivroBtn.addEventListener('click', function () {
+        const nomeLivro = document.getElementById('nomeLivro').value;
+        const quantidade = document.getElementById('quantLivro').value;
+        const condicao = document.getElementById('condLivro').value;
+        const anoLancamento = document.getElementById('anoLancamento').value;
+        const codigo = document.getElementById('codigoLivro').value;
+        const autor = document.getElementById('autorLivro').value;
+        const andar = document.getElementById('andar').value;
+        const mtAdmin = document.getElementById('mtAdmin').value;
 
-        var nomeLivro = document.getElementById("nomeLivro").value;
-        var quantidade = document.getElementById("quantLivro").value;
-        var condicao = document.getElementById("condLivro").value;
-        var anoLancamento = document.getElementById("anoLancamento").value;
-        var codigo = document.getElementById("codigoLivro").value;
-        var autor = document.getElementById("autorLivro").value;
-        var andar = document.getElementById('andar').value;
-        var mtAdmin = document.getElementById('mtAdmin').value;
-
-        // Verifica se todos os campos obrigatórios estão preenchidos
-        if (!nomeLivro || !quantidade || !condicao || !codigo || !autor || !andar || !anoLancamento) {
-            document.getElementById("mensagem").innerHTML = `<p style="color: red;">Por favor, preencha todos os campos.</p>`;
-            return;
+        if (!nomeLivro || !quantLivro || !condLivro || !anoLancamento || !codigoLivro || !autorLivro || !andar) {
+            showModal("Erro no Cadastro", "Por favor, preencha todos os campos.");
         } else {
             // Envia os dados para o controller via AJAX
             $.ajax({
-                url: "http://localhost/projeto-biblioteca/private/controller/Admin.Controller.php",
+                url: "http://localhost/projeto-biblioteca/private/controller/Admin.controller.php",
                 method: "POST",
                 async: true,
+                dataType: 'json', // Força a resposta como JSON
                 data: {
                     nomeLivro: nomeLivro,
                     quantidade: quantidade,
@@ -35,24 +32,57 @@ if (cadLivro) {
                     mtAdmin: mtAdmin
                 }
             })
-                .done(function (result) {
-                    if (result['status']) {
-                        $('#mensagem').removeClass("error");
-                        $('#mensagem').html(result.msg).addClass("sucess");
-                    } else {
-                        $('#mensagem').html(result.msg).addClass("error");
+            .done(function (result) {
+                if (result.status) {
+                    showModal("Cadastro Sucesso", result.msg, true); // Título e mensagem em verde
+                    // Limpar os campos do formulário
+                    document.getElementById('nomeLivro').value = '';
+                    document.getElementById('quantLivro').value = '';
+                    document.getElementById('condLivro').value = '';
+                    document.getElementById('anoLancamento').value = '';
+                    document.getElementById('codigoLivro').value = '';
+                    document.getElementById('autorLivro').value = '';
+                    document.getElementById('andar').value = '';
+                } else {
+                    showModal("Erro no Cadastro", result.msg, false); // Título e mensagem em vermelho
+                }
+            });
+            
 
-                    }
-                })
         }
-
     });
 }
+
+// Função para exibir o modal
+function showModal(title, message, isSuccess) {
+    const modalTitle = document.getElementById('modalLabel');
+    const modalMessage = document.getElementById('modalMessage');
+
+    modalTitle.textContent = title;  
+    modalMessage.textContent = message; 
+
+   
+    modalTitle.classList.remove('modal-title-success', 'modal-title-error');
+    modalMessage.classList.remove('modal-success', 'modal-error');
+
+    // Aplica a classe correta com base no status
+    if (isSuccess) {
+        modalTitle.classList.add('modal-title-success');
+        modalMessage.classList.add('modal-success');
+    } else {
+        modalTitle.classList.add('modal-title-error');
+        modalMessage.classList.add('modal-error');
+    }
+
+    const modal = new bootstrap.Modal(document.getElementById('statusModal'));
+    modal.show();
+}
+
+
 
 // relatorio de empréstimos
 document.addEventListener('DOMContentLoaded', function () {
     const botaoBusca = document.getElementById('botaoBusca');
-
     botaoBusca.addEventListener('click', function (event) {
         buscarEmprestimos();
         event.preventDefault();
@@ -78,6 +108,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Limpa o conteúdo anterior do tbody
                 $("#resultadoEmprestimos").empty();
 
+                // Verifique se result é um objeto JSON
+                try {
+                    if (typeof result === "string") {
+                        result = JSON.parse(result); // Tente analisar se result é uma string
+                    }
+                } catch (e) {
+                    console.error("Erro ao analisar JSON:", e);
+                    $("#resultadoEmprestimos").append(
+                        `<tr>
+                    <td colspan="5">Erro ao processar os dados retornados.</td>
+                </tr>`
+                    );
+                    return;
+                }
+
                 if (result.status) {
                     // Popula o tbody com os dados recebidos
                     result.data.forEach(function (emprestimo) {
@@ -89,8 +134,8 @@ document.addEventListener('DOMContentLoaded', function () {
             <td>${emprestimo.dataEntrega}</td> 
             <td>
                 <select class="status-dropdown" data-emprestimo-id="${emprestimo.idEmprestimo}">
-                    <option value="5" ${emprestimo.status === 'Emprestado' ? 'selected' : ''}>Emprestado</option>
-                    <option value="6" ${emprestimo.status === 'Devolvido' ? 'selected' : ''}>Devolvido</option>
+                    <option value="5" ${emprestimo.status == 'Emprestado' ? 'selected' : ''}>Emprestado</option>
+                    <option value="6" ${emprestimo.status == 'Devolvido' ? 'selected' : ''}>Devolvido</option>
                 </select>
                 <button class="atualizar-status" data-emprestimo-id="${emprestimo.idEmprestimo}">Atualizar</button>
             </td>
@@ -156,6 +201,37 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 });
+
+// FUNÇÃO PARA ALTERAR ACESSO DE USUARIO
+$(document).ready(function () {
+    $('#form-alterar-acesso').on('submit', function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            url: 'http://localhost/projeto-biblioteca/private/controller/Admin.Controller.php',
+            method: 'POST',
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function (data) {
+                if (data.status) {
+                    $('#resultado').html('<div class="alert alert-success">' + data.message + '</div>');
+                } else {
+                    $('#resultado').html('<div class="alert alert-danger">' + data.message + '</div>');
+                }
+            },
+            error: function () {
+                $('#resultado').html('<div class="alert alert-danger">Erro ao enviar a solicitação.</div>');
+            },
+
+
+        });
+    });
+});
+
+
+
+
+
 
 
 

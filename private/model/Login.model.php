@@ -14,6 +14,18 @@ class LOGIN
     private $idRec;
 
 
+    public $fxLogin;
+
+    public function setFxlogin(String $fxLogin)
+    {
+        $this->fxLogin = $fxLogin;
+    }
+    public function getFxLogin()
+    {
+        return $this->fxLogin;
+    }
+
+
     // Métodos para email e senha de login
     public function setUserLogin(String $userLogin)
     {

@@ -3,8 +3,8 @@ header('Content-Type: application/json');
 include("../model/Admin.model.php");
 
 $LIVRO = new LIVRO();
-
 $RELATORIO = new RELATORIO();
+$ACESSO = new ACESSO();
 
 $mtAdmin = $_POST['mtAdmin'];
 
@@ -62,8 +62,6 @@ switch ($mtAdmin) {
         $idEmprestimo = $_POST['emprestimoId'];
         $novoStatus = $_POST['novoStatus'];
 
-       
-
         // Verifica se os campos obrigatórios foram preenchidos
         if (empty($idEmprestimo) || empty($novoStatus)) {
             $result = [
@@ -88,6 +86,44 @@ switch ($mtAdmin) {
         }
         break;
 
+    case 'alterarAcesso':
+        if (isset($_POST['usuario'])) {
+            $email = $_POST['usuario'];
+
+            // Verifique se o usuário existe no banco de dados
+            $usuario = $ACESSO->buscarUsuarioPorEmail($email);
+
+            if ($usuario) {
+                $usuarioId = $usuario['idLogin'];
+                $novoAcessoId = $_POST['acesso'];
+
+                $resultado = $ACESSO->alterarAcesso($usuarioId, $novoAcessoId);
+
+                if ($resultado) {
+                    $result = [
+                        'status' => true,
+                        'message' => 'Acesso alterado com sucesso.'
+                    ];
+                } else {
+                    $result = [
+                        'status' => false,
+                        'message' => 'Erro ao alterar o acesso.'
+                    ];
+                }
+            } else {
+                $result = [
+                    'status' => false,
+                    'message' => 'Usuário não encontrado.'
+                ];
+            }
+        } else {
+            $result = [
+                'status' => false,
+                'message' => 'Dados incompletos.'
+            ];
+        }
+        break;
+
     default:
         $result = [
             'status' => false,
@@ -98,3 +134,4 @@ switch ($mtAdmin) {
 
 // Retorna a resposta como JSON
 echo json_encode($result);
+exit;

@@ -1,4 +1,41 @@
 //FORMULARIO DE EMPRESTIMOS 
+
+// $(document).ready(function () {
+//     // Quando o usuário selecionar um livro
+//     $('#livro').on('change', function () {
+//         var livroId = $(this).val(); 
+//         var usuario = $('#usuarioEmail').val();
+//         var mtUser = $('#mtUser').val();
+
+
+//         if (livroId !== "") {
+//             $.ajax({
+//                 url: 'http://localhost/projeto-biblioteca/private/controller/User-controller.php', 
+//                 type: 'POST',
+//                 data: { livroId: livroId , mtUser: mtUser, usuario: usuario },
+//                 dataType: 'json',
+//                 success: function (response) {
+//                     if (response.sucesso) {
+//                         // Preenche o campo 'andar' com o valor retornado
+//                         $('#andar').val(response.andar);
+//                     } else {
+//                         $('#andar').val(''); // Limpa o campo se não houver resultado
+//                         alert('Erro ao buscar o andar do livro.');
+//                     }
+//                 },
+//                 error: function (jqXHR, textStatus, errorThrown) {
+//                     alert("Erro na requisição: " + textStatus + " - " + errorThrown);
+//                 }
+//             });
+//         } else {
+//             $('#andar').val(''); // Limpa o campo se nenhum livro for selecionado
+//         }
+//     });
+// });
+
+
+
+
 $(document).ready(function () {
     $('#btn-alugar').on('click', function (e) {
         e.preventDefault(); // Impede o envio do formulário padrão
@@ -45,6 +82,11 @@ $(document).ready(function () {
 
                 // Exibe o modal de sucesso/erro
                 $('#successModal').modal('show');
+
+                $('#livro').val('');
+                $('#andar').val('');
+
+
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 // Em caso de erro de requisição AJAX, exibe o alerta
@@ -52,6 +94,10 @@ $(document).ready(function () {
             }
 
         });
+    });
+
+    $('#successModal').on('hidden.bs.modal', function () {
+        location.reload(); // Recarrega a página ao fechar o modal
     });
 });
 
@@ -61,8 +107,8 @@ $(document).ready(function () {
 $(document).ready(function () {
     // Ao clicar no botão de renovar
     $('.btn-renovar').click(function () {
-        var emprestimoId = $(this).data('id');  
-        var usuarioId = $('#usuarioEmail').val(); 
+        var emprestimoId = $(this).data('id');
+        var usuarioId = $('#usuarioEmail').val();
         var mtUser = $('#mtUser2').val();  // Valor oculto de controle
 
         if (!emprestimoId) {
@@ -74,7 +120,7 @@ $(document).ready(function () {
 
         // Requisição AJAX
         $.ajax({
-            url: 'http://localhost/projeto-biblioteca/private/controller/User-controller.php',  
+            url: 'http://localhost/projeto-biblioteca/private/controller/User-controller.php',
             type: 'POST',
             data: {
                 emprestimoId: emprestimoId,

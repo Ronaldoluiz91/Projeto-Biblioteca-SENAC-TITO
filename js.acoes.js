@@ -86,22 +86,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const cadBtn = document.getElementById('cad-btn');
     if (cadBtn) {
         cadBtn.addEventListener('click', function () {
-            const nome = document.getElementById('name')?.value;
-            const email = document.getElementById('email')?.value;
-            const cpf = document.getElementById('cpf')?.value;
-            const whatsapp = document.getElementById('whatsapp')?.value;
-            const senha = document.getElementById('password')?.value;
-            const confirmSenha = document.getElementById('confirm-password')?.value;
-            const fxLogin = document.getElementById('fxLogin')?.value;
-
+            const nome = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const cpf = document.getElementById('cpf').value;
+            const whatsapp = document.getElementById('whatsapp').value;
+            const senha = document.getElementById('password').value;
+            const confirmSenha = document.getElementById('confirm-password').value;
+            const fxLogin = document.getElementById('fxLogin').value;
+    
             if (!nome || !email || !cpf || !senha || !confirmSenha || !whatsapp) {
-                showModal(); // Exibe o modal se houver campos vazios
+                showModal("Erro de Cadastro", "Por favor, preencha todos os campos.");
             } else if (senha !== confirmSenha) {
-                const modalContent = document.querySelector('.modal-content p');
-                if (modalContent) {
-                    modalContent.innerText = "As senhas não coincidem.";
-                }
-                showModal(); // Exibe o modal se as senhas não coincidem
+                showModal("Erro de Senhas", "As senhas não coincidem.");
             } else {
                 // Envia os dados para o controller via AJAX
                 $.ajax({
@@ -120,32 +116,45 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 })
                 .done(function (result) {
-                    console.log(result); // Verifica se o result já é JSON
+                    console.log(result);
                     if (result.status) {
-                        $('#alertMsg').removeClass("error");
-                        $('#alertMsg').html(result.msg).addClass("success");
+                      //  $('#alertMsg').removeClass("error");
+                      //  $('#alertMsg').html(result.msg).addClass("success");
+    
+                       
+                        document.getElementById('name').value = '';
+                        document.getElementById('email').value = '';
+                        document.getElementById('cpf').value = '';
+                        document.getElementById('whatsapp').value = '';
+                        document.getElementById('password').value = '';
+                        document.getElementById('confirm-password').value = '';
+    
+                        showModal("Cadastro com Sucesso", result.msg); // Exibe o modal com a mensagem de sucesso
+    
                     } else {
-                        $('#alertMsg').html(result.msg).addClass("error");
+                       // $('#alertMsg').html(result.msg).addClass("error");
+                        showModal("Erro de Cadastro", result.msg); 
                     }
                 });
-                
-
             }
         });
     }
-    // Fecha o modal quando o botão de fechar (X) é clicado
-    const closeBtn = document.querySelector('.close-btn');
-    if (closeBtn) {
-        closeBtn.addEventListener('click', closeModal);
+    
+    // Função para exibir o modal
+    function showModal(title, message) {
+        const modalTitle = document.getElementById('modalLabel');
+        const modalMessage = document.getElementById('modalMessage');
+        
+        modalTitle.textContent = title;  
+        modalMessage.textContent = message; 
+    
+        const modal = new bootstrap.Modal(document.getElementById('statusModal'));
+        modal.show();
     }
-    // Fecha o modal ao clicar fora do conteúdo do modal
-    window.onclick = function (event) {
-        const modal = document.getElementById('modal-alert');
-        if (modal && event.target === modal) {
-            closeModal();
-        }
-    };
+    
 });
+
+
 
 
 //-------------------- pagina recuperação de senha 
@@ -203,7 +212,7 @@ function resetLogin() {
         return;
     }
 
-    if( userPassword != userConfirmPassword){
+    if (userPassword != userConfirmPassword) {
         $('#alertMsg').html('<p>Usuário - As senhas não combinam!</p>');
         $('#alertMsg').addClass('error');
         return;

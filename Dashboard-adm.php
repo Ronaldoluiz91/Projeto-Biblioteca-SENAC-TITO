@@ -78,6 +78,8 @@ if (!isset($_SESSION['loginValido']) || !$_SESSION['loginValido']) {
 
   <div class="add-book-container">
     <button onclick="window.location.href='add-new-book.php'">Adicionar Novo Livro</button>
+    <button onclick="window.location.href='alterarAcesso.php'">Alterar Acesso de Usuario</button>
+    <button onclick="window.location.href='Dashboard-client.php'">Emprestimos</button>
   </div>
 
   <a href="logout.php">SAIR</a>

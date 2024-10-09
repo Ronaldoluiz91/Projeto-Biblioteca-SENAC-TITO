@@ -1,93 +1,81 @@
 /* Configurações gerais */
 * {
-    /* margin: 0; */
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body, html {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+html {
+  height: 100%;
 }
 
 body {
-  background: linear-gradient(to bottom, #003366, #85bbd6); /* Degradê de azul escuro para um azul mais claro */
-  color: white; /* Opcional: muda a cor do texto para branco para melhor contraste */
+  background: linear-gradient(to bottom, #003366, #85bbd6);
+  color: white;
+  display: flex; /* Flexbox no body para centralização */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Garante a altura total da viewport */
 }
-
-
-/* Imagem de fundo ocupando toda a tela */
-.img-fundo {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* object-fit: cover; Faz a imagem cobrir todo o fundo */
-    z-index: -1; /* Mantém a imagem atrás dos outros elementos */
-}
-
 
 /* Estilo dos formulários */
 .container-form {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Ajusta a altura para o contêiner do formulário */
 }
 
 .forms {
-    background-color: #005594;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil ao redor do formulário */
-    max-width: 620px;
-    width: 90%;
-    text-align: center;
+  background-color: #005594;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
 }
 
-.titulo-form{
-    /* margin-bottom: 30px; */
-    color: white;
-    font-family: inter bold;
+.titulo-form {
+  color: white;
+  font-family: 'Inter', bold; /* Corrija a fonte se necessário */
+  font-size: 20px;
 }
 
 .text-form {
-    /* margin-bottom: 20px; */
-    font-size: 18px;
-    color: white;
-    font-family: inter medium;
+  font-size: 18px;
+  color: white;
+  font-family: 'Inter', medium;
 }
 
 .design-input {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
-.design-input[type="text"], 
+.design-input[type="text"],
 .design-input[type="password"] {
-    font-size: 16px;
-    font-family: inter ligth;
+  font-size: 16px;
+  font-family: 'Inter', light; /* Corrija a fonte se necessário */
 }
 
 button.design-input {
-    background-color: #F78B1F;
-    color: white;
-    border: none;
-    cursor: pointer;
+  background-color: #F78B1F;
+  color: white;
+  border: none;
+  cursor: pointer;
 }
-
 
 button.design-input:hover {
-    background-color: rgb(216, 68, 14);
+  background-color: rgb(216, 68, 14);
 }
 
-#btn-alugar, #btn-renovar {
+
+#btn-alugar,
+#btn-renovar {
   background-color: #F78B1F;
   color: white;
   border: none;
@@ -98,125 +86,127 @@ button.design-input:hover {
 
 /* Link de cadastro */
 .link-cadastro {
-    color: #F78B1F;
-    text-decoration: none;
+  color: #F78B1F;
+  text-decoration: none;
 }
 
 .link-cadastro:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 /* Estilo do modal */
 .modal-login {
-    display: none; 
-    position: fixed; 
-    z-index: 1000; /* Acima de outros elementos */
-    left: 0;
-    top: 0;
-    width: 100%; /* O modal cobre a tela inteira */
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fundo escurecido */
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  /* Acima de outros elementos */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* O modal cobre a tela inteira */
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Fundo escurecido */
 }
 
 .modal-content-login {
-    background-color: #fff; /* Fundo branco da janela modal */
-    margin: 15% auto; /* Centraliza o modal vertical e horizontalmente */
-    padding: 20px; 
-    border: 1px solid #888; 
-    width: 80%; /* Largura da janela modal */
-    max-width: 400px; /* Tamanho máximo */
-    text-align: center; 
-    border-radius: 8px; /* Bordas arredondadas */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.modal-content-login p{
-  color: #333; 
+.modal-content-login p {
+  color: #333;
 }
 
 .close-btn-login {
-    color: #aaa; /* Cor do botão de fechar (X) */
-    float: right; /* Posiciona o botão à direita */
-    font-size: 28px; /* Tamanho da fonte do botão de fechar */
-    font-weight: bold; /* Negrito */
-    top: 10px; 
-    cursor: pointer; /* Cursor de ponteiro para indicar que é clicável */
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  top: 10px;
+  cursor: pointer;
 }
 
 .close-btn-login:hover,
 .close-btn-login:focus {
-    color: red; /* Cor preta quando o mouse passa por cima */
-    text-decoration: none; /* Remove sublinhado */
-    cursor: pointer;
+  color: red;
+  text-decoration: none;
+  cursor: pointer;
 }
-
-
-
-/* modal da pagina cadastro */
 
 
 /* Estilos básicos para o modal */
 #modal-alert {
-    display: none;
-    position: fixed; 
-    z-index: 1000; 
-    left: 0;
-    top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgba(0, 0, 0, 0.5); 
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 /* Estilos para o conteúdo do modal */
 .modal-content {
-    background-color: #fefefe; 
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 400px; /* Largura máxima */
-    border-radius: 8px; 
-    position: relative; /* Posiciona o conteúdo em relação ao seu container */
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 400px;
+  border-radius: 8px;
+  position: relative;
+
 }
 
 /* Estilo para o botão de fechar (X) */
 .close-btn {
-    color: #aaa; 
-    float: right; 
-    font-size: 28px; 
-    font-weight: bold; 
-    cursor: pointer; 
-    position: absolute; 
-    top: 10px;
-    right: 10px; 
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 .close-btn:hover,
 .close-btn:focus {
-    color: red; 
-    text-decoration: none; /* Remove sublinhado */
+  color: red;
+  text-decoration: none;
+  /* Remove sublinhado */
 }
 
 /* Estilo para a mensagem dentro do modal */
 .modal-content p {
-    margin: 0; 
-    padding: 10px 0; 
-    font-size: 16px; 
-    color: #333; 
+  margin: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #333;
 }
 
 
 /*Formulario da PG  Cadastro de Livros */
 
 .form-addLivro {
-    background-color: blue;
-     padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil ao redor do formulário */
-     max-width: 600px;
-    width: 90%;
-    text-align: center; 
+  background-color: blue;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  /* Sombra sutil ao redor do formulário */
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
 }
 
 
@@ -224,121 +214,133 @@ button.design-input:hover {
 /*Relatorio de emprestimos */
 
 #relatorio {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-  }
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
 
-  h2 {
-    text-align: center;
-    /* color: #333; */
-  }
+h2 {
+  text-align: center;
+  /* color: #333; */
+}
 
-  .search-container {
-    text-align: center;
-    margin-bottom: 20px;
-  }
+.search-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-  .search-container form {
-    display: inline-block;
-  }
+.search-container form {
+  display: inline-block;
+}
 
-  input,
-  select {
-    padding: 10px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
+input,
+select {
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
 
-  .botaoBusca {
-    padding: 10px;
-    background-color:  #F78B1F;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+.botaoBusca {
+  padding: 10px;
+  background-color: #F78B1F;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
-  .botaoBusca:hover {
-    background-color:  rgb(216, 68, 14);;
-  }
+.botaoBusca:hover {
+  background-color: rgb(216, 68, 14);
+  ;
+}
 
-  .table-container {
-    width: 90%;
-    margin: 0 auto;
-    overflow-x: auto;
-  }
+.table-container {
+  width: 90%;
+  margin: 0 auto;
+  overflow-x: auto;
+}
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-  th,
-  td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
+th,
+td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
 
-  th {
-    background-color: #005594;
-    color: white;
-  }
+th {
+  background-color: #005594;
+  color: white;
+}
 
-  tr:hover {
-    background-color: #f1f1f1;
-  }
+tr:hover {
+  background-color: #f1f1f1;
+}
 
-  .no-data {
-    text-align: center;
-    color: #888;
-    padding: 20px;
-  }
+.no-data {
+  text-align: center;
+  color: #888;
+  padding: 20px;
+}
 
-  /* Estilização do botão de adicionar livros */
-  .add-book-container {
-    text-align: center;
-    margin-top: 20px;
-  }
+/* Estilização do botão de adicionar livros */
+.add-book-container {
+  text-align: center;
+  margin-top: 20px;
+}
 
-  .add-book-container button {
-    padding: 12px 20px;
-    background-color: #F78B1F;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
+.add-book-container button {
+  padding: 12px 20px;
+  background-color: #F78B1F;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
 
-  .add-book-container button:hover {
-    background-color:  rgb(216, 68, 14);;
-  }
-
-
-  .design-inputRelatorio{
-    background-color: #F78B1F;
-    color: white;
-    border: none;
-    cursor: pointer;
-    width: 18%;
-    padding: 12px;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
+.add-book-container button:hover {
+  background-color: rgb(216, 68, 14);
+  ;
+}
 
 
+.design-inputRelatorio {
+  background-color: #F78B1F;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 18%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
 
+/* CONFIGURAÇÃO DOS MODAL cadastro de livros */
+.modal-success {
+  color: green;
+}
 
+.modal-error {
+  color: red;
+}
 
+.modal-title-success {
+  color: green;
+}
 
-
+.modal-title-error {
+  color: red;
+}
